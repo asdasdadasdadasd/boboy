@@ -29,11 +29,13 @@ if(isset($_REQUEST['login'])){
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 
     <title>SleepNotGo</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -59,18 +61,21 @@ if(isset($_REQUEST['login'])){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php">SleepNotGo</a>
+          <a class="navbar-brand" style="color: #fff;" href="index.php">SleepNotGo</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop">Shop</a></li>
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
+            Home</a></li>
+            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;
+            Shop</a></li>
             <?php
             if($user->get_session()){?>
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href=""><?php echo $_SESSION['usr_name'];?>
+                <a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?php echo $_SESSION['usr_name'];?>
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">My Profile</a></li>
+                  <li><a href="index.php?mod=profile">My Profile</a></li>
                   <li><a href="logout.php">Logout</a></li>
                 </ul>
               </li>
@@ -87,8 +92,17 @@ if(isset($_REQUEST['login'])){
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
-    <div class="wekwok" style="">
+    <?php
+    if($module == null){?>
+      <div class="header-wrapper">
+      <?php
+      require_once 'modules/home/header.php';
+      ?>
+      </div>
+    <?php
+    }
+    ?>
+    <div class="main">
     <?php
       switch($module){
         case 'login':
@@ -104,12 +118,14 @@ if(isset($_REQUEST['login'])){
           require_once 'modules/register/index.php';
           break;
         default:
-          require_once 'modules/home/header.php';
           require_once 'modules/home/index.php';
           break;
       }
     ?>
     </div><!-- /.container -->
+    <div class="footer">
+
+    </div>
 
     <?php
     require_once 'modules/modals/login_modal.php';

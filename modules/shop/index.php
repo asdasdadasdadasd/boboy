@@ -22,15 +22,15 @@
                 <?php
                 while($x <= 11) {
                 ?>
-                <div class="col-md-4 product-grid">
+                <div class="col-md-3 product-grid compress">
                     <a href="#" class="product-anchor">
                         <div class="card product-card-hover">
                             <img class="img-responsive" src="http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbucks-drink-products-in-china.jpg" class="img-responsive" alt="Cinque Terre">
                             <div class="product-padding">
                                 <h5 style="margin: 0px 0px 4px 0px; font-size: 13px; color: rgba(0,0,0,0.54);">Starbucks</h5>
-                                <h4 style="margin: 0px 0px 16px 0px; padding: 0; font-weight: 400; color: #0094FF;">Iced Coffee</h4>
+                                <h4 style="margin: 0px 0px 16px 0px; padding: 0; font-weight: 400; color: #ffae00;">Iced Coffee</h4>
                                 <h5 style="color: rgba(0,0,0,0.7); margin-bottom: 24px; font-weight: 400; font-size: 13px; line-height: 1.5;">A delicate float of house-made vanilla sweet cream that cascades throughout the cup.</h5>
-                                <h4 style="color: #0094FF; font-weight: 400; font-size: 16px;">PHP 155.00</h4>
+                                <h4 style="color: #ffae00; font-weight: 400; font-size: 16px;">PHP 155.00</h4>
                             </div> 
                         </div>
                     </a>

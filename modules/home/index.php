@@ -5,16 +5,16 @@
             <div class="container">
                   <div class="panel panel-default">
                       <div class="panel-heading">
-                          <h4>Latest Products</h4>
+                          <h4>Trending Sellers</h4>
                       </div>
                       <div class="panel-body">
                           <div class="container-fluid" style="margin-top: 24px;">
                               <div class="row">
                                   <?php
                                   $x = 1; 
-                                  while($x <= 11) {
+                                  while($x <= 4) {
                                   ?>
-                                  <div class="col-sm-4 product-grid">
+                                  <div class="col-md-3 product-grid compress">
                                       <a href="#" class="product-anchor">
                                           <div class="product-card-hover">
                                               <img class="img-responsive product-img" src="http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbucks-drink-products-in-china.jpg" class="img-responsive" alt="Cinque Terre">
