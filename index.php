@@ -1,11 +1,15 @@
 <?php
 include 'library/config.php';
 include 'classes/class.users.php';
+include 'classes/class.items.php';
+include 'classes/class.auth.php';
 
 $module = (isset($_GET['mod']) && $_GET['mod'] != '') ? $_GET['mod'] : '';
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
 
 $user = new Users();
+$item = new Items();
+$auth = new Auth();
 
 if(isset($_REQUEST['login'])){
   extract($_REQUEST);
@@ -37,11 +41,8 @@ if(isset($_REQUEST['login'])){
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
-    <link href="custom.scss" rel="stylesheet">
+    <link href="custom.scss" rel="stylesheet" type="text/css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -134,8 +135,9 @@ if(isset($_REQUEST['login'])){
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.js"></script>
+    <script src="js/custom.js"></script>
   </body>
 </html>
