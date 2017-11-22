@@ -10,26 +10,26 @@
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" id="loginform" name="loginform">
-                        <div class="">
+                        <div class="form-group">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" autocomplete="off" value="" required autofocus>
 
                                     <span class="help-block">
-                                        <strong>Email error</strong>
+                                        <strong></strong>
                                     </span>
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class="form-group">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
                                 
                                     <span class="help-block">
-                                        <strong>Password error</strong>
+                                        <strong></strong>
                                     </span>
 
                             </div>
@@ -39,8 +39,8 @@
                                 <button type="submit" name="login" class="btn btn-primary btn-block w-40">
                                     Login
                                 </button>
-                                </br>
-                                <div class="container-fluid text-center">
+                               
+                                <div class="container-fluid text-center" style="margin-top: 8px;">
                                     <a class="btn btn-link" href="index.php?mod=register">
                                         Create new account
                                     </a></br>

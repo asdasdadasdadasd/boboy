@@ -19,8 +19,18 @@ class Users{
       }
     }
 
-    
+    public function chk_email_exists($str){
+      $sql = "SELECT * FROM users WHERE usr_email = '$str'";
+      $result = mysqli_query($this->db,$sql);
+      $count = $result->num_rows;
+      return $count;
+    }
 
+    public function register_credentials($name,$email,$pwd,$auth,$status){
+      $sql = "INSERT INTO users(usr_name,usr_email,usr_password,usr_auth,usr_status) VALUES('$name','$email','$pwd','$auth','$status')";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");
+      return $result;
+    }
     public function check_login($email,$password){
       $sql = "SELECT * FROM users WHERE
       usr_email='$email' AND usr_password='$password'";

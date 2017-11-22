@@ -5,7 +5,7 @@
             <div class="container">
                   <div class="panel panel-default">
                       <div class="panel-heading">
-                          <h4>Trending Sellers</h4>
+                          <h4><strong>Trending Sellers</strong></h4>
                       </div>
                       <div class="panel-body">
                           <div class="container-fluid" style="margin-top: 24px;">

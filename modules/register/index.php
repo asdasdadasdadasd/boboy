@@ -21,11 +21,11 @@
                         <div class="form-group">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
+                            <div id="email-reg" class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="" required>
 
                                     <span class="help-block">
-                                        <strong></strong>
+                                        <strong id="email-reg-help"></strong>
                                     </span>
                             </div>
                         </div>

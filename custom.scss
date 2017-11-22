@@ -10,13 +10,28 @@
 .nav-color{
   background-color: #111;
 }
+.text-yellow{
+  color: #ffae00;
+}
+.text-white{
+  color: #fff;
+}
+.header-text-big{
+  font-weight: 600; font-size: 30px;
+}
+.header-text-small{
+  font-size: 30px;
+}
+.bold{
+  font-weight: bold;
+}
 .bg-header{
   padding-top: 250px;
   background: 
   /* top, transparent red, faked with gradient */ 
   linear-gradient(
-    rgba(255, 174, 0, 0.8), 
-    rgba(255, 174, 0, 0.8)
+    rgba(0, 0, 0, 0.9), 
+    rgba(0, 0, 0, 0.9)
   ),
   /* bottom, image */
   url('img/header.jpg');
@@ -50,4 +65,17 @@
 }
 .compress{
   padding: 4px;
+}
+.modal-open{
+  overflow-y: inherit;
+}
+.navbar-inverse .navbar-nav > .active{
+  color: #000;
+  background: #ffae00;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #000;
+  background: #ffae00;
 }

@@ -40,6 +40,7 @@ if(isset($_REQUEST['login'])){
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
+    
 
     <!-- Custom styles for this template -->
     <link href="custom.scss" rel="stylesheet" type="text/css">

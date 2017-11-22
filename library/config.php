@@ -5,10 +5,10 @@ session_start();
 $hosted = false;
 
 if($hosted){
-  define('DB_SERVER','localhost');
-  define('DB_USERNAME','id2192302_sungemadmin');
-  define('DB_PASSWORD','sungem');
-  define('DB_DATABASE','id2192302_db_sungempharma');
+  define('DB_SERVER','52.77.240.48');
+  define('DB_USERNAME','admin');
+  define('DB_PASSWORD','howtoforge');
+  define('DB_DATABASE','db_sleepnot');
 }else{
   define('DB_SERVER','localhost');
   define('DB_USERNAME','root');
