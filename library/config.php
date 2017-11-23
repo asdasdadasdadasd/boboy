@@ -2,7 +2,7 @@
 session_start();
 
 // config control 
-$hosted = false;
+$hosted = true;
 
 if($hosted){
   define('DB_SERVER','52.77.240.48');
