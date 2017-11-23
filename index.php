@@ -3,6 +3,7 @@ include 'library/config.php';
 include 'classes/class.users.php';
 include 'classes/class.items.php';
 include 'classes/class.auth.php';
+include 'classes/class.brands.php';
 
 $module = (isset($_GET['mod']) && $_GET['mod'] != '') ? $_GET['mod'] : '';
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
@@ -10,7 +11,9 @@ $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : 
 $user = new Users();
 $item = new Items();
 $auth = new Auth();
+$brand = new Brands();
 
+/*
 if(isset($_REQUEST['login'])){
   extract($_REQUEST);
   $login = $user->check_login($email,md5($password));
@@ -21,6 +24,7 @@ if(isset($_REQUEST['login'])){
   header('location: index.php?auth=error');
   } 
 }
+*/
 
 ?>
 <!DOCTYPE html>
@@ -31,9 +35,10 @@ if(isset($_REQUEST['login'])){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="John Carlo H. Octabio">
     <link rel="icon" href="../../favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700" rel="stylesheet">
 
     <title>SleepNotGo</title>
 
@@ -54,7 +59,7 @@ if(isset($_REQUEST['login'])){
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top nav-color">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -63,28 +68,28 @@ if(isset($_REQUEST['login'])){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" style="color: #fff;" href="index.php">SleepNotGo</a>
+          <a class="navbar-brand" style="color: white; font-weight: 600;" href="index.php">SleepNotGo</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
             Home</a></li>
-            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;
+            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;
             Shop</a></li>
             <?php
             if($user->get_session()){?>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?php echo $_SESSION['usr_name'];?>
+              <li class="dropdown <?php if($module==profile){ echo "active";}else{ echo '';}?>">
+                <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?php echo $_SESSION['usr_name'];?>
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="index.php?mod=profile">My Profile</a></li>
-                  <li><a href="logout.php">Logout</a></li>
+                  <li><a id="btn-logout" href="">Logout</a></li>
                 </ul>
               </li>
               
             <?php
             }else{?>
-              <li><a href="" data-toggle="modal" data-target="#myModal">Login <?php echo $user->get_session();?></a></li>
+              <li><a class="uppercase" href="" data-toggle="modal" data-target="#myModal">Login</a></li>
             <?php
             }
             ?>

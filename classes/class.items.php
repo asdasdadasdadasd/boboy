@@ -13,4 +13,34 @@ class Items{
     public function count_items(){
       $sql = "SELECT * FROM ";
     }
+
+    public function get_item_brand($id){
+      $sql = "SELECT brand_name FROM brands WHERE brand_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      $value = $row['brand_name'];
+      return $value;
+   }
+
+    public function get_shop_items(){
+      $sql = "SELECT * FROM items";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
+
+    public function get_shop_items_by_brand($id){
+      $sql = "SELECT * FROM items WHERE brand_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
 }

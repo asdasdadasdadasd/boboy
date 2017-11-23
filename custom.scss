@@ -1,11 +1,15 @@
 /***** CUSTOM CSS *****/
 
 /* primary-yellow = ffae00 */  
+body{
+  background-color: rgba(0,0,0,0.05);
+  font-family: 'Source Sans Pro';
+}
 .main{
-  margin-top: 75px;
+  margin-top: 50px;
 }
 .header-wrapper{
-  margin-top: 50px;
+
 }
 .nav-color{
   background-color: #111;
@@ -17,13 +21,31 @@
   color: #fff;
 }
 .header-text-big{
-  font-weight: 600; font-size: 30px;
+  font-weight: 700; font-size: 5em; letter-spacing: 4px;
 }
 .header-text-small{
-  font-size: 30px;
+  font-size: 14px;
+  text-align: center;
+  width: 100%;
+  display: block;
+  margin-bottom: 40px;
+  font-weight: 300;
+  font-family: 'Roboto';
 }
 .bold{
   font-weight: bold;
+}
+.font-secondary{
+  font-family: 'Source Sans Pro';
+}
+.font-primary{
+  font-family: 'Roboto';
+}
+.uppercase{
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Roboto';
+  font-size: 13px;
 }
 .bg-header{
   padding-top: 250px;
@@ -35,9 +57,10 @@
   ),
   /* bottom, image */
   url('img/header.jpg');
-  background-position: bottom;
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  padding-bottom: 150px;
 }
 .product-anchor:hover,.product-anchor:visited,.product-anchor:focus,.product-anchor:active{
   color: inherit;
@@ -45,10 +68,17 @@
 }
 .product-card-hover{
   border: 0.5px solid #e4e4e4;
+  background-color: #fff;
 }
 .product-card-hover:hover{
   border: 0.5px solid;
+  border-color: rgba(0,0,0,0.15);
+  background-color: rgba(0,0,0,0.01);
+}
+.product-card-hover:active{
+  border: 0.5px solid;
   border-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.03);
 }
 .product-padding{
   padding: 24px;
@@ -66,16 +96,72 @@
 .compress{
   padding: 4px;
 }
-.modal-open{
-  overflow-y: inherit;
-}
 .navbar-inverse .navbar-nav > .active{
-  color: #000;
   background: #ffae00;
 }
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
-  color: #000;
   background: #ffae00;
+}
+.center-block {
+  float:none;
+}
+.panel-text{
+  font-weight: 600;
+}
+.vertical-alignment-helper {
+  display:table;
+  height: 100%;
+  width: 100%;
+  pointer-events:none;
+  margin-top: 1%;
+}
+.vertical-align-center {
+  /* To center vertically */
+  display: table-cell;
+  vertical-align: middle;
+  pointer-events:none;
+}
+
+.modal-content2 {
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width:inherit;
+  max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+  height:inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+  pointer-events:all;
+}
+.navbar.navbar-inverse {
+  background-color: #99ccff;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.navbar.navbar-inverse .navbar-collapse {
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.panel-default {
+  border: none;
+}
+.item-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* number of lines to show */       /* fallback */
+  height: 100px;       /* fallback */
+}
+
+.aligned-row {
+  display: flex;
+  flex-flow: row wrap;
+
+  &::before {
+      display: block;
+  }
 }
