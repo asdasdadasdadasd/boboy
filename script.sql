@@ -61,11 +61,13 @@ CREATE TABLE IF NOT EXISTS `items` (
   KEY `id` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.items: ~3 rows (approximately)
+-- Dumping data for table db_sleepnotgo.items: ~5 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`item_id`, `brand_id`, `item_name`, `item_description`, `item_size`, `item_price`, `item_img`, `item_status`) VALUES
 	(1, 2, 'White Hot Mocha Latte', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
-	(2, 1, 'Iced Coffee', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet, ligula in sollicitudin euismod, ipsum dui bibendum eros, porttitor g', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
+	(2, 1, 'Iced Coffee', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet, ligula in sollicitudin euismod, ipsum dui bibendum eros, porttitor g lorem ipsum dolor sit amet pelar molticus', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
+	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
+	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
 	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0);
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
