@@ -1,9 +1,23 @@
 <div class="container">
-  <h2>Shop</h2>
+  <a href="index.php?mod=shop">Shop</a>
+</div>
+<div style="margin-top: 24px;">
+<?php
+if(isset($_GET['item'])){?>
+  <div class="">
+    <?php
+    require_once 'modules/item/index.php';
+    ?>
+  </div>
+<?php
+}else{
+?>
+<div class="container">
   <div class="">
     <div class="">
       <div class="row" style="margin-top: 8px; margin-bottom: 24px;">
         <div class="col-md-2">
+          <!-- Sidenav Filter Left -->
             <div class="sidebar well">
               <h5>Filter By</h5>
               <?php
@@ -23,7 +37,9 @@
               }
               ?>
             </div>
+            <!-- End of Sidenav -->
         </div>
+        <!-- Shop Content/Item list -->
         <div class="container-fluid">
           <div class="col-md-10">
             <?php 
@@ -32,27 +48,34 @@
               if($items){
               ?>
               <div class="" style="">
-                <div class="row panel">
-                    <?php
-                    foreach($items as $i) {
-                    ?>
-                    <div class="col-md-3 product-grid compress">
-                        <a href="index.php?mod=shop&item=<?php echo $i['item_id'];?>" class="product-anchor">
-                            <div class="card product-card-hover">
-                                <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
-                                <div class="product-padding">
-                                    <h5 class="uppercase" style="margin: 0px 0px 4px 0px; font-size: 11px; color: rgba(0,0,0,0.54);"><?php echo $item->get_item_brand($i['brand_id']);?></h5>
-                                    <h4 class="uppercase" style="margin: 0px 0px 16px 0px; font-weight: 700;font-size: 20px;color: #ffae00;"><?php echo $i['item_name'];?></h4>
-                                    <h5 style="color: rgba(0,0,0,0.7); margin-bottom: 24px; font-weight: 400; font-size: 13px; line-height: 1.5;"><?php echo $i['item_description'];?></h5>
-                                    <h4 class="uppercase" style="color: #ffae00; font-weight: 400; font-size: 16px;">PHP <?php echo $i['item_price'];?></h4>
-                                </div> 
-                            </div>
-                        </a>
+              
+              <div class="row panel aligned-row">
+                  <?php
+                  foreach($items as $i) {
+                  ?>
+                  <div class="col-md-3 shop-margin">
+                    <div class="item-holder">
+                      <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
+                        <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
+                        <div class="item-brand">
+                          <?php echo $item->get_item_brand($i['brand_id']);?>
+                        </div>
+                        <div class="item-name">
+                          <?php echo $i['item_name'];?>
+                        </div>
+                        <div class="item-description">
+                          <?php echo $i['item_description'];?>
+                        </div>
+                        <div class="item-price">
+                          PHP <?php echo $i['item_price'];?>
+                        </div>
+                      </a>
                     </div>
-                    <?php
-                    }
-                    ?>
                   </div>
+                  <?php
+                  }
+                  ?>
+                </div>
               </div>
               <?php
               }else{
@@ -68,18 +91,24 @@
                     <?php
                     foreach($items as $i) {
                     ?>
-                    <div class="col-md-3 product-grid compress">
-                      <a href="index.php?mod=shop&item=<?php echo $i['item_id'];?>" class="product-anchor">
-                          <div class="card product-card-hover">
-                              <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
-                              <div class="product-padding">
-                                  <h5 class="uppercase" style="margin: 0px 0px 4px 0px; font-size: 11px; color: rgba(0,0,0,0.54);"><?php echo $item->get_item_brand($i['brand_id']);?></h5>
-                                  <h4 class="uppercase" style="margin: 0px 0px 16px 0px; font-weight: 700;font-size: 20px;color: #ffae00;"><?php echo $i['item_name'];?></h4>
-                                  <h5 style="color: rgba(0,0,0,0.7); margin-bottom: 24px; font-weight: 400; font-size: 13px; line-height: 1.5;"><?php echo $i['item_description'];?></h5>
-                                  <h4 class="uppercase" style="color: #ffae00; font-weight: 400; font-size: 16px;">PHP <?php echo $i['item_price'];?></h4>
-                              </div> 
+                    <div class="col-md-3 shop-margin">
+                      <div class="item-holder">
+                        <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
+                          <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
+                          <div class="item-brand">
+                            <?php echo $item->get_item_brand($i['brand_id']);?>
                           </div>
-                      </a>
+                          <div class="item-name">
+                            <?php echo $i['item_name'];?>
+                          </div>
+                          <div class="item-description">
+                            <?php echo $i['item_description'];?>
+                          </div>
+                          <div class="item-price">
+                            PHP <?php echo $i['item_price'];?>
+                          </div>
+                        </a>
+                      </div>
                     </div>
                     <?php
                     }
@@ -94,7 +123,12 @@
             ?>
           </div>
         </div>
+        <!-- End of Shop/Item list -->
       </div>
     </div>
   </div>
+</div>
+<?php
+}
+?>
 </div>

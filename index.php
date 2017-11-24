@@ -13,6 +13,7 @@ $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
 
+
 /*
 if(isset($_REQUEST['login'])){
   extract($_REQUEST);
@@ -38,7 +39,7 @@ if(isset($_REQUEST['login'])){
     <meta name="author" content="John Carlo H. Octabio">
     <link rel="icon" href="../../favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
 
     <title>SleepNotGo</title>
 
@@ -60,7 +61,7 @@ if(isset($_REQUEST['login'])){
   <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -68,9 +69,11 @@ if(isset($_REQUEST['login'])){
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" style="color: white; font-weight: 600;" href="index.php">SleepNotGo</a>
+          <div style="margin-left: 24px;">
+            <a class="navbar-brand example6" href="index.php"></a>
+          </div>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="navbar" class="collapse navbar-collapse roboto">
           <ul class="nav navbar-nav navbar-right">
             <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
             Home</a></li>
@@ -78,12 +81,15 @@ if(isset($_REQUEST['login'])){
             Shop</a></li>
             <?php
             if($user->get_session()){?>
-              <li class="dropdown <?php if($module==profile){ echo "active";}else{ echo '';}?>">
-                <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;<?php echo $_SESSION['usr_name'];?>
+              <li class="dropdown <?php if($module==profile){ echo "";}else{ echo '';}?>">
+                <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>
                 <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="index.php?mod=profile">My Profile</a></li>
-                  <li><a id="btn-logout" href="">Logout</a></li>
+                <ul class="dropdown-menu" style="background-color: #f7f7f7;">
+                  <li class="dropdown-header" style="color: rgba(0,0,0,0.8); font-weight: 500; font-size: 14px;"><?php echo $_SESSION['usr_name'];?></li>
+                  <li class="divider"></li>
+                  <li class="dropdown-header">Account</li>
+                  <li style=""><a href="index.php?mod=profile">My Profile</a></li>
+                  <li><a id="btn-logout"  href="#">Logout</a></li>
                 </ul>
               </li>
               
@@ -97,7 +103,59 @@ if(isset($_REQUEST['login'])){
             
           </ul>
         </div><!--/.nav-collapse -->
+        
       </div>
+      <?php
+      $url_str = substr($_SERVER['REQUEST_URI'], 5);
+      if(isset($_GET['mod'])){
+      ?>
+      <div class="nav-helper">
+        <div class="container-fluid">
+          <a class="shop-directory" href="index.php?mod=<?php echo $_GET['mod'];?>">
+            <?php echo ucfirst($_GET['mod']);?>
+          </a> /
+            <?php 
+            if($_GET['mod'] == "shop"){
+              if(isset($_GET['brand'])){?>
+                <a class="shop-directory" href="index.php?mod=shop&brand=<?php echo $_GET['brand'];?>">
+                <?php
+                echo $item->get_item_brand($_GET['brand']);
+                ?>
+                </a>
+                <?php
+                if(isset($_GET['item'])){?>
+                  / <a class="shop-directory" href="<?php echo $url_str;?>">
+                      <?php
+                        echo $item->get_item_name($_GET['item']);
+                      ?>
+                  </a>
+                <?php
+                }
+                ?>
+              <?php
+              }else{?>
+                <a class="shop-directory" href="index.php?mod=shop">
+                <?php
+                  echo "All";
+                ?>
+                </a>
+                <?php
+                if(isset($_GET['item'])){?>
+                  / <a class="shop-directory" href="<?php echo $url_str;?>">
+                      <?php
+                        echo $item->get_item_name($_GET['item']);
+                      ?>
+                  </a>
+                <?php
+                }
+              }
+            }
+            ?>
+        </div>
+      </div>
+      <?php
+      }
+      ?>
     </nav>
     <?php
     if($module == null){?>

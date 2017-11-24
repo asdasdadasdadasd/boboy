@@ -15,10 +15,6 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" autocomplete="off" value="" required autofocus>
-
-                                    <span class="help-block">
-                                        <strong></strong>
-                                    </span>
                             </div>
                         </div>
 

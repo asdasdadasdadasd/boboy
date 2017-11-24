@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   KEY `id` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.items: ~4 rows (approximately)
+-- Dumping data for table db_sleepnotgo.items: ~3 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`item_id`, `brand_id`, `item_name`, `item_description`, `item_size`, `item_price`, `item_img`, `item_status`) VALUES
 	(1, 2, 'White Hot Mocha Latte', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `usr_id` (`usr_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.users: ~6 rows (approximately)
+-- Dumping data for table db_sleepnotgo.users: ~3 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`usr_id`, `usr_name`, `usr_email`, `usr_password`, `usr_auth`, `usr_status`) VALUES
 	(1, 'John Carlo Octabio', 'jacotabio@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1),
