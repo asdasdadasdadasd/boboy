@@ -47,36 +47,35 @@ if(isset($_GET['item'])){?>
               $items = $item->get_shop_items_by_brand($_GET['brand']);
               if($items){
               ?>
-              <div class="" style="">
-              
               <div class="row panel aligned-row">
-                  <?php
-                  foreach($items as $i) {
-                  ?>
-                  <div class="col-md-3 shop-margin">
-                    <div class="item-holder">
-                      <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                        <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
-                        <div class="item-brand">
-                          <?php echo $item->get_item_brand($i['brand_id']);?>
-                        </div>
-                        <div class="item-name">
-                          <?php echo $i['item_name'];?>
-                        </div>
-                        <div class="item-description">
-                          <?php echo $i['item_description'];?>
-                        </div>
-                        <div class="item-price">
-                          PHP <?php echo $i['item_price'];?>
-                        </div>
-                      </a>
+              <?php
+              foreach($items as $i) {
+                $img = $i['item_img'];
+              ?>
+              <div class="col-md-3 col-xs-12 shop-margin">
+                <div class="item-holder">
+                  <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
+                    <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">
                     </div>
-                  </div>
-                  <?php
-                  }
-                  ?>
+                    <div class="item-brand">
+                      <?php echo $item->get_item_brand($i['brand_id']);?>
+                    </div>
+                    <div class="item-name">
+                      <?php echo $i['item_name'];?>
+                    </div>
+                    <div class="item-description">
+                      <?php echo $i['item_description'];?>
+                    </div>
+                    <div class="item-price">
+                      PHP <?php echo $i['item_price'];?>
+                    </div>
+                  </a>
                 </div>
               </div>
+              <?php
+              }
+              ?>
+            </div>
               <?php
               }else{
                 echo "No item to show";
@@ -85,16 +84,17 @@ if(isset($_GET['item'])){?>
               $items = $item->get_shop_items();
               if($items){
               ?>
-              <div class="" style="">
                 
                 <div class="row panel aligned-row">
                     <?php
                     foreach($items as $i) {
+                      $img = $i['item_img'];
                     ?>
-                    <div class="col-md-3 shop-margin">
+                    <div class="col-md-3 col-xs-12 shop-margin">
                       <div class="item-holder">
                         <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                          <img class="img-responsive" src="<?php echo $i['item_img'];?>" class="img-responsive" alt="Cinque Terre">
+                          <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">
+                          </div>
                           <div class="item-brand">
                             <?php echo $item->get_item_brand($i['brand_id']);?>
                           </div>
@@ -114,7 +114,6 @@ if(isset($_GET['item'])){?>
                     }
                     ?>
                   </div>
-              </div>
               <?php
               }else{
                 echo "No item to show";

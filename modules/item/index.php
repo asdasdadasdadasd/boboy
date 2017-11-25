@@ -11,18 +11,22 @@ $item_data = $item->get_item($_GET['item']);
   <div class="container-fluid">	
     <div class="" style="margin-top: 24px;">
       <div class="col-md-5">
-            <img class="img-responsive" src="<?php echo $data['item_img'];?>" alt=""></img>
+            <img class="img-responsive b-radius" src="<?php echo $data['item_img'];?>" alt=""></img>
       </div>
         
       <div class="col-md-7">
-        <div class="product-title uppercase" style="color: #ffae00; margin-top: 24px; font-size: 24px;"><?php echo $data['item_name'];?></div>
+        <div class="product-brand">
+          <?php echo $item->get_item_brand($data['brand_id']);?>
+        </div>
+        <div class="product-title uppercase" style="font-size: 24px;"><?php echo $data['item_name'];?></div>
         <div class="product-desc"><?php echo $data['item_description'];?></div>
         <hr>
-        <div class="product-stock">In Stock</div>
+        
         <div class="product-price uppercase" style="color: #333;">PHP <?php echo $data['item_price'];?></div>
+        <div class="product-stock">In Stock</div>
         <hr>
         <div class="btn-group cart">
-          <button type="button" id="btn-atc" class="btn btn-primary">
+          <button type="button" id="btn-atc" class="btn btn-primary uppercase">
             Add to cart 
           </button>
         </div>
