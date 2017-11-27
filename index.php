@@ -81,6 +81,9 @@ if(isset($_REQUEST['login'])){
             Shop</a></li>
             <?php
             if($user->get_session()){?>
+              <li class="<?php if($module==cart){ echo "active";}else{ echo '';}?>">
+                <a href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+              </li>
               <li class="dropdown <?php if($module==profile){ echo "";}else{ echo '';}?>">
                 <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>
                 <span class="caret"></span></a>
@@ -123,10 +126,14 @@ if(isset($_REQUEST['login'])){
                 ?>
                 </a>
                 <?php
-                if(isset($_GET['item'])){?>
+                if(isset($_GET['item'])&&isset($_GET['brand'])){?>
                   / <a class="shop-directory" href="<?php echo $url_str;?>">
                       <?php
-                        echo $item->get_item_name($_GET['item']);
+                        $dir_name = $item->get_item_and_brand($_GET['item'],$_GET['brand']);
+                        if($dir_name){
+                          foreach($dir_name as $o);
+                          echo $o['item_name'];
+                        }
                       ?>
                   </a>
                 <?php
@@ -181,6 +188,9 @@ if(isset($_REQUEST['login'])){
           break;
         case 'register':
           require_once 'modules/register/index.php';
+          break;
+        case 'cart':
+          require_once 'modules/cart/index.php';
           break;
         default:
           require_once 'modules/home/index.php';

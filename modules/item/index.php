@@ -1,5 +1,9 @@
 <?php
-$item_data = $item->get_item($_GET['item']);
+if(isset($_GET['brand'])&&isset($_GET['item'])){
+  $item_data = $item->get_item_and_brand($_GET['item'],$_GET['brand']);
+}else{
+  $item_data = $item->get_item($_GET['item']);
+}
 ?>
 <div class="container-fluid">
 <div class="content-wrapper">	
@@ -15,21 +19,32 @@ $item_data = $item->get_item($_GET['item']);
       </div>
         
       <div class="col-md-7">
-        <div class="product-brand">
-          <?php echo $item->get_item_brand($data['brand_id']);?>
-        </div>
-        <div class="product-title uppercase" style="font-size: 24px;"><?php echo $data['item_name'];?></div>
-        <div class="product-desc"><?php echo $data['item_description'];?></div>
-        <hr>
-        
-        <div class="product-price uppercase" style="color: #333;">PHP <?php echo $data['item_price'];?></div>
-        <div class="product-stock">In Stock</div>
-        <hr>
-        <div class="btn-group cart">
-          <button type="button" id="btn-atc" class="btn btn-primary uppercase">
-            Add to cart 
-          </button>
-        </div>
+        <form id="atc-form" method="POST">
+          <div class="product-brand">
+            <?php echo $item->get_item_brand($data['brand_id']);?>
+          </div>
+          <div class="product-title uppercase" style="font-size: 24px;"><?php echo $data['item_name'];?></div>
+          <div class="product-desc"><?php echo $data['item_description'];?></div>
+          <hr>
+          
+          <div class="product-price uppercase" style="color: #333;">PHP <?php echo $data['item_price'];?></div>
+          <div class="product-stock">In Stock</div>
+          <hr>
+          <input type="hidden" name="item_id" value="<?php echo $data['item_id'];?>">
+          <input type="hidden" name="item_price" value="<?php echo $data['item_price'];?>">
+          <div class="">
+            <select name="order_qty">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+          <div class="btn-group cart">
+            <button type="submit" name="submit" id="btn-atc" class="btn btn-primary uppercase">
+              Add to cart 
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div> 
@@ -79,8 +94,13 @@ $item_data = $item->get_item($_GET['item']);
   </div>
   <?php
 }else{
-  echo "Page Unavailable";
-}?>
+  ?>
+  <div class="page-unavailable">
+      <h2>Oops, it seems that the page you are trying to reach does not exist.<h2>
+  </div>
+<?php
+}
+?>
 </div>
 </div>
 </div>

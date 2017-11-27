@@ -52,6 +52,28 @@ class Items{
       }
     }
 
+    public function get_home_items(){
+      $sql = "SELECT * FROM items";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
+
+    public function get_item_and_brand($id,$bid){
+      $sql = "SELECT * FROM items WHERE item_id = '$id' AND brand_id = '$bid'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
+
     public function get_item($id){
       $sql = "SELECT * FROM items WHERE item_id = '$id'";
       $result = mysqli_query($this->db,$sql);
@@ -61,5 +83,35 @@ class Items{
       if(!empty($list)){
         return $list;
       }
+    }
+
+    public function get_cart($id){
+      $sql = "SELECT * FROM cart WHERE usr_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      return $list;
+    }
+
+    public function check_user_cart($uid,$iid){
+      $sql = "SELECT *,COUNT(item_id) AS counted FROM cart WHERE usr_id = '$uid' AND item_id = '$iid'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      return $list;
+    }
+
+    public function insert_to_cart($uid,$iid,$qty,$subtotal){
+      $sql = "INSERT INTO cart(item_id,item_qty,subtotal,usr_id) VALUES('$iid','$qty','$subtotal','$uid')";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");
+      return $result;
+    }
+
+    public function update_to_cart($uid,$iid,$qty,$subtotal){
+      $sql = "UPDATE cart SET item_qty = '$qty', subtotal = '$subtotal' WHERE usr_id = '$uid' AND item_id = '$iid'";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Update Data");
+      return $result;
     }
 }

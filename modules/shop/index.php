@@ -18,17 +18,17 @@ if(isset($_GET['item'])){?>
       <div class="row" style="margin-top: 8px; margin-bottom: 24px;">
         <div class="col-md-2">
           <!-- Sidenav Filter Left -->
-            <div class="sidebar well">
-              <h5>Filter By</h5>
+            <div class="sidebar sidebar-shop">
+              <h5 class="sidebar-link">Filter By</h5>
               <?php
               $brands = $brand->get_brands();
               if($brands){
               ?>
               <ul class="nav nav-stacked">
-              <li><a href='index.php?mod=shop'>All</a></li>
+              <li><a class="sidebar-link" href='index.php?mod=shop'>All</a></li>
                 <?php
                 foreach($brands as $b){?>
-                  <li><a href='index.php?mod=shop&brand=<?php echo $b['brand_id'];?>'><?php echo $b['brand_name'];?></a></li>
+                  <li><a class="sidebar-link" href='index.php?mod=shop&brand=<?php echo $b['brand_id'];?>'><?php echo $b['brand_name'];?></a></li>
                 <?php
                 }
                 ?>
@@ -98,7 +98,7 @@ if(isset($_GET['item'])){?>
                           <div class="item-brand">
                             <?php echo $item->get_item_brand($i['brand_id']);?>
                           </div>
-                          <div class="item-name">
+                          <div class="item-name" title="<?php echo $i['item_name'];?>">
                             <?php echo $i['item_name'];?>
                           </div>
                           <div class="item-description">

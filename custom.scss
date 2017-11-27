@@ -20,8 +20,13 @@ body{
 .text-white{
   color: #fff;
 }
+.text-black{
+  color: #000;
+}
 .header-text-big{
-  font-weight: 700; font-size: 5em; letter-spacing: 4px;
+  font-weight: 700; 
+  font-size: 5em; 
+  letter-spacing: 4px;
 }
 .header-text-small{
   font-size: 14px;
@@ -29,7 +34,7 @@ body{
   width: 100%;
   display: block;
   margin-bottom: 40px;
-  font-weight: 300;
+  font-weight: 400;
   font-family: 'Roboto';
 }
 .bold{
@@ -52,8 +57,8 @@ body{
   background: 
   /* top, transparent red, faked with gradient */ 
   linear-gradient(
-    rgba(0, 0, 0, 0.9), 
-    rgba(0, 0, 0, 0.9)
+    rgba(255, 174, 0, 0.95), 
+    rgba(255, 174, 0, 0.95)
   ),
   /* bottom, image */
   url('img/header.jpg');
@@ -61,6 +66,7 @@ body{
   background-size: cover;
   background-repeat: no-repeat;
   padding-bottom: 150px;
+  height: 100vh;
 }
 .product-anchor:hover,.product-anchor:visited,.product-anchor:focus,.product-anchor:active{
   color: inherit;
@@ -156,7 +162,24 @@ body{
   -webkit-line-clamp: 2; /* number of lines to show */       /* fallback */
   height: 100px;       /* fallback */
 }
-
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+.cart-left-content{
+  margin-top: 50px;
+  text-align: center;
+}
+.cart-right-content{
+  padding-top: 50px;
+}
 .aligned-row {
   display: flex;
   flex-flow: row wrap;
@@ -164,6 +187,28 @@ body{
   &::before {
       display: block;
   }
+}
+.cart-price{
+  color: #ff2020;
+  font-weight: 600;
+  font-size: 16px;
+}
+tr.text-light th{
+  color: rgba(0,0,0,0.65);
+  font-weight: 700;
+  font-size: 12px;
+  font-family: 'Source Sans Pro';
+}
+.cart-total-label{
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  color: rgba(0,0,0,0.65);
+}
+.cart-total{
+  padding-left: 16px;
+  font-weight: 700;
+  color: #ff2020;
+  font-size: 16px;
 }
 .item-holder{
   border: 1px solid;
@@ -244,6 +289,10 @@ body{
   font-family: 'Roboto';
   font-size: 13px;
   font-weight: 400;
+}
+.shop-directory:hover{
+  text-decoration: none;
+  color: #0059ff;
 }
 .shop-margin{
   padding-top: 4px; padding-left: 4px; padding-right: 4px; padding-bottom: 4px;
@@ -348,4 +397,23 @@ body{
 
 .b-radius{
   border-radius: 2px;
+}
+.page-unavailable{
+  text-align: center;
+  padding: 220px 24px;
+}
+.page-unavailable h2{
+  color: rgba(0,0,0,0.8);
+  font-weight: 300;
+  font-size: 20px;
+}
+.sidebar-shop{
+  background-color: #fff;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-radius: 4px; 
+}
+.sidebar-link{
+  margin-left: 24px;
+  margin-right: 24px;
 }
