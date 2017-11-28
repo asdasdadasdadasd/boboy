@@ -23,9 +23,10 @@ $brand = new Brands();
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="John Carlo H. Octabio">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 
     <title>SleepNotGo</title>
 
@@ -217,17 +218,19 @@ $brand = new Brands();
                 </div>
                 <div class="col-sm-3 info">
                     <h5>Information</h5>
-                    <p> Lorem ipsum dolor amet, consectetur adipiscing elit. Etiam consectetur aliquet aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. </p>
+                    <p>The Palms, 18th Street Lacson, Bacolod City</br>
+                    @iamsleepnot</br>
+                    Call 4741654</p>
                 </div>
             </div>
         </div>
         <div class="second-bar">
            <div class="container">
-                <h2 class="logo"><a href="#"> LOGO </a></h2>
+                <h2 class="logo"><a class="navbar-brand example6" style="width: 100px;" href="#"></a></h2>
                 <div class="social-icons">
-                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                    <a href="#" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/iamsleepnot/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/iamsleepnot/" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
                 </div>
             </div>
         </div>
@@ -236,6 +239,7 @@ $brand = new Brands();
     <?php
     require_once 'modules/modals/login_modal.php';
     require_once 'modules/modals/remove_cart.php';
+    require_once 'modules/modals/item_modal.php';
     ?>
 
     <!-- Bootstrap core JavaScript

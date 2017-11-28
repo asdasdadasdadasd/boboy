@@ -48,6 +48,20 @@ INSERT INTO `brands` (`brand_id`, `brand_name`, `brand_email`, `brand_password`,
 	(3, 'TomNtoms', '', '', 0);
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 
+-- Dumping structure for table db_sleepnotgo.cart
+CREATE TABLE IF NOT EXISTS `cart` (
+  `cart_id` int(8) unsigned NOT NULL AUTO_INCREMENT,
+  `item_id` int(8) NOT NULL DEFAULT '0',
+  `item_qty` int(2) NOT NULL DEFAULT '0',
+  `subtotal` float(10,2) NOT NULL DEFAULT '0.00',
+  `usr_id` int(8) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`cart_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10000024 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table db_sleepnotgo.cart: 0 rows
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+
 -- Dumping structure for table db_sleepnotgo.items
 CREATE TABLE IF NOT EXISTS `items` (
   `item_id` int(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -61,14 +75,12 @@ CREATE TABLE IF NOT EXISTS `items` (
   KEY `id` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.items: ~5 rows (approximately)
+-- Dumping data for table db_sleepnotgo.items: ~4 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`item_id`, `brand_id`, `item_name`, `item_description`, `item_size`, `item_price`, `item_img`, `item_status`) VALUES
-	(1, 2, 'White Hot Mocha Latte', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
-	(2, 1, 'Iced Coffee', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet, ligula in sollicitudin euismod, ipsum dui bibendum eros, porttitor g lorem ipsum dolor sit amet pelar molticus', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
-	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
-	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
-	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 60.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0);
+	(1, 2, 'White Hot Mocha Latte asdasdasd', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 145.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0),
+	(2, 1, 'Iced Coffee', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet, ligula in sollicitudin euismod, ipsum dui bibendum eros, porttitor g lorem ipsum dolor sit amet pelar molticus', 'Grande', 60.00, 'http://img.taste.com.au/5jpMi1YX/taste/2016/11/spiced-iced-coffee-52812-1.jpeg', 0),
+	(3, 3, 'Tomicinno Coffee', 'A delicate float of house-made vanilla sweet cream that cascades throughout the cup.', 'Grande', 120.00, 'http://static4.businessinsider.com/image/5509a9685afbd3705e8b4568-1190-625/starbucks-says-tingyi-to-make-starbuks-drink-products-in-china.jpg', 0);
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table db_sleepnotgo.users
@@ -82,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `usr_id` (`usr_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.users: ~3 rows (approximately)
+-- Dumping data for table db_sleepnotgo.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`usr_id`, `usr_name`, `usr_email`, `usr_password`, `usr_auth`, `usr_status`) VALUES
 	(1, 'John Carlo Octabio', 'jacotabio@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1),

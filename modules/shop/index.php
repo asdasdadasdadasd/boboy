@@ -16,7 +16,7 @@ if(isset($_GET['item'])){?>
   <div class="">
     <div class="">
       <div class="row" style="margin-top: 24px; margin-bottom: 24px;">
-        <div class="col-md-2">
+        <div class="col-lg-2 col-md-3">
           <!-- Sidenav Filter Left -->
             <div class="sidebar sidebar-shop">
               <h5 class="sidebar-link">Filter By</h5>
@@ -41,7 +41,7 @@ if(isset($_GET['item'])){?>
         </div>
         <!-- Shop Content/Item list -->
         <div class="container-fluid">
-          <div class="col-md-10">
+          <div class="col-lg-10 col-md-9">
             <?php 
             if(isset($_GET['brand'])){
               $items = $item->get_shop_items_by_brand($_GET['brand']);
@@ -52,7 +52,7 @@ if(isset($_GET['item'])){?>
               foreach($items as $i) {
                 $img = $i['item_img'];
               ?>
-              <div class="col-md-3 col-xs-12 shop-margin">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 shop-margin">
                 <div class="item-holder">
                   <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
                     <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">
@@ -90,7 +90,7 @@ if(isset($_GET['item'])){?>
                     foreach($items as $i) {
                       $img = $i['item_img'];
                     ?>
-                    <div class="col-md-3 col-xs-12 shop-margin">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
                       <div class="item-holder">
                         <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
                           <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">

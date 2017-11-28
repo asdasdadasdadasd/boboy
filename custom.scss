@@ -260,12 +260,12 @@ tr.text-light th{
   color: #ffae00;
   font-size: 14px;
   font-weight: 600;
-  padding: 0px 24px 0px 24px;
+  padding: 0px 0px 0px 24px;
   overflow: hidden;
+  margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;  
-  height: auto;
+  -webkit-box-orient: vertical;
 }
 .item-description{
   color: rgba(0,0,0,0.85);

@@ -51,15 +51,18 @@ $(document).ready(function(){
   };
 
   $("#atc-form").on("submit", function(e){
+    e.preventDefault();
     $.ajax({
       url: 'modules/item/ajax.php',
       type: 'POST',
       data: $(this).serialize(),
       success: function(d){
-        alert(d);/*
         if(d=="cart_success"){
           alert("Added to cart successfully!");
-        }*/
+        }
+        if(d=="no_session"){
+          $("#modal_session").modal();
+        }
       }
     });
   });
