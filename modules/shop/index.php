@@ -15,7 +15,7 @@ if(isset($_GET['item'])){?>
 <div class="container">
   <div class="">
     <div class="">
-      <div class="row" style="margin-top: 8px; margin-bottom: 24px;">
+      <div class="row" style="margin-top: 24px; margin-bottom: 24px;">
         <div class="col-md-2">
           <!-- Sidenav Filter Left -->
             <div class="sidebar sidebar-shop">

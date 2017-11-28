@@ -1,7 +1,39 @@
 /* Custom JavaScript */
 
+
+
+function remove_cart_show(c_id){
+  $("#cart_modal").modal();
+  document.getElementById('id_remove').value = c_id;
+}
+
 $(document).ready(function(){
   displayCartTable();
+
+  $("#remove_btn").click(function(){
+    $("#remove_btn").prop('disabled',true);
+    var r_id = $("#id_remove").val();
+    
+    $.ajax({
+      url: 'modules/cart/ajax.php',
+      method: 'POST',
+      data:{
+        "remove_cart": 1,
+        "remove_id": r_id
+      },
+      success: function(data){
+        if(data == "check_error" || data == "remove_failed"){
+          alert("An error occurred. Please try again.");
+          $("#cart_modal").modal('hide');
+          window.location = "index.php?mod=cart";
+        }else if(data == "remove_success"){
+          displayCartTable();
+          $("#cart_modal").modal('hide');
+        }
+        $("#remove_btn").prop('disabled',false);
+      }
+    });
+  });
 
   function displayCartTable(){
     $.ajax({

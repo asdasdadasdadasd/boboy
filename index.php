@@ -13,27 +13,13 @@ $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
 
-
-/*
-if(isset($_REQUEST['login'])){
-  extract($_REQUEST);
-  $login = $user->check_login($email,md5($password));
-  if($login){
-  header('location: index.php');
-  }
-  else{
-  header('location: index.php?auth=error');
-  } 
-}
-*/
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="John Carlo H. Octabio">
@@ -61,7 +47,7 @@ if(isset($_REQUEST['login'])){
   <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -82,7 +68,7 @@ if(isset($_REQUEST['login'])){
             <?php
             if($user->get_session()){?>
               <li class="<?php if($module==cart){ echo "active";}else{ echo '';}?>">
-                <a href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                <a class="uppercase" href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart</a>
               </li>
               <li class="dropdown <?php if($module==profile){ echo "";}else{ echo '';}?>">
                 <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>
@@ -113,7 +99,7 @@ if(isset($_REQUEST['login'])){
       if(isset($_GET['mod'])){
       ?>
       <div class="nav-helper">
-        <div class="container-fluid">
+        <div class="container">
           <a class="shop-directory" href="index.php?mod=<?php echo $_GET['mod'];?>">
             <?php echo ucfirst($_GET['mod']);?>
           </a> /
@@ -164,54 +150,99 @@ if(isset($_REQUEST['login'])){
       }
       ?>
     </nav>
-    <?php
-    if($module == null){?>
-      <div class="header-wrapper">
+    <div class="">
       <?php
-      require_once 'modules/home/header.php';
-      ?>
-      </div>
-    <?php
-    }
-    ?>
-    <div class="main">
-    <?php
-      switch($module){
-        case 'login':
-          require_once 'modules/login/index.php';
-          break;
-        case 'shop':
-          require_once 'modules/shop/index.php';
-          break;
-        case 'profile':
-          require_once 'modules/profile/index.php';
-          break;
-        case 'register':
-          require_once 'modules/register/index.php';
-          break;
-        case 'cart':
-          require_once 'modules/cart/index.php';
-          break;
-        default:
-          require_once 'modules/home/index.php';
-          break;
+      if($module == null){?>
+        <div class="header-wrapper">
+        <?php
+        require_once 'modules/home/header.php';
+        ?>
+        </div>
+      <?php
       }
-    ?>
-    </div><!-- /.container -->
-    <div class="footer">
-
+      ?>
+      <div class="main">
+      <?php
+        switch($module){
+          case 'login':
+            require_once 'modules/login/index.php';
+            break;
+          case 'shop':
+            require_once 'modules/shop/index.php';
+            break;
+          case 'profile':
+            require_once 'modules/profile/index.php';
+            break;
+          case 'register':
+            require_once 'modules/register/index.php';
+            break;
+          case 'cart':
+            require_once 'modules/cart/index.php';
+            break;
+          default:
+            require_once 'modules/home/index.php';
+            break;
+        }
+      ?>
+      </div><!-- /.container -->
     </div>
+
+    <!-- Footer Content Goes Here -->
+    <footer id="myFooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.php?mod=register">Sign up</a></li>
+                        <li><a href="#">Downloads</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Company Information</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3 info">
+                    <h5>Information</h5>
+                    <p> Lorem ipsum dolor amet, consectetur adipiscing elit. Etiam consectetur aliquet aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. </p>
+                </div>
+            </div>
+        </div>
+        <div class="second-bar">
+           <div class="container">
+                <h2 class="logo"><a href="#"> LOGO </a></h2>
+                <div class="social-icons">
+                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <?php
     require_once 'modules/modals/login_modal.php';
+    require_once 'modules/modals/remove_cart.php';
     ?>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
   </body>
 </html>

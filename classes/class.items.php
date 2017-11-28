@@ -85,13 +85,35 @@ class Items{
       }
     }
 
+    public function check_before_remove($id){
+      $sql = "SELECT * FROM cart WHERE cart_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      return $row;
+    }
+
+    public function remove_from_cart($id){
+      $sql = "DELETE FROM cart WHERE cart_id = '$id'";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Delete Data");
+      return $result;
+    }
+
+    public function cart_sum_total($id){
+      $sql = "SELECT SUM(subtotal) AS total FROM cart WHERE usr_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      $value = $row['total'];
+      return $value;
+    }
     public function get_cart($id){
       $sql = "SELECT * FROM cart WHERE usr_id = '$id'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
       }
-      return $list;
+      if(!empty($list)){
+        return $list;
+      }
     }
 
     public function check_user_cart($uid,$iid){

@@ -34,7 +34,8 @@ body{
   width: 100%;
   display: block;
   margin-bottom: 40px;
-  font-weight: 400;
+  font-weight: 300;
+  letter-spacing: 0.5px;
   font-family: 'Roboto';
 }
 .bold{
@@ -57,8 +58,8 @@ body{
   background: 
   /* top, transparent red, faked with gradient */ 
   linear-gradient(
-    rgba(255, 174, 0, 0.95), 
-    rgba(255, 174, 0, 0.95)
+    rgba(0, 0, 0, 0.65), 
+    rgba(0, 0, 0, 0.65)
   ),
   /* bottom, image */
   url('img/header.jpg');
@@ -66,7 +67,6 @@ body{
   background-size: cover;
   background-repeat: no-repeat;
   padding-bottom: 150px;
-  height: 100vh;
 }
 .product-anchor:hover,.product-anchor:visited,.product-anchor:focus,.product-anchor:active{
   color: inherit;
@@ -199,6 +199,17 @@ tr.text-light th{
   font-size: 12px;
   font-family: 'Source Sans Pro';
 }
+.border-radius{
+  border-radius: 4px;
+}
+.cart-empty-label{
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 13px;
+  color: rgba(0,0,0,0.54);
+  text-align: center;
+  padding-top: 200px;
+}
 .cart-total-label{
   font-family: 'Source Sans Pro';
   font-weight: 600;
@@ -282,6 +293,7 @@ tr.text-light th{
 .nav-helper{
   background-color: #ffae00;
   padding: 8px 0px 8px 0px;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 .shop-directory{
   padding: 10px;
@@ -377,13 +389,16 @@ tr.text-light th{
 	background: #fff;
 	margin: 0 auto;
 	margin-top: 25px;
-	margin-bottom: 10px;
+  margin-bottom: 10px;
   border: 1px solid;
   border-color: rgba(0,0,0,0.1);
-  
-	border-radius: 2px;
+	border-radius: 4px;
 }
-
+.bordered{
+  border: 1px solid;
+  border-color: rgba(0,0,0,0.1);
+	border-radius: 4px;
+}
 .container-fluid{
 	max-width: 1140px;
 	margin: 0 auto;
@@ -416,4 +431,111 @@ tr.text-light th{
 .sidebar-link{
   margin-left: 24px;
   margin-right: 24px;
+  font-family: 'Roboto';
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+//STICKY FOOTER CSS CODE
+
+footer{
+  
+}
+#myFooter {
+  background-color: #3a3f46;
+  color: white;
+  margin-top: 100px;
+}
+
+#myFooter .row {
+  margin-bottom: 60px;
+}
+
+#myFooter .info{
+  text-align: justify; 
+  color: #afb0b1;
+}
+
+#myFooter ul {
+  list-style-type: none;
+  padding-left: 0;
+  line-height: 1.7;
+}
+
+#myFooter h5 {
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+#myFooter .logo{
+  margin-top: 10px;
+}
+
+#myFooter .second-bar .logo a{
+  color:white;
+  font-size: 28px;
+  float: left;
+  font-weight: bold;
+  line-height: 68px;
+  margin: 0;
+  padding: 0;
+}
+
+#myFooter a {
+  color: #d2d1d1;
+  text-decoration: none;
+}
+
+#myFooter a:hover,
+#myFooter a:focus {
+  text-decoration: none;
+  color: white;
+}
+
+#myFooter .second-bar {
+  text-align: center;
+  background-color: #33373e;
+  text-align: center;
+}
+
+#myFooter .second-bar a {
+  font-size: 22px;
+  color: #9fa3a9;
+  padding: 10px;
+  transition: 0.2s;
+  line-height: 68px;
+}
+
+#myFooter .second-bar a:hover {
+  text-decoration: none;
+}
+
+#myFooter .social-icons {
+  float:right;
+}
+
+
+#myFooter .facebook:hover {
+  color: #0077e2;
+}
+
+#myFooter .google:hover {
+  color: #ef1a1a;
+}
+
+#myFooter .twitter:hover {
+  color: #00aced;
+}
+
+@media screen and (max-width: 767px) {
+  #myFooter {
+      text-align: center;
+  }
+
+  #myFooter .info{
+      text-align: center;
+  }
 }

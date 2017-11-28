@@ -5,7 +5,7 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
   $item_data = $item->get_item($_GET['item']);
 }
 ?>
-<div class="container-fluid">
+<div class="container">
 <div class="content-wrapper">	
 <div class="item-container">	
   <?php
@@ -20,7 +20,7 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
         
       <div class="col-md-7">
         <form id="atc-form" method="POST">
-          <div class="product-brand">
+          <div class="product-brand" style="margin-top: 16px;">
             <?php echo $item->get_item_brand($data['brand_id']);?>
           </div>
           <div class="product-title uppercase" style="font-size: 24px;"><?php echo $data['item_name'];?></div>
@@ -32,8 +32,8 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
           <hr>
           <input type="hidden" name="item_id" value="<?php echo $data['item_id'];?>">
           <input type="hidden" name="item_price" value="<?php echo $data['item_price'];?>">
-          <div class="">
-            <select name="order_qty">
+          <div class="btn-group">
+          <select class="select" name="order_qty">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -42,7 +42,7 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
           <div class="btn-group cart">
             <button type="submit" name="submit" id="btn-atc" class="btn btn-primary uppercase">
               Add to cart 
-            </button>
+            </button>            
           </div>
         </form>
       </div>
