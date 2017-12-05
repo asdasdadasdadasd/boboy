@@ -1,15 +1,67 @@
-/* Custom JavaScript */
-
-
+ // Custom JavaScript //
 
 function remove_cart_show(c_id){
   $("#cart_modal").modal();
   document.getElementById('id_remove').value = c_id;
 }
 
+function updateCartCounter()
+{ 
+$("#nav-id").load(window.location.href + " #nav-id" );
+}
+
+function returnIndex(){
+  window.location = "index.php";
+}
+ // DOCUMENT READY //
+
 $(document).ready(function(){
+
   displayCartTable();
 
+  $('#edit-item-form').on("submit", function(e){
+    e.preventDefault();
+    $("#btn-delete-item").prop("disabled", true);
+    $("#btn-save-edit-item").prop("disabled", true);
+    var formData = new FormData(this);
+
+    $.ajax({
+      url: 'modules/cpanel/itemview_edit.php',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data){
+        if(data == "update_success"){
+          $("#btn-save-edit-item").prop("disabled", false);
+          $("#btn-delete-item").prop("disabled", false);
+          location.reload();
+        }
+      }
+    });
+  });
+
+  $('body').on("click",".item-select", function(e){
+    var item_id = $(this).attr("id");
+    window.location = "index.php?mod=cpanel&t=items&q="+item_id;
+  });
+  $('body').on("click", "#btn-order", function(e){
+    $.ajax({
+      url: 'modules/cart/order.php',
+      method: 'POST',
+      data:{
+        "submit_order": 1
+      },
+      success: function(data){
+        if(data == "order_success"){
+          $("#cart_success").modal();
+          displayCartTable();
+        }
+      }
+    });
+  });
+  
   $("#remove_btn").click(function(){
     $("#remove_btn").prop('disabled',true);
     var r_id = $("#id_remove").val();
@@ -28,6 +80,7 @@ $(document).ready(function(){
           window.location = "index.php?mod=cart";
         }else if(data == "remove_success"){
           displayCartTable();
+          updateCartCounter();
           $("#cart_modal").modal('hide');
         }
         $("#remove_btn").prop('disabled',false);
@@ -57,11 +110,19 @@ $(document).ready(function(){
       type: 'POST',
       data: $(this).serialize(),
       success: function(d){
-        if(d=="cart_success"){
-          alert("Added to cart successfully!");
+        if(d=="cart_inserted"){
+          $("#modal_inserted").modal();
+          updateCartCounter();
+        }
+        if(d=="cart_updated"){
+          $("#modal_updated").modal();
+          updateCartCounter();
         }
         if(d=="no_session"){
           $("#modal_session").modal();
+        }
+        if(d=="session_brand"){
+          alert("You are not eligible to process this transaction.");
         }
       }
     });
@@ -93,7 +154,6 @@ $(document).ready(function(){
         if(d=="login_success"){
           window.location = "index.php";
           $('#submit-login').prop('disabled', false);
-          location.reload();
         }
         if(d=="login_failed"){
           e_email.classList.add("has-error");
@@ -120,7 +180,6 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: function (d) {
         setTimeout(function(){
-          alert(d);
           if(d == "non_match_password"){
             e_pwd.classList.add("has-error");
             e_cpwd.classList.add("has-error");
@@ -130,8 +189,11 @@ $(document).ready(function(){
             e_email.classList.add("has-error");
             document.getElementById("email-reg-help").innerHTML = "Email already exists";
           }
-          if(d=="register_success"){
-            window.location = "index.php";
+          if(d=="brand_registered"){
+            $("#brand-registered").modal();
+          }
+          if(d=="user_registered"){
+            $("#user-registered").modal();
           }
           $('#submit-register').prop('disabled', false);
         },0);

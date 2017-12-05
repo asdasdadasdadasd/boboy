@@ -18,7 +18,7 @@ if(isset($_GET['item'])){?>
       <div class="row" style="margin-top: 24px; margin-bottom: 24px;">
         <div class="col-lg-2 col-md-3">
           <!-- Sidenav Filter Left -->
-            <div class="sidebar sidebar-shop">
+            <div class="sidebar sidebar-shop panel">
               <h5 class="sidebar-link">Filter By</h5>
               <?php
               $brands = $brand->get_brands();
@@ -52,10 +52,10 @@ if(isset($_GET['item'])){?>
               foreach($items as $i) {
                 $img = $i['item_img'];
               ?>
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-2 shop-margin">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
                 <div class="item-holder">
                   <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                    <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">
+                    <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$img;?>');">
                     </div>
                     <div class="item-brand">
                       <?php echo $item->get_item_brand($i['brand_id']);?>
@@ -84,7 +84,6 @@ if(isset($_GET['item'])){?>
               $items = $item->get_shop_items();
               if($items){
               ?>
-                
                 <div class="row panel aligned-row">
                     <?php
                     foreach($items as $i) {
@@ -93,7 +92,7 @@ if(isset($_GET['item'])){?>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
                       <div class="item-holder">
                         <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                          <div class="item-image img-responsive" style="background-image: url('<?php echo $img;?>');">
+                          <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$img;?>');">
                           </div>
                           <div class="item-brand">
                             <?php echo $item->get_item_brand($i['brand_id']);?>

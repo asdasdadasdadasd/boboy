@@ -1,9 +1,6 @@
 <?php
-session_start();
-
-// config control 
+session_start(); 
 $hosted = false;
-
 if($hosted){
   define('DB_SERVER','52.77.240.48');
   define('DB_USERNAME','admin');
@@ -15,3 +12,4 @@ if($hosted){
   define('DB_PASSWORD','');
   define('DB_DATABASE','db_sleepnotgo');
 }
+?>

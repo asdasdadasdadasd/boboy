@@ -30,8 +30,16 @@ class Items{
       return $value;
     }
 
+    public function check_item_status($id){
+      $sql = "SELECT item_status FROM items WHERE item_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      $value = $row['item_status'];
+      return $value;
+    }
+
     public function get_shop_items(){
-      $sql = "SELECT * FROM items";
+      $sql = "SELECT * FROM items WHERE item_status = '1'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -42,7 +50,7 @@ class Items{
     }
 
     public function get_shop_items_by_brand($id){
-      $sql = "SELECT * FROM items WHERE brand_id = '$id'";
+      $sql = "SELECT * FROM items WHERE brand_id = '$id' AND item_status = '1'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -64,6 +72,40 @@ class Items{
     }
 
     public function get_item_and_brand($id,$bid){
+      $sql = "SELECT * FROM items WHERE item_id = '$id' AND brand_id = '$bid' AND item_status = '1'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
+
+    public function create_order($usr_id){
+      $sql = "INSERT INTO orders(created_at,usr_id) VALUES(NOW(),'$usr_id')";
+      $result = mysqli_query($this->db,$sql) or die(mysqli_error() . "Cannot Insert Data");
+      return $this->db->insert_id;
+    }
+
+    public function insert_order($oid,$item,$qty,$subtotal,$usr){
+      $sql = "INSERT INTO oitem(order_id,item_id,oi_qty,oi_subtotal,usr_id) VALUES('$oid','$item','$qty','$subtotal','$usr')";
+      $result = mysqli_query($this->db,$sql) or die(mysqli_error() . "Cannot Insert Data");
+      return $result;
+    }
+
+    public function get_item($id){
+      $sql = "SELECT * FROM items WHERE item_id = '$id' AND item_status = '1'";
+      $result = mysqli_query($this->db,$sql);
+      while($row = mysqli_fetch_array($result)){
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+    }
+
+    public function get_itemview($id,$bid){
       $sql = "SELECT * FROM items WHERE item_id = '$id' AND brand_id = '$bid'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
@@ -74,8 +116,14 @@ class Items{
       }
     }
 
-    public function get_item($id){
-      $sql = "SELECT * FROM items WHERE item_id = '$id'";
+    public function change_img($image,$iid){
+      $sql = "UPDATE items SET item_img = '".$image."' WHERE item_id = '$iid'";
+      $result = mysqli_query($this->db,$sql) or die(mysql_error() . "Cannot Update Data");
+      return $result;
+    }
+
+    public function my_items($bid){
+      $sql = "SELECT * FROM items WHERE brand_id = '$bid'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -83,6 +131,18 @@ class Items{
       if(!empty($list)){
         return $list;
       }
+    }
+
+    public function insert_order_total($oid,$value){
+      $sql = "UPDATE orders SET order_total = '$value' WHERE order_id = '$oid'";
+      $result = mysqli_query($this->db,$sql) or die(mysqli_error() . "Cannot Update Data");
+      return $result;
+    }
+
+    public function empty_cart($usr){
+      $sql = "DELETE FROM cart WHERE usr_id = '$usr'";
+      $result = mysqli_query($this->db,$sql) or die(mysqli_error() . "Cannot Delete Data");
+      return $result;
     }
 
     public function check_before_remove($id){
@@ -136,4 +196,19 @@ class Items{
       $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Update Data");
       return $result;
     }
+
+    public function count_cart($id){
+      $sql = "SELECT COUNT(cart_id) as total FROM cart WHERE usr_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      $value = $row['total'];
+      return $value;
+    }
+  
+    public function update_item($name,$desc,$price,$status,$iid,$bid){
+      $sql = "UPDATE items SET item_name = '$name', item_description = '$desc', item_price = '$price', item_status = '$status' WHERE item_id = '$iid' AND brand_id = '$bid'";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Update Data");
+      return $result;
+    }
+    
 }

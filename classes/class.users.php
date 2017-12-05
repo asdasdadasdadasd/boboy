@@ -29,8 +29,15 @@ class Users{
     public function register_credentials($name,$email,$pwd,$auth,$status){
       $sql = "INSERT INTO users(usr_name,usr_email,usr_password,usr_auth,usr_status) VALUES('$name','$email','$pwd','$auth','$status')";
       $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");
+      return $this->db->insert_id;
+    }
+
+    public function place_brand_id($bid,$uid){
+      $sql = "UPDATE users SET brand_id = '$bid' WHERE usr_id = '$uid'";
+      $result = mysqli_query($this->db,$sql) or die(mysql_error() . "Cannot Update Data");
       return $result;
     }
+
     public function check_login($email,$password){
       $sql = "SELECT * FROM users WHERE
       usr_email='$email' AND usr_password='$password'";
@@ -42,10 +49,12 @@ class Users{
               $_SESSION['usr_id']=$userdata['usr_id'];
               $_SESSION['usr_name']=$userdata['usr_name'];
               $_SESSION['usr_auth']=$userdata['usr_auth'];
+              $_SESSION['brand_id']=$userdata['brand_id'];
         return true;
       }
       else{
         return false;
       }
     }
+
 }

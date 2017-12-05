@@ -6,13 +6,13 @@ include 'classes/class.auth.php';
 include 'classes/class.brands.php';
 
 $module = (isset($_GET['mod']) && $_GET['mod'] != '') ? $_GET['mod'] : '';
+$t = (isset($_GET['t']) && $_GET['t'] != '') ? $_GET['t'] : '';
 $action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
 
 $user = new Users();
 $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,27 +27,20 @@ $brand = new Brands();
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-
     <title>SleepNotGo</title>
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
-    
-
     <!-- Custom styles for this template -->
     <link href="custom.scss" rel="stylesheet" type="text/css">
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav id="nav-id" class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,38 +55,53 @@ $brand = new Brands();
         </div>
         <div id="navbar" class="collapse navbar-collapse roboto">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
-            Home</a></li>
-            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;
-            Shop</a></li>
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home</a></li>
+            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Shop</a></li>
             <?php
             if($user->get_session()){?>
+              <?php 
+              if($_SESSION['usr_auth'] == 1){
+              ?>
               <li class="<?php if($module==cart){ echo "active";}else{ echo '';}?>">
-                <a class="uppercase" href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart</a>
+                <a class="uppercase" href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Cart (<?php echo $item->count_cart($_SESSION['usr_id'])?>)</a>
               </li>
+              <?php
+              }
+              ?>
               <li class="dropdown <?php if($module==profile){ echo "";}else{ echo '';}?>">
-                <a class="dropdown-toggle" style="font-weight: 600;font-family: 'Roboto';font-size: 13px;" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>
+                <a class="dropdown-toggle uppercase" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;<?php if($_SESSION['usr_auth'] == 2){echo $_SESSION['usr_name'];}?>
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu" style="background-color: #f7f7f7;">
+                  <?php
+                  if($_SESSION['usr_auth'] == 1){
+                  ?>
                   <li class="dropdown-header" style="color: rgba(0,0,0,0.8); font-weight: 500; font-size: 14px;"><?php echo $_SESSION['usr_name'];?></li>
                   <li class="divider"></li>
+                  <?php
+                  }
+                  ?>
                   <li class="dropdown-header">Account</li>
+                  <?php
+                  if($_SESSION['usr_auth'] == 1){
+                  ?>
                   <li style=""><a href="index.php?mod=profile">My Profile</a></li>
+                  <?php
+                  }else{?>
+                    <li style=""><a href="index.php?mod=cpanel">Control Panel</a></li>
+                  <?php
+                  }
+                  ?>
                   <li><a id="btn-logout"  href="#">Logout</a></li>
                 </ul>
               </li>
-              
             <?php
             }else{?>
               <li><a class="uppercase" href="" data-toggle="modal" data-target="#myModal">Login</a></li>
             <?php
             }
             ?>
-            
-            
           </ul>
         </div><!--/.nav-collapse -->
-        
       </div>
       <?php
       $url_str = substr($_SERVER['REQUEST_URI'], 5);
@@ -101,12 +109,7 @@ $brand = new Brands();
       ?>
       <div class="nav-helper">
         <div class="container">
-          <a class="shop-directory" href="index.php?mod=<?php echo $_GET['mod'];?>">
-            <?php echo ucfirst($_GET['mod']);?>
-          </a> /
-            <?php 
-            if($_GET['mod'] == "shop"){
-              if(isset($_GET['brand'])){?>
+          <a class="shop-directory" href="index.php?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> / <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
                 <a class="shop-directory" href="index.php?mod=shop&brand=<?php echo $_GET['brand'];?>">
                 <?php
                 echo $item->get_item_brand($_GET['brand']);
@@ -122,37 +125,35 @@ $brand = new Brands();
                           echo $o['item_name'];
                         }
                       ?>
-                  </a>
-                <?php
+                  </a><?php
                 }
                 ?>
               <?php
-              }else{?>
-                <a class="shop-directory" href="index.php?mod=shop">
-                <?php
-                  echo "All";
-                ?>
-                </a>
-                <?php
-                if(isset($_GET['item'])){?>
+              }else{?><a class="shop-directory" href="index.php?mod=shop"><?php echo "All";?></a><?php
+                if(isset($_GET['item'])){
+                  $s = $item->check_item_status($_GET['item']);
+                  if($s == 1){?>
                   / <a class="shop-directory" href="<?php echo $url_str;?>">
                       <?php
                         echo $item->get_item_name($_GET['item']);
                       ?>
                   </a>
                 <?php
+                  }
+                }
+              }
+            }else if($_GET['mod']=="cpanel"){
+              if(isset($_GET['t'])){?>
+                <a class="shop-directory" href="index.php?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>/<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
+            <?php 
                 }
               }
             }
-            ?>
-        </div>
-      </div>
-      <?php
+            ?></div></div><?php
       }
       ?>
     </nav>
-    <div class="">
-      <?php
+    <div class=""><?php
       if($module == null){?>
         <div class="header-wrapper">
         <?php
@@ -162,9 +163,7 @@ $brand = new Brands();
       <?php
       }
       ?>
-      <div class="main">
-      <?php
-        switch($module){
+      <div class="main"><?php switch($module){
           case 'login':
             require_once 'modules/login/index.php';
             break;
@@ -172,13 +171,30 @@ $brand = new Brands();
             require_once 'modules/shop/index.php';
             break;
           case 'profile':
-            require_once 'modules/profile/index.php';
+            if($_SESSION['usr_auth'] == 1){
+              require_once 'modules/profile/index.php';
+            }else{
+              header('location: index.php');
+            }
             break;
           case 'register':
             require_once 'modules/register/index.php';
             break;
+          case 'cpanel':
+            if($_SESSION['usr_auth'] == 2){
+              require_once 'modules/cpanel/index.php';
+            }else{
+              header('location: index.php');
+              exit;
+            }
+            break;
           case 'cart':
-            require_once 'modules/cart/index.php';
+            if($_SESSION['usr_auth'] == 1){
+              require_once 'modules/cart/index.php';
+            }else{
+              header('location: index.php');
+              exit;
+            }
             break;
           default:
             require_once 'modules/home/index.php';
@@ -196,7 +212,7 @@ $brand = new Brands();
                     <h5>Get started</h5>
                     <ul>
                         <li><a href="index.php">Home</a></li>
-                        <li><a href="index.php?mod=register">Sign up</a></li>
+                        <li><a href="index.php?mod=register">Register</a></li>
                         <li><a href="#">Downloads</a></li>
                     </ul>
                 </div>
@@ -226,7 +242,7 @@ $brand = new Brands();
         </div>
         <div class="second-bar">
            <div class="container">
-                <h2 class="logo"><a class="navbar-brand example6" style="width: 100px;" href="#"></a></h2>
+                <h2 class="logo"><a class="navbar-brand example6" style="width: 50px;" href="index.php"></a></h2><span style="width: 10px;" >Copyright 2017</span>
                 <div class="social-icons">
                     <a href="#" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
                     <a href="https://www.facebook.com/iamsleepnot/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -240,6 +256,7 @@ $brand = new Brands();
     require_once 'modules/modals/login_modal.php';
     require_once 'modules/modals/remove_cart.php';
     require_once 'modules/modals/item_modal.php';
+    require_once 'modules/modals/ui_modals.php';
     ?>
 
     <!-- Bootstrap core JavaScript

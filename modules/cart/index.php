@@ -13,7 +13,6 @@ if($user->get_session()){
       <div class="cart-right-content">
         <div class="container-fluid border-radius" style="background-color: #fff; padding-bottom: 24px;">
           <div id="cart-content">
-
           </div>
         </div>
       </div>
@@ -23,6 +22,6 @@ if($user->get_session()){
 </div>
 <?php
 }else{
-  header('location: index.php');
+    header('location: index.php');
 }
 ?>

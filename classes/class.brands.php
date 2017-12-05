@@ -20,4 +20,10 @@ class Brands{
       return $list;
     }
   }
+
+  public function add_brand($value){
+    $sql = "INSERT INTO brands(brand_name) VALUES('$value')";
+    $result = mysqli_query($this->db,$sql) or die(mysql_error() . "Cannot Insert Data");
+    return $this->db->insert_id;
+  }
 }

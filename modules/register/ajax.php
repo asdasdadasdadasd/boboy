@@ -1,7 +1,9 @@
 <?php
 include '../../library/config.php';
 include '../../classes/class.users.php';
+include '../../classes/class.brands.php';
 
+$brand = new Brands();
 $user = new Users();
 
 $name = test_input($_POST["name"]);
@@ -46,8 +48,15 @@ if($_POST['password_confirm']!=$_POST['password']){
     echo "email_exists";
     exit;
   }else{
-    if($user->register_credentials($sanitized_data['name'],$sanitized_data['email'],md5($sanitized_data['password']),$sanitized_data['auth-type'],0)){
-      echo "register_success";
+    if($usr_id = $user->register_credentials($sanitized_data['name'],$sanitized_data['email'],md5($sanitized_data['password']),$sanitized_data['auth-type'],0)){
+      if($sanitized_data['auth-type'] == 2){
+        $brand_id = $brand->add_brand($sanitized_data['name']);
+        if($user->place_brand_id($brand_id,$usr_id)){
+          echo "brand_registered";
+        }
+      }else{
+        echo "user_registered";
+      }
       exit;
     }else{
       echo "register_failed";

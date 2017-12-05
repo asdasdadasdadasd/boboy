@@ -37,7 +37,7 @@ if(isset($_POST['display_cart'])){
   </div>
   <div class="col-md-4">
     <div class="container-fluid">
-      <button class="btn btn-primary">ORDER</button>
+      <button id="btn-order" class="btn btn-primary">ORDER</button>
     </div>
   </div>
 </div>
@@ -51,3 +51,6 @@ if(isset($_POST['display_cart'])){
   }
 }
 ?>
+<script>
+
+</script>
