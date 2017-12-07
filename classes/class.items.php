@@ -14,6 +14,20 @@ class Items{
       $sql = "SELECT * FROM ";
     }
 
+    public function pdo_select($id){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items WHERE item_id = :id");
+      $query->bindParam(":id",$id);
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      return $list;
+      $db = null;
+    }
+
     public function get_item_brand($id){
       $sql = "SELECT brand_name FROM brands WHERE brand_id = '$id'";
       $result = mysqli_query($this->db,$sql);
@@ -58,6 +72,14 @@ class Items{
       if(!empty($list)){
         return $list;
       }
+    }
+
+    public function check_availability($id){
+      $sql = "SELECT item_name FROM items WHERE item_status = '1' AND item_id = '$id'";
+      $result = mysqli_query($this->db,$sql);
+      $row = mysqli_fetch_assoc($result);
+      $value = $row['item_name'];
+      return $value;
     }
 
     public function get_home_items(){
@@ -166,7 +188,7 @@ class Items{
       return $value;
     }
     public function get_cart($id){
-      $sql = "SELECT * FROM cart WHERE usr_id = '$id'";
+      $sql = "SELECT * FROM cart,items WHERE usr_id = '$id' AND cart.item_id = items.item_id AND item_status = '1'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -186,6 +208,7 @@ class Items{
     }
 
     public function insert_to_cart($uid,$iid,$qty,$subtotal){
+      
       $sql = "INSERT INTO cart(item_id,item_qty,subtotal,usr_id) VALUES('$iid','$qty','$subtotal','$uid')";
       $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");
       return $result;
@@ -206,9 +229,33 @@ class Items{
     }
   
     public function update_item($name,$desc,$price,$status,$iid,$bid){
-      $sql = "UPDATE items SET item_name = '$name', item_description = '$desc', item_price = '$price', item_status = '$status' WHERE item_id = '$iid' AND brand_id = '$bid'";
-      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Update Data");
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("UPDATE items SET item_name = ?, item_description = ?, item_price = ?, item_status = ? WHERE item_id = ? AND brand_id = ?");
+      $query->bindParam(1,$name);
+      $query->bindParam(2,$desc);
+      $query->bindParam(3,$price);
+      $query->bindParam(4,$status);
+      $query->bindParam(5,$iid);
+      $query->bindParam(6,$bid);
+      return $query->execute();
+    }
+
+    public function delete_item($id,$bid){
+      $sql = "DELETE FROM items WHERE item_id = '$id' AND brand_id = '$bid'";
+      $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Delete Data");
       return $result;
+    }
+
+    public function insert_item($name,$desc,$price,$status,$bid){
+      $query = $db->prepare("INSERT INTO items(brand_id,item_name,item_description,item_price,item_status,created_at) VALUES(?,?,?,?,?,NOW())");
+      $query->bindParam(1,$bid);
+      $query->bindParam(2,$name);
+      $query->bindParam(3,$desc);
+      $query->bindParam(4,$price);
+      $query->bindParam(5,$status);
+      $query->execute();
+      return $db->lastInsertId();
+
     }
     
 }

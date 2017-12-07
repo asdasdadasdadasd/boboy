@@ -13,14 +13,95 @@ $("#nav-id").load(window.location.href + " #nav-id" );
 function returnIndex(){
   window.location = "index.php";
 }
+
+function reloadPage(){
+  location.reload();
+}
+
+$("#item-unavailable").on("hidden.bs.modal", function () {
+  reloadPage();
+});
+
+$("#update-complete-modal").on("hidden.bs.modal", function () {
+  reloadPage();
+});
+
+$("#insert-complete-modal").on("hidden.bs.modal", function () {
+  window.location = "index.php?mod=cpanel&t=items";
+});
+
+$('#edit-item-price').on('keypress', function(e){
+  return e.metaKey || // cmd/ctrl
+    e.which <= 0 || // arrow keys
+    e.which == 8 || // delete key
+    /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+});
+
+$('#add-item-price').on('keypress', function(e){
+  return e.metaKey || // cmd/ctrl
+    e.which <= 0 || // arrow keys
+    e.which == 8 || // delete key
+    /[0-9]/.test(String.fromCharCode(e.which)); // numbers
+});
+
  // DOCUMENT READY //
 
 $(document).ready(function(){
 
   displayCartTable();
 
+  $("#btn-delete-item").click(function(){
+    var item_id = $(this).attr("value");
+    $("#delete-item-confirm").modal();
+    $("#btn-delete-item-true").val(item_id);
+  });
+
+  $("#btn-delete-item-true").click(function(){
+    var item_id = $(this).attr("value");
+    $.ajax({
+      url: 'modules/cpanel/itemview_delete.php',
+      method: 'POST',
+      data:{
+        "delete_id": item_id
+      },
+      success: function(data){
+        if(data == "delete_success"){
+          window.location = "index.php?mod=cpanel&t=items";
+        }
+      }
+    });
+  });
+
+  $('#add-item-form').on("submit", function(e){
+    e.preventDefault();
+    $('#loading-modal').modal({backdrop: 'static', keyboard: false});
+    $("#btn-add-item").prop("disabled", true);
+    var formData = new FormData(this);
+
+    $.ajax({
+      url: 'modules/cpanel/itemview_add.php',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data){
+        setTimeout(function(){
+          alert(data);
+          
+          if(data == "insert_success"){
+            $("#btn-add-item").prop("disabled", false);
+            $('#loading-modal').modal('hide');
+            $("#insert-complete-modal").modal();
+          }
+        },0);
+      }
+    });
+  });
+
   $('#edit-item-form').on("submit", function(e){
     e.preventDefault();
+    $('#loading-modal').modal({backdrop: 'static', keyboard: false});
     $("#btn-delete-item").prop("disabled", true);
     $("#btn-save-edit-item").prop("disabled", true);
     var formData = new FormData(this);
@@ -33,18 +114,24 @@ $(document).ready(function(){
       contentType: false,
       processData: false,
       success: function(data){
-        if(data == "update_success"){
-          $("#btn-save-edit-item").prop("disabled", false);
-          $("#btn-delete-item").prop("disabled", false);
-          location.reload();
-        }
+        setTimeout(function(){
+          if(data == "update_success"){
+            $("#btn-save-edit-item").prop("disabled", false);
+            $("#btn-delete-item").prop("disabled", false);
+            $('#loading-modal').modal('hide');
+            $("#update-complete-modal").modal();
+          }
+        },0);
+        
       }
     });
   });
 
   $('body').on("click",".item-select", function(e){
+
     var item_id = $(this).attr("id");
     window.location = "index.php?mod=cpanel&t=items&q="+item_id;
+
   });
   $('body').on("click", "#btn-order", function(e){
     $.ajax({
@@ -110,6 +197,9 @@ $(document).ready(function(){
       type: 'POST',
       data: $(this).serialize(),
       success: function(d){
+        if(d=="item_unavailable"){
+          $("#item-unavailable").modal();
+        }
         if(d=="cart_inserted"){
           $("#modal_inserted").modal();
           updateCartCounter();

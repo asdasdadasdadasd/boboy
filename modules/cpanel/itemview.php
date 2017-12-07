@@ -4,7 +4,7 @@ if($q){
   foreach($q as $_q);
 ?>
 <div class="container-fluid">
-  <h4 style="margin-bottom: 30px;">Item Details</h4>
+<h4 style="margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto">Item Details</h4>
   <div class="row">
     <div class="col-md-12">
       <form id="edit-item-form" name="edit-item-form" class="form-horizontal" method="POST" enctype="multipart/form-data">
@@ -12,7 +12,8 @@ if($q){
         <div id="item-name-group" class="form-group">
           <label for="itemname" class="col-md-3 control-label">Item Name</label>
             <div class="col-md-6">
-              <input id="edit-item-name" type="text" class="form-control" name="edit-item-name" autocomplete="off" value="<?php echo $_q['item_name'];?>" required>
+              <input id="" type="text" class="form-control" name="edit-item-name" autocomplete="off" value="<?php echo $_q['item_name'];?>" required>
+              
             </div>
         </div>
         <div id="item-desc-group" class="form-group">
@@ -25,7 +26,18 @@ if($q){
         <div id="item-img-group" class="form-group">
           <label for="itemimg" class="col-md-3 control-label">Item Picture</label>
             <div class="col-md-6">
-              <img id="edit-item-name" type="text" class="img-responsive" src="<?php echo "img/upload/".$_q['item_img'];?>" name="edit-item-name"/>
+              <?php
+              if($_q['item_img'] != null){
+              ?>
+              <div class="edit-item-img-preview bordered" style="background-image: url('<?php echo "img/upload/".$_q['item_img'];?>');">
+              </div>
+              <?php
+              }else{?>
+              <div class="edit-item-img-preview bordered" style="background-image: url('img/no-image.png');">
+              </div>
+              <?php
+              }
+              ?>
               <div class="" style="margin-top: 24px;">
                 <h5 class="roboto" style="font-size: 13px; font-weight: 500;">Change Picture</h5>
                 <input id="edit-item-file" type="file" class="" name="edit-item-file"/>
@@ -38,7 +50,7 @@ if($q){
         <div id="item-price-group" class="form-group">
           <label for="itemprice" class="col-md-3 control-label">Price (P)</label>
             <div class="col-md-6">
-              <input id="edit-item-price" type="text" class="form-control" name="edit-item-price" autocomplete="off" value="<?php echo $_q['item_price'];?>" required>
+              <input id="edit-item-price" type="number" class="form-control" name="edit-item-price" autocomplete="off" value="<?php echo $_q['item_price'];?>" required>
               
             </div>
         </div>
@@ -63,7 +75,7 @@ if($q){
         </div>
         <div class="form-group" style="margin-top: 50px;">
           <div class="col-md-12">
-            <button type="button" id="btn-delete-item" class="pull-left btn btn-red">Delete Item</button>
+            <button type="button" id="btn-delete-item" class="pull-left btn btn-red" value="<?php echo $_q['item_id'];?>">Delete Item</button>
             <button type="submit" id="btn-save-edit-item" class="pull-right btn btn-primary">Save Details</button>
           </div>
         </div>

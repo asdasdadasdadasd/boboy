@@ -17,7 +17,7 @@
                                   <div class="col-md-3 col-xs-12 shop-margin">
                                     <div class="item-holder">
                                       <a href="<?php echo $url_str;?>?mod=shop&item=<?php echo $i['item_id'];?>">
-                                        <div class="item-image img-responsive" style="background-image: url('<?php echo $i['item_img'];?>');">
+                                        <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$i['item_img'];?>');">
                                         </div>
                                         <div class="item-brand">
                                           <?php echo $item->get_item_brand($i['brand_id']);?>

@@ -77,8 +77,11 @@ if(isset($_GET['item'])){?>
               ?>
             </div>
               <?php
-              }else{
-                echo "No item to show";
+              }else{?>
+                <div class="row panel" style="padding-top: 200px; padding-bottom: 200px;">
+                    <h4 class="small text-center">No item to show<h4>
+                </div>
+              <?php
               }
             }else{
               $items = $item->get_shop_items();
@@ -114,8 +117,11 @@ if(isset($_GET['item'])){?>
                     ?>
                   </div>
               <?php
-              }else{
-                echo "No item to show";
+              }else{?>
+                <div class="page-unavailable">
+                  <h2>Oops, it seems that the page you are trying to reach is not available.<h2>
+                </div>
+              <?php
               }
             }
             ?>

@@ -1,13 +1,73 @@
+<?php
+if(isset($_GET['action']) && $_GET['action'] == "new"){?>
+	<div class="container-fluid">
+  <h4 style="margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto">Create New Item</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <form id="add-item-form" name="add-item-form" class="form-horizontal" method="POST" enctype="multipart/form-data">
+        <div id="add-name-group" class="form-group">
+          <label for="itemname" class="col-md-3 control-label">Item Name</label>
+            <div class="col-md-6">
+              <input id="add-item-name" type="text" class="form-control" name="add-item-name" autocomplete="off" value="" autofocus required>
+            </div>
+        </div>
+        <div id="item-desc-group" class="form-group">
+          <label for="itemdesc" class="col-md-3 control-label">Description</label>
+            <div class="col-md-6">
+              <textarea rows="6" id="add-item-desc" type="text" class="form-control" name="add-item-desc" autocomplete="off" required></textarea>
+            </div>
+        </div>
+        
+        <div id="item-img-group" class="form-group">
+          <label for="itemimg" class="col-md-3 control-label">Item Picture</label>
+            <div class="col-md-6">
+              <div class="" style="margin-top: 8px;">
+                <input id="add-item-file" type="file" class="" name="add-item-file"/>
+              </div>
+              <span class="help-block">
+                <i>*For better results please choose an image that is square*</i>
+              </span>
+            </div>
+        </div>
+        <div id="item-price-group" class="form-group">
+          <label for="itemprice" class="col-md-3 control-label">Price (P)</label>
+            <div class="col-md-6">
+              <input id="add-item-price" type="text" class="form-control" name="add-item-price" autocomplete="off" value="" required>
+              
+            </div>
+        </div>
+        <div id="item-price-group" class="form-group">
+          <label for="itemprice" class="col-md-3 control-label">Item Status</label>
+            <div class="col-md-3">
+              <select id="add-item-status" name="add-item-status" class="form-control">
+								<option value="1" selected>Available</option>
+                <option value="0">Unavailable</option>
+              </select>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 50px;">
+          <div class="col-md-12">
+						<a href="index.php?mod=cpanel&t=items" class="btn btn-inverse">Cancel</a>
+            <button type="submit" id="btn-add-item" class="pull-right btn btn-primary">Create</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<?php
+}else{
+?>
 <div class="container-fluid">
 	<div class="row">
-
 		<section class="content roboto">
       <div class="pull-right">
-				<div class="btn-group">
-					<button type="button" class="btn"><span style="font-size: 12px;" class="glyphicon glyphicon-plus"></span>New</button>
-			  </div>
+					<button type="button" id="btn-new-item" class="btn btn-primary" style="font-size: 12px;">Search</button>
+          <a href="index.php?mod=cpanel&t=items&action=new" type="button" id="btn-new-item" class="btn btn-green" style="font-size: 12px;">Create a new item</a>
 			</div>
-			<h4>My Items</h4>
+      <div class="pull-left">
+			  <h4>My Items</h4>
+      </div>
 			<div class="col-md-12 no-gap">
 				<div class="">
 					<div class="panel-body no-gap">
@@ -16,15 +76,26 @@
 								<tbody>
                 <?php
                 $mi = $item->my_items($_SESSION['brand_id']);
-                foreach($mi as $mia){?>
+                if($mi){
+                  foreach($mi as $mia){?>
 									<tr id="<?php echo $mia['item_id'];?>" class="item-select">
 										<td>
 											<div class="media">
-												<a href="#" class="pull-left">
-													<img src="<?php echo "img/upload/".$mia['item_img'];?>" class="media-photo">
-												</a>
+                        <?php
+                        if($mia['item_img'] != null){
+                        ?>
+                        <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$mia['item_img'];?>');">
+                        </div>	
+                        <?php 
+                        }else{?>
+                        <div class="media-photo pull-left" style="background-image: url('img/no-image.png');">
+
+                        </div>
+                        <?php
+                        }
+                        ?>
 												<div class="media-body">
-													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<span class="media-meta pull-right"><?php $date = new DateTime($mia['created_at']); echo $date->format('F j, Y'); ?></span>
 													<h4 class="title">
 														<?php echo $mia['item_name'];
 														if($mia['item_status']==0){
@@ -40,6 +111,12 @@
 											</div>
 										</td>
 									</tr>
+                  <?php
+                    }
+                  }else{?>
+                    <div class="no-item" style="padding-top: 100px; padding-bottom: 100px;border-top:1px solid #DEDEDE;">
+                    <h4 class="small text-center">No item to show<h4>
+                    </div>
                   <?php
                   }
                   ?>
@@ -59,3 +136,6 @@
 		
 	</div>
 </div>
+<?php
+}
+?>

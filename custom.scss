@@ -644,7 +644,14 @@ footer{
     color: #F0AD4E;
   }
   .table-filter .media-photo {
-    width: 35px;
+    height: 45px;
+    width: 45px;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 10px;
+    border-radius: 2px;
   }
   .table-filter .media-meta {
     font-size: 11px;
@@ -696,7 +703,43 @@ footer{
     font-weight: 500;
     color: rgba(0,0,0,0.7);
   }
-  .btn-red{
+
+  .btn-red, .btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red:visited{
     background-color: rgb(235, 31, 31);
     color: #fff;
+  }
+
+  .modal-title{
+    font-family: 'Roboto';
+    font-weight: 300;
+  }
+  .modal-body{
+    font-family: 'Roboto';
+  }
+  .modal-footer{
+    font-family: 'Roboto';
+  }
+  .itemview-img{
+    height: 350px;
+    width: 100%;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .btn-green{
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  .btn-green:hover{
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  .edit-item-img-preview{
+    height: 300px;
+    width: 100%;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }

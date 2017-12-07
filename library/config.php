@@ -1,5 +1,6 @@
 <?php
 session_start(); 
+
 $hosted = false;
 if($hosted){
   define('DB_SERVER','52.77.240.48');

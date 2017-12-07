@@ -15,7 +15,8 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
   <div class="container-fluid">	
     <div class="" style="margin-top: 24px;">
       <div class="col-md-5">
-            <img class="img-responsive b-radius" src="<?php echo "img/upload/".$data['item_img'];?>" alt=""></img>
+        <div class="itemview-img" style="background-image: url('<?php echo "img/upload/".$data['item_img'];?>');">
+        </div>
       </div>
         
       <div class="col-md-7">
@@ -87,7 +88,7 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
 <?php
 }else{?>
   <div class="page-unavailable">
-      <h2>Oops, it seems that the page you are trying to reach does not exist.<h2>
+      <h2>Oops, it seems that the page you are trying to reach is unavailable<h2>
   </div>
 <?php
 }

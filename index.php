@@ -55,8 +55,8 @@ $brand = new Brands();
         </div>
         <div id="navbar" class="collapse navbar-collapse roboto">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home</a></li>
-            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Shop</a></li>
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase">Home</a></li>
+            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase">Shop</a></li>
             <?php
             if($user->get_session()){?>
               <?php 

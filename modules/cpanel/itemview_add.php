@@ -10,8 +10,6 @@ $user = new Users();
 $brand = new Brands();
 $auth = new Auth();
 
-$item_id = $_POST['edit-item-id'];
-
 function array_map_r( $func, $arr )
 {
     $newArr = array();
@@ -26,27 +24,26 @@ function array_map_r( $func, $arr )
 $sanitized_data = array_map_r('strip_tags', $_POST);
 
 // Clean input name and description
-$clean_name = str_replace(array('(',')','"',';'),'',$sanitized_data['edit-item-name']);
-$clean_desc = str_replace(array('(',')','"',';'),'',$sanitized_data['edit-item-desc']);
+$clean_name = str_replace(array('(',')','"',';'),'',$sanitized_data['add-item-name']);
+$clean_desc = str_replace(array('(',')','"',';'),'',$sanitized_data['add-item-desc']);
 
 
-// Update item information
-if($item->update_item($clean_name,$clean_desc,$_POST['edit-item-price'],$_POST['edit-item-status'],$item_id,$_SESSION['brand_id'])){
-  echo "update_success";
+if($item_id = $item->insert_item($clean_name,$clean_desc,$sanitized_data['add-item-price'],$sanitized_data['add-item-status'],$_SESSION['brand_id'])){
+  echo "insert_success";
 }
 
 // Check if user wants to upload
-if (file_exists($_FILES['edit-item-file']['tmp_name']) || is_uploaded_file($_FILES['edit-item-file']['tmp_name'])) 
+if (file_exists($_FILES['add-item-file']['tmp_name']) || is_uploaded_file($_FILES['add-item-file']['tmp_name'])) 
 {
-  $name = $_FILES['edit-item-file']['name'];
+  $name = $_FILES['add-item-file']['name'];
   $target_dir = "../../img/upload/";
-  $target_file = $target_dir . basename($_FILES["edit-item-file"]["name"]);
+  $target_file = $target_dir . basename($_FILES["add-item-file"]["name"]);
   $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
   $extensions_arr = array("jpg","jpeg","png","gif");
-  
+
   // Check extension
-  if( in_array($imageFileType,$extensions_arr) ){
+  if(in_array($imageFileType,$extensions_arr)){
    $item->change_img($name,$item_id);
-   move_uploaded_file($_FILES['edit-item-file']['tmp_name'],$target_dir.$name);
+   move_uploaded_file($_FILES['add-item-file']['tmp_name'],$target_dir.$name);
   }
 }
