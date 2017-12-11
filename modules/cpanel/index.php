@@ -3,9 +3,9 @@
 <div class="">
   <div class="">
     <div class="row" style="margin-top: 24px; margin-bottom: 24px;">
-      <div class="col-lg-3 col-md-3">
+      <div class="col-lg-3 col-md-3 hidden-xs">
         <!-- Sidenav Filter Left -->
-          <div class="sidebar">
+          <div class="sidebar" style="margin-bottom: 16px;">
             <ul class="nav nav-stacked" style="background-color:#f9f9f9; ">
               <li class="bordered-s no-gap"><a class="thick washed roboto" href='index.php?mod=cpanel&t=items'>My Items<?php if($t == "items"){?><span class="pull-right glyphicon glyphicon-menu-right"></span><?php }?></a></li>
               <li class="bordered-s no-gap"><a class="thick washed roboto" href='index.php?mod=cpanel&t=orders'>Orders<?php if($t == "orders"){?><span class="pull-right glyphicon glyphicon-menu-right"></span><?php }?></a></li>

@@ -4,6 +4,7 @@ include 'classes/class.users.php';
 include 'classes/class.items.php';
 include 'classes/class.auth.php';
 include 'classes/class.brands.php';
+include 'classes/class.orders.php';
 
 $module = (isset($_GET['mod']) && $_GET['mod'] != '') ? $_GET['mod'] : '';
 $t = (isset($_GET['t']) && $_GET['t'] != '') ? $_GET['t'] : '';
@@ -13,6 +14,7 @@ $user = new Users();
 $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
+$order = new Orders();
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -63,6 +63,41 @@ class Items{
       }
     }
 
+    public function get_shop_items_search($search){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items WHERE item_name LIKE ?");
+      $val = '%'.$search.'%';
+      $query->bindParam(1,$val);
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+      $db = null;
+    }
+
+    public function get_shop_items_search_and_brand($search,$bid){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items WHERE item_name LIKE ? AND brand_id = ?");
+      $val = '%'.$search.'%';
+      $query->bindParam(1,$val);
+      $query->bindParam(2,$bid);
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+      $db = null;
+    }
+
     public function get_shop_items_by_brand($id){
       $sql = "SELECT * FROM items WHERE brand_id = '$id' AND item_status = '1'";
       $result = mysqli_query($this->db,$sql);
@@ -247,6 +282,7 @@ class Items{
     }
 
     public function insert_item($name,$desc,$price,$status,$bid){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
       $query = $db->prepare("INSERT INTO items(brand_id,item_name,item_description,item_price,item_status,created_at) VALUES(?,?,?,?,?,NOW())");
       $query->bindParam(1,$bid);
       $query->bindParam(2,$name);
@@ -255,7 +291,40 @@ class Items{
       $query->bindParam(5,$status);
       $query->execute();
       return $db->lastInsertId();
+      $db = null;
+    }
 
+    public function search_items($search){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items WHERE item_name LIKE ?");
+      $val = '%'.$search.'%';
+      $query->bindParam(1,$val);
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+      $db = null;
     }
     
+    public function shop_search_and_brand($search,$bid){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items WHERE item_name LIKE ?");
+      $val = '%'.$search.'%';
+      $query->bindParam(1,$val);
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      if(!empty($list)){
+        return $list;
+      }
+      $db = null;
+    }
 }

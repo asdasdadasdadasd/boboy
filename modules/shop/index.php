@@ -1,7 +1,6 @@
-<div class="container">
-  <a href="index.php?mod=shop">Shop</a>
+<div class="container-fluid" style="margin-top: 70px;">
 </div>
-<div style="margin-top: 24px;">
+<div style="margin-top: 50px;">
 <?php
 if(isset($_GET['item'])){?>
   <div class="">
@@ -15,118 +14,47 @@ if(isset($_GET['item'])){?>
 <div class="container">
   <div class="">
     <div class="">
-      <div class="row" style="margin-top: 24px; margin-bottom: 24px;">
-        <div class="col-lg-2 col-md-3">
-          <!-- Sidenav Filter Left -->
-            <div class="sidebar sidebar-shop panel">
-              <h5 class="sidebar-link">Filter By</h5>
-              <?php
+      <div class="row">
+        <div class="col-xs-12 col-lg-12 no-gap">
+          <div class="col-xs-3" style="margin-right:0;padding-right:0;">
+            Filter By
+            <?php
               $brands = $brand->get_brands();
               if($brands){
               ?>
-              <ul class="nav nav-stacked">
-              <li><a class="sidebar-link" href='index.php?mod=shop'>All</a></li>
+              <select id="shop-filter-by" class="form-control">
+                <option value="0" <?php echo isset($_GET['brand']) && $_GET['brand'] == null ? 'selected' : ''?>>All</option>
                 <?php
                 foreach($brands as $b){?>
-                  <li><a class="sidebar-link" href='index.php?mod=shop&brand=<?php echo $b['brand_id'];?>'><?php echo $b['brand_name'];?></a></li>
+                  <option value="<?php echo $b['brand_id'];?>" <?php echo isset($_GET['brand']) && $_GET['brand'] == $b['brand_id'] ? 'selected' : ''?>><?php echo $b['brand_name'];?></option>
                 <?php
                 }
                 ?>
-              </ul>
-              <?php
-              }
-              ?>
-            </div>
-            <!-- End of Sidenav -->
-        </div>
-        <!-- Shop Content/Item list -->
-        <div class="container-fluid">
-          <div class="col-lg-10 col-md-9">
-            <?php 
-            if(isset($_GET['brand'])){
-              $items = $item->get_shop_items_by_brand($_GET['brand']);
-              if($items){
-              ?>
-              <div class="row panel aligned-row">
-              <?php
-              foreach($items as $i) {
-                $img = $i['item_img'];
-              ?>
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
-                <div class="item-holder">
-                  <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                    <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$img;?>');">
-                    </div>
-                    <div class="item-brand">
-                      <?php echo $item->get_item_brand($i['brand_id']);?>
-                    </div>
-                    <div class="item-name">
-                      <?php echo $i['item_name'];?>
-                    </div>
-                    <div class="item-description">
-                      <?php echo $i['item_description'];?>
-                    </div>
-                    <div class="item-price">
-                      PHP <?php echo $i['item_price'];?>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <?php
-              }
-              ?>
-            </div>
-              <?php
-              }else{?>
-                <div class="row panel" style="padding-top: 200px; padding-bottom: 200px;">
-                    <h4 class="small text-center">No item to show<h4>
-                </div>
-              <?php
-              }
-            }else{
-              $items = $item->get_shop_items();
-              if($items){
-              ?>
-                <div class="row panel aligned-row">
-                    <?php
-                    foreach($items as $i) {
-                      $img = $i['item_img'];
-                    ?>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
-                      <div class="item-holder">
-                        <a href="<?php echo $url_str;?>&item=<?php echo $i['item_id'];?>">
-                          <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$img;?>');">
-                          </div>
-                          <div class="item-brand">
-                            <?php echo $item->get_item_brand($i['brand_id']);?>
-                          </div>
-                          <div class="item-name" title="<?php echo $i['item_name'];?>">
-                            <?php echo $i['item_name'];?>
-                          </div>
-                          <div class="item-description">
-                            <?php echo $i['item_description'];?>
-                          </div>
-                          <div class="item-price">
-                            PHP <?php echo $i['item_price'];?>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-              <?php
-              }else{?>
-                <div class="page-unavailable">
-                  <h2>Oops, it seems that the page you are trying to reach is not available.<h2>
-                </div>
-              <?php
-              }
+              </select>
+            <?php
             }
             ?>
           </div>
+          <div class="col-xs-9">
+            Search
+            <div class="">
+              <form id="shop-search-item" class="form-horizontal">
+                <div id="email-log" class="form-group">
+                  <div class="col-md-12">
+                    <input id="shop-search-value" name="shop-search-value" type="text" class="form-control" autocomplete="off" placeholder="Search" value="<?php if(isset($_GET['search'])){echo $_GET['search'];}?>">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="row" style="margin-bottom: 24px;">
+            
+        <!-- Shop Content/Item list -->
+        <div id="shop-ajax-content">
+        </div>
+        
         <!-- End of Shop/Item list -->
       </div>
     </div>

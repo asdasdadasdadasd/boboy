@@ -44,11 +44,123 @@ $('#add-item-price').on('keypress', function(e){
     /[0-9]/.test(String.fromCharCode(e.which)); // numbers
 });
 
+function removeURLParameter(url, parameter) {
+  //prefer to use l.search if you have a location/link object
+  var urlparts= url.split('?');   
+  if (urlparts.length>=2) {
+
+      var prefix= encodeURIComponent(parameter)+'=';
+      var pars= urlparts[1].split(/[&;]/g);
+
+      //reverse iteration as may be destructive
+      for (var i= pars.length; i-- > 0;) {    
+          //idiom for string.startsWith
+          if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
+              pars.splice(i, 1);
+          }
+      }
+
+      url= urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : "");
+      return url;
+  } else {
+      return url;
+  }
+}
+
+function insertParam(key, value){
+
+    key = encodeURI(key); value = encodeURI(value);
+
+    var kvp = document.location.search.substr(1).split('&');
+
+    var i=kvp.length; var x; while(i--) 
+    {
+        x = kvp[i].split('=');
+
+        if (x[0]==key)
+        {
+            x[1] = value;
+            kvp[i] = x.join('=');
+            break;
+        }
+    }
+
+    if(i<0) {kvp[kvp.length] = [key,value].join('=');}
+
+    //this will reload the page, it's likely better to store this until finished
+    document.location.search = kvp.join('&');  
+}
+
+var getUrlParameter = function getUrlParameter(sParam) {
+  var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+  for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+  }
+};
+
  // DOCUMENT READY //
 
 $(document).ready(function(){
 
+  displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
+
+  function displayShopItems(bid,search){
+    $.ajax({
+        url: "modules/shop/ajax.php",
+        method: "POST",
+        data:{
+          "display_shop": 1,
+          "brand_id": bid,
+          "search_val": search
+        },
+        success: function(data){
+          setTimeout(function() {
+            $("#shop-ajax-content").html(data);
+          }, 0);
+        }
+    });
+  };
+
+  $("#shop-search-item").on("submit",function(e){
+    e.preventDefault();
+    var search_value = $("#shop-search-value").val();
+    if(search_value == ""){
+      var originalURL = window.location.href;
+      window.location = removeURLParameter(originalURL,"search");
+    }else{
+      insertParam("search",search_value);
+    }
+  });
+
+  $('#shop-filter-by').bind('change', function (e) { // bind change event to select
+    var brand_id = $(this).val(); // get selected value
+    e.preventDefault();
+    if(brand_id == 0){
+      var originalURL = window.location.href;
+      window.location = removeURLParameter(originalURL,"brand");
+    }else{
+      insertParam("brand",brand_id);
+    }
+  });
+
+  $('#search-form').on("submit", function(e){
+    e.preventDefault();
+    var search_value = document.getElementById('cpanel-search-item').value;
+    if(search_value == ""){
+      window.location = "index.php?mod=cpanel&t=items";
+    }else{
+      window.location = "index.php?mod=cpanel&t=items&search="+search_value;
+    }
+  });
 
   $("#btn-delete-item").click(function(){
     var item_id = $(this).attr("value");
@@ -62,7 +174,7 @@ $(document).ready(function(){
       url: 'modules/cpanel/itemview_delete.php',
       method: 'POST',
       data:{
-        "delete_id": item_id
+        "delete_id": item_id,
       },
       success: function(data){
         if(data == "delete_success"){
@@ -87,8 +199,6 @@ $(document).ready(function(){
       processData: false,
       success: function(data){
         setTimeout(function(){
-          alert(data);
-          
           if(data == "insert_success"){
             $("#btn-add-item").prop("disabled", false);
             $('#loading-modal').modal('hide');
@@ -242,7 +352,7 @@ $(document).ready(function(){
       data: $(this).serialize(),
       success: function(d){
         if(d=="login_success"){
-          window.location = "index.php";
+          location.reload();
           $('#submit-login').prop('disabled', false);
         }
         if(d=="login_failed"){

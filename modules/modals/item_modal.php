@@ -4,10 +4,10 @@
 <!-- Modal -->
 <div class="modal" id="modal_session" role="dialog">
   <div class="vertical-alignment-helper">
-    <div class="modal-dialog vertical-align-center">
+    <div class="modal-dialog vertical-align-center" style="">
       
       <!-- Modal content-->
-      <div class="modal-content2">
+      <div class="modal-content2" style="margin-right: 5%; margin-left: 5%;">
         <div class="panel">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>

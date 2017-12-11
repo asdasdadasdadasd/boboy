@@ -1,14 +1,14 @@
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="container">
+            <div class="container-fluid">
                   <div class="panel panel-default">
                       <div class="panel-heading">
                           <h5 class="uppercase">Trending Sellers</h5>
                       </div>
                       <div class="panel-body">
-                          <div class="container-fluid" style="margin-top: 24px;">
+                          <div class="container-fluid" style="">
                               <div class="row aligned-row">
                                   <?php
                                   $home = $item->get_home_items();

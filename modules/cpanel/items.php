@@ -61,13 +61,36 @@ if(isset($_GET['action']) && $_GET['action'] == "new"){?>
 <div class="container-fluid">
 	<div class="row">
 		<section class="content roboto">
-      <div class="pull-right">
-					<button type="button" id="btn-new-item" class="btn btn-primary" style="font-size: 12px;">Search</button>
-          <a href="index.php?mod=cpanel&t=items&action=new" type="button" id="btn-new-item" class="btn btn-green" style="font-size: 12px;">Create a new item</a>
-			</div>
-      <div class="pull-left">
-			  <h4>My Items</h4>
+      <div class="container-fluid" style="padding: 0px 0px 8px 0px;">
+        <div class="row">
+          <div class="col-md-4 col-xs-12" style="padding-top: 8px;">
+            <h4 class="no-gap">My Items</h4>
+          </div>
+          <div class="col-md-8 col-xs-12 no-gap">
+            <div class="col-md-8 col-xs-9" style="padding-top: 8px;">
+              <form id="search-form">
+                <div class="form-group no-gap">
+                  <input type="text" id="cpanel-search-item" class="form-control" placeholder="Search" autocomplete="off" value="<?php if(isset($_GET['search'])){echo $_GET['search'];}?>" required>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-4 col-xs-3" style="padding-top: 8px;">
+              <div class="pull-right">
+                <a href="index.php?mod=cpanel&t=items&action=new" type="button" id="btn-new-item" class="btn btn-green" style="font-size: 12px;">Create a new item</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      
+      <?php
+      if(isset($_GET['search']) && $_GET['search'] != ""){
+        echo "Results for '".$_GET['search']."'";
+      }
+      ?>
+      <div class="pull-right">
+        
+			</div>
 			<div class="col-md-12 no-gap">
 				<div class="">
 					<div class="panel-body no-gap">
@@ -75,49 +98,95 @@ if(isset($_GET['action']) && $_GET['action'] == "new"){?>
 							<table class="table table-filter">
 								<tbody>
                 <?php
-                $mi = $item->my_items($_SESSION['brand_id']);
-                if($mi){
-                  foreach($mi as $mia){?>
-									<tr id="<?php echo $mia['item_id'];?>" class="item-select">
-										<td>
-											<div class="media">
-                        <?php
-                        if($mia['item_img'] != null){
-                        ?>
-                        <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$mia['item_img'];?>');">
-                        </div>	
-                        <?php 
-                        }else{?>
-                        <div class="media-photo pull-left" style="background-image: url('img/no-image.png');">
-
+                if(isset($_GET['search']) && $_GET['search'] != ""){
+                  $_search = $item->search_items($_GET['search']);
+                  if($_search){
+                    foreach($_search as $search){?>
+                    <tr id="<?php echo $search['item_id'];?>" class="item-select">
+                      <td>
+                        <div class="media">
+                          <?php
+                          if($search['item_img'] != null){
+                          ?>
+                          <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$search['item_img'];?>');">
+                          </div>	
+                          <?php 
+                          }else{?>
+                          <div class="media-photo pull-left" style="background-image: url('img/no-image.png');">
+                          </div>
+                          <?php
+                          }
+                          ?>
+                          <div class="media-body">
+                            <span class="media-meta pull-right"><?php $date = new DateTime($search['created_at']); echo $date->format('F j, Y'); ?></span>
+                            <h4 class="title">
+                              <?php echo $search['item_name'];
+                              if($search['item_status']==0){
+                                $stat = "negative";
+                              }else{
+                                $stat = "positive";
+                              }
+                              ?>
+                              <span class="pull-right <?php echo $stat;?>">(<?php if($search['item_status']==0){ echo "Unavailable";}else{ echo "Available";}?>)</span>
+                            </h4>
+                            <p class="summary"><?php echo $search['item_description'];?></p>
+                          </div>
                         </div>
-                        <?php
-                        }
-                        ?>
-												<div class="media-body">
-													<span class="media-meta pull-right"><?php $date = new DateTime($mia['created_at']); echo $date->format('F j, Y'); ?></span>
-													<h4 class="title">
-														<?php echo $mia['item_name'];
-														if($mia['item_status']==0){
-															$stat = "negative";
-														}else{
-															$stat = "positive";
-														}
-														?>
-														<span class="pull-right <?php echo $stat;?>">(<?php if($mia['item_status']==0){ echo "Unavailable";}else{ echo "Available";}?>)</span>
-													</h4>
-													<p class="summary"><?php echo $mia['item_description'];?></p>
-												</div>
-											</div>
-										</td>
-									</tr>
-                  <?php
+                      </td>
+                    </tr>
+                    <?php
                     }
                   }else{?>
                     <div class="no-item" style="padding-top: 100px; padding-bottom: 100px;border-top:1px solid #DEDEDE;">
-                    <h4 class="small text-center">No item to show<h4>
+                    <h4 class="small text-center">No results found<h4>
                     </div>
                   <?php
+                  }
+                }else{
+                  $mi = $item->my_items($_SESSION['brand_id']);
+                  if($mi){
+                    foreach($mi as $mia){?>
+                    <tr id="<?php echo $mia['item_id'];?>" class="item-select">
+                      <td>
+                        <div class="media">
+                          <?php
+                          if($mia['item_img'] != null){
+                          ?>
+                          <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$mia['item_img'];?>');">
+                          </div>	
+                          <?php 
+                          }else{?>
+                          <div class="media-photo pull-left" style="background-image: url('img/no-image.png');">
+
+                          </div>
+                          <?php
+                          }
+                          ?>
+                          <div class="media-body">
+                            <span class="media-meta pull-right"><?php $date = new DateTime($mia['created_at']); echo $date->format('F j, Y'); ?></span>
+                            <h4 class="title">
+                              <?php echo $mia['item_name'];
+                              if($mia['item_status']==0){
+                                $stat = "negative";
+                              }else{
+                                $stat = "positive";
+                              }
+                              ?>
+                              <span class="pull-right <?php echo $stat;?>">(<?php if($mia['item_status']==0){ echo "Unavailable";}else{ echo "Available";}?>)</span>
+                            </h4>
+                            <p class="summary"><?php echo $mia['item_description'];?></p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <?php
+                      }
+                    }else{?>
+                      <div class="no-item" style="padding-top: 100px; padding-bottom: 100px;border-top:1px solid #DEDEDE;">
+                      <h4 class="small text-center">No item to show<h4>
+                      </div>
+                    <?php
+                    }
                   }
                   ?>
 								</tbody>
