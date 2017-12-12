@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   KEY `id` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.items: ~7 rows (approximately)
+-- Dumping data for table db_sleepnotgo.items: ~8 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`item_id`, `brand_id`, `item_name`, `item_description`, `item_size`, `item_price`, `item_img`, `item_status`, `created_at`) VALUES
 	(16, 14, 'Hot Choco', 'Hot chocolate, also known as hot cocoa, drinking chocolate or just cocoa is a heated beverage consisting of shaved chocolate, melted chocolate or cocoa powder, heated milk or water, and usually a sweetener.', '', 65.00, 'R_Roasted_Coffee_Bean_Close_Up_1024x1024_c66b88fe-3fa7-4146-aa12-d7c2e5c1f3d4_grande.jpg', 1, '2017-12-07 10:49:10'),
