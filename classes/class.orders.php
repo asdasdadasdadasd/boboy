@@ -16,4 +16,34 @@ class Orders{
     }
     $db = null;
   }
+
+  public function get_order_details($oid){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("SELECT * FROM oitem,users,items WHERE order_id = ? AND oitem.usr_id = users.usr_id AND oitem.item_id = items.item_id");
+    $query->bindParam(1,$oid);
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+    $db = null;
+  }
+
+  public function get_order_customer_info($oid){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("SELECT usr_name,usr_address,usr_contact FROM oitem,users,items WHERE order_id = ? AND oitem.usr_id = users.usr_id AND oitem.item_id = items.item_id");
+    $query->bindParam(1,$oid);
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+    $db = null;
+  }
 }

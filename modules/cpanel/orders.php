@@ -1,7 +1,12 @@
 <div class="container-fluid">
 	<div class="row">
+    <?php
+    if(isset($_GET['o_id'])){
+      require_once 'modules/cpanel/order_details.php';
+    }else{
+    ?>
 		<div class="table-responsive">
-    <h4 class="no-gap" style="position:absolute;">Orders</h4>
+    <h4 class="no-gap" style="">Orders</h4>
       <table id="orders-table" style="margin-left:0;padding-left:0;" class="table mdl-data-table roboto table-responsive" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -17,8 +22,8 @@
           $orders = $order->view_brand_orders($_SESSION['brand_id']);
           if($orders){
             foreach($orders as $o){?>
-            <tr>
-              <td><?php echo time_elapsed_string($o['created_at']);?></td>
+            <tr id="<?php echo $o['order_id'];?>" class="select-order">
+              <td><?php echo $o['created_at'];?></td>
               <td><?php echo $o['usr_name'];?></td>
               <td><?php echo $o['usr_contact']?></td>
               <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
@@ -33,8 +38,8 @@
         </tbody>
       </table>
     </div>
+    <?php
+    }
+    ?>
 	</div>
 </div>
-<script>
-
-</script>

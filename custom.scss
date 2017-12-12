@@ -592,6 +592,29 @@ footer{
   .table-filter tr td:nth-child(2) {
     width: 35px;
   }
+
+  .table-filter2 {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  }
+  .table-filter2 tbody tr:hover {
+  }
+  .table-filter2 tbody tr td {
+
+    vertical-align: middle;
+    border-top-color: #eee;
+  }
+  .table-filter2 tbody tr.selected td {
+    background-color: #eee;
+  }
+  .table-filter2 tr td:first-child {
+    width: 38px;
+  }
+  .table-filter2 tr td:nth-child(2) {
+    width: 35px;
+  }
+
+
   .ckbox {
     position: relative;
   }
@@ -682,6 +705,70 @@ footer{
   .table-filter .media .summary {
     font-size: 13px;
   }
+
+  
+
+
+
+
+  .table-filter2 .star {
+    color: #ccc;
+    text-align: center;
+    display: block;
+  }
+  .table-filter2 .star.star-checked {
+    color: #F0AD4E;
+  }
+  .table-filter2 .star:hover {
+    color: #ccc;
+  }
+  .table-filter2 .star.star-checked:hover {
+    color: #F0AD4E;
+  }
+  .table-filter2 .media-photo {
+    height: 45px;
+    width: 45px;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: 10px;
+    border-radius: 2px;
+  }
+  .table-filter2 .media-meta {
+    font-size: 11px;
+    color: #999;
+  }
+  .table-filter2 .media .title {
+    color: #2BBCDE;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Roboto';
+    line-height: normal;
+    margin-bottom: 4px;
+    margin-top: 0;
+  }
+  .table-filter2 .media .title span {
+    font-size: .8em;
+    margin-right: 20px;
+  }
+  .table-filter2 .media .title span.positive {
+    color: #5cb85c;
+  }
+  .table-filter2 .media .title span.warning {
+    color: #f0ad4e;
+  }
+  .table-filter2 .media .title span.negative {
+    color: #d9534f;
+  }
+  .table-filter2 .media .summary {
+    font-size: 13px;
+  }
+
+
+
+
+
   .summary{
     text-overflow: ellipsis;    
       /* Required for text-overflow to do anything */

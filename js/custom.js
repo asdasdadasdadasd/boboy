@@ -111,17 +111,16 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 $(document).ready(function(){
 
+  $('body').on("click",".select-order", function(e){
+    var oid = $(this).attr("id");
+    window.location = "/sng/?mod=cpanel&t=orders&o_id="+oid;
+  });
+
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
-  $(document).ready(function() {
-    $('#orders-table').dataTable({
-      responsive:true,
-      "bPaginate": false,
-      "bLengthChange": false,
-      "bFilter": true,
-      "bInfo": false,
-      "bAutoWidth": false 
-    });
+
+  $('#orders-table').dataTable({
+    responsive:true
   });
 
   function displayShopItems(bid,search){
