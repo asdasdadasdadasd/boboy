@@ -17,7 +17,7 @@ if(isset($_GET['item'])){?>
       <div class="row">
         <div class="col-lg-2 no-gap">
           <div class="container-fluid" style="background-color: blue;">
-            asd
+            Active Shops
           </div>
         </div>
         <div class="col-lg-10 no-gap">
