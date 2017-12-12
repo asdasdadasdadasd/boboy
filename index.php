@@ -90,7 +90,7 @@ function time_elapsed_string($datetime, $full = false) {
         </div>
         <div id="navbar" class="collapse navbar-collapse roboto">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="/sng" class="uppercase">Homeasd</a></li>
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="/sng" class="uppercase">Home</a></li>
             <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="/sng/?mod=shop" class="uppercase">Shop</a></li>
             <?php
             if($user->get_session()){?>
