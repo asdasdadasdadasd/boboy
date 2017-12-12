@@ -15,6 +15,37 @@ $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
 $order = new Orders();
+$currency = "₱";
+
+function time_elapsed_string($datetime, $full = false) {
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
+
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
+
+  $string = array(
+      'y' => 'year',
+      'm' => 'month',
+      'w' => 'week',
+      'd' => 'day',
+      'h' => 'hour',
+      'i' => 'minute',
+      's' => 'second',
+  );
+  foreach ($string as $k => &$v) {
+      if ($diff->$k) {
+          $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+      } else {
+          unset($string[$k]);
+      }
+  }
+
+  if (!$full) $string = array_slice($string, 0, 1);
+  return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +64,8 @@ $order = new Orders();
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/datatables.material.min.css" rel="stylesheet">
+    <link href="css/material.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="custom.scss" rel="stylesheet" type="text/css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -52,20 +85,20 @@ $order = new Orders();
             <span class="icon-bar"></span>
           </button>
           <div style="margin-left: 24px;">
-            <a class="navbar-brand example6" href="index.php"></a>
+            <a class="navbar-brand example6" href="/sng"></a>
           </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse roboto">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="index.php" class="uppercase">Home</a></li>
-            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="index.php?mod=shop" class="uppercase">Shop</a></li>
+            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="/sng" class="uppercase">Home</a></li>
+            <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="/sng/?mod=shop" class="uppercase">Shop</a></li>
             <?php
             if($user->get_session()){?>
               <?php 
               if($_SESSION['usr_auth'] == 1){
               ?>
               <li class="<?php if($module==cart){ echo "active";}else{ echo '';}?>">
-                <a class="uppercase" href="index.php?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Cart (<?php echo $item->count_cart($_SESSION['usr_id'])?>)</a>
+                <a class="uppercase" href="/sng/?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Cart (<?php echo $item->count_cart($_SESSION['usr_id'])?>)</a>
               </li>
               <?php
               }
@@ -86,10 +119,10 @@ $order = new Orders();
                   <?php
                   if($_SESSION['usr_auth'] == 1){
                   ?>
-                  <li style=""><a href="index.php?mod=profile">My Profile</a></li>
+                  <li style=""><a href="/sng/?mod=profile">My Profile</a></li>
                   <?php
                   }else{?>
-                    <li style=""><a href="index.php?mod=cpanel">Control Panel</a></li>
+                    <li style=""><a href="/sng/?mod=cpanel">Control Panel</a></li>
                   <?php
                   }
                   ?>
@@ -111,8 +144,8 @@ $order = new Orders();
       ?>
       <div class="nav-helper">
         <div class="container">
-          <a class="shop-directory" href="index.php?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> / <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
-                <a class="shop-directory" href="index.php?mod=shop&brand=<?php echo $_GET['brand'];?>">
+          <a class="shop-directory" href="/sng/?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> / <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
+                <a class="shop-directory" href="/sng/?mod=shop&brand=<?php echo $_GET['brand'];?>">
                 <?php
                 echo $item->get_item_brand($_GET['brand']);
                 ?>
@@ -131,7 +164,7 @@ $order = new Orders();
                 }
                 ?>
               <?php
-              }else{?><a class="shop-directory" href="index.php?mod=shop"><?php echo "All";?></a><?php
+              }else{?><a class="shop-directory" href="/sng/?mod=shop"><?php echo "All";?></a><?php
                 if(isset($_GET['item'])){
                   $s = $item->check_item_status($_GET['item']);
                   if($s == 1){?>
@@ -146,7 +179,7 @@ $order = new Orders();
               }
             }else if($_GET['mod']=="cpanel"){
               if(isset($_GET['t'])){?>
-                <a class="shop-directory" href="index.php?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>/<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
+                <a class="shop-directory" href="/sng/?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>/<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
             <?php 
                 }
               }
@@ -213,8 +246,8 @@ $order = new Orders();
                 <div class="col-sm-3">
                     <h5>Get started</h5>
                     <ul>
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="index.php?mod=register">Register</a></li>
+                        <li><a href="/sng/">Home</a></li>
+                        <li><a href="/sng/?mod=register">Register</a></li>
                         <li><a href="#">Downloads</a></li>
                     </ul>
                 </div>
@@ -244,7 +277,7 @@ $order = new Orders();
         </div>
         <div class="second-bar">
            <div class="container">
-                <h2 class="logo"><a class="navbar-brand example6" style="width: 50px;" href="index.php"></a></h2><span style="width: 10px;" >Copyright 2017</span>
+                <h2 class="logo"><a class="navbar-brand example6" style="width: 50px;" href="/sng/"></a></h2><span style="width: 10px;" >Copyright 2017</span>
                 <div class="social-icons">
                     <a href="#" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
                     <a href="https://www.facebook.com/iamsleepnot/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -265,7 +298,10 @@ $order = new Orders();
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
+    <script src="js/datatables.min.js"></script>
+    <script src="js/dataTables.material.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
+
   </body>
 </html>

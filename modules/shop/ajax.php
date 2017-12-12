@@ -33,14 +33,14 @@ if(isset($_POST['display_shop'])){
       foreach($items as $i) {
         $img = $i['item_img'];
       ?>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 shop-margin">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 shop-margin">
         <div class="item-holder">
           <?php
           if(isset($_POST['brand_id']) && $_POST['brand_id'] != ""){?>
-            <a href="index.php?mod=shop&brand=<?php echo $_POST['brand_id'];?>&item=<?php echo $i['item_id'];?>">
+            <a href="/sng/?mod=shop&brand=<?php echo $_POST['brand_id'];?>&item=<?php echo $i['item_id'];?>">
           <?php
           }else{?>
-            <a href="index.php?mod=shop&item=<?php echo $i['item_id'];?>">
+            <a href="/sng/?mod=shop&item=<?php echo $i['item_id'];?>">
           <?php
           }
           ?>
@@ -69,7 +69,7 @@ if(isset($_POST['display_shop'])){
       <?php
       }else{?>
         <div class="row panel" style="padding-top: 200px; padding-bottom: 200px;">
-            <h4 class="small text-center">No results found for '<?php echo $_POST['search_val'];?>'<h4>
+            <h4 class="small text-center">No results found<h4>
         </div>
       <?php
       }

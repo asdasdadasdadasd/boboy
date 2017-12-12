@@ -1,19 +1,16 @@
-ORDERS
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="table-responsive">
-      <table class="table table-bordered">
+    <h4 class="no-gap" style="position:absolute;">Orders</h4>
+      <table id="orders-table" style="margin-left:0;padding-left:0;" class="table mdl-data-table roboto table-responsive" cellspacing="0" width="100%">
         <thead>
-          <tr>
-            <th>Date</th>
-            <th>Full Name</th>
-            <th>Full Name</th>
-            <th>Address</th>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Status</th>
-          </tr>
+            <tr>
+                <th style="text-align:center;">Date Ordered</th>
+                <th style="text-align:center;">Customer Name</th>
+                <th style="text-align:center;">Contact #</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
         <?php
@@ -21,12 +18,10 @@ ORDERS
           if($orders){
             foreach($orders as $o){?>
             <tr>
-              <td><?php echo $o['created_at'];?></td>
+              <td><?php echo time_elapsed_string($o['created_at']);?></td>
               <td><?php echo $o['usr_name'];?></td>
-              <td></td>
-              <td><?php echo $o['usr_address']?></td>
-              <td><?php echo $o['created_at'];?></td>
-              <td>$899.00</td>
+              <td><?php echo $o['usr_contact']?></td>
+              <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
               <td><span class="label label-info"><?php echo $o['order_status'];?></span></td>
             </tr>
             <?php
@@ -40,3 +35,6 @@ ORDERS
     </div>
 	</div>
 </div>
+<script>
+
+</script>

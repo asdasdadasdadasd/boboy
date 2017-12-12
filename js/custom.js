@@ -1,5 +1,6 @@
  // Custom JavaScript //
 
+
 function remove_cart_show(c_id){
   $("#cart_modal").modal();
   document.getElementById('id_remove').value = c_id;
@@ -112,6 +113,16 @@ $(document).ready(function(){
 
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
+  $(document).ready(function() {
+    $('#orders-table').dataTable({
+      responsive:true,
+      "bPaginate": false,
+      "bLengthChange": false,
+      "bFilter": true,
+      "bInfo": false,
+      "bAutoWidth": false 
+    });
+  });
 
   function displayShopItems(bid,search){
     $.ajax({
