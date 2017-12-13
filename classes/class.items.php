@@ -53,7 +53,7 @@ class Items{
     }
 
     public function get_shop_items(){
-      $sql = "SELECT * FROM items WHERE item_status = '1'";
+      $sql = "SELECT * FROM items,brands WHERE item_status = '1' AND brand_status = '1' AND items.brand_id = brands.brand_id";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -65,7 +65,7 @@ class Items{
 
     public function get_shop_items_search($search){
       $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
-      $query = $db->prepare("SELECT * FROM items WHERE item_name LIKE ?");
+      $query = $db->prepare("SELECT * FROM items,brands WHERE item_name LIKE ? AND items.brand_id = brands.brand_id AND brand_status = '1'");
       $val = '%'.$search.'%';
       $query->bindParam(1,$val);
       $query->execute();
@@ -99,7 +99,7 @@ class Items{
     }
 
     public function get_shop_items_by_brand($id){
-      $sql = "SELECT * FROM items WHERE brand_id = '$id' AND item_status = '1'";
+      $sql = "SELECT * FROM items,brands WHERE brands.brand_id = '$id' AND item_status = '1' AND brands.brand_id = items.brand_id AND brand_status = '1'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;
@@ -110,7 +110,7 @@ class Items{
     }
 
     public function check_availability($id){
-      $sql = "SELECT item_name FROM items WHERE item_status = '1' AND item_id = '$id'";
+      $sql = "SELECT item_name FROM items,brands WHERE item_status = '1' AND item_id = '$id' AND items.brand_id = brands.brand_id AND brand_status = '1'";
       $result = mysqli_query($this->db,$sql);
       $row = mysqli_fetch_assoc($result);
       $value = $row['item_name'];
@@ -152,7 +152,7 @@ class Items{
     }
 
     public function get_item($id){
-      $sql = "SELECT * FROM items WHERE item_id = '$id' AND item_status = '1'";
+      $sql = "SELECT * FROM items,brands WHERE item_id = '$id' AND item_status = '1' AND items.brand_id = brands.brand_id AND brand_status = '1'";
       $result = mysqli_query($this->db,$sql);
       while($row = mysqli_fetch_array($result)){
         $list[] = $row;

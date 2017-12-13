@@ -110,6 +110,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
  // DOCUMENT READY //
 
 $(document).ready(function(){
+  showShopStatus();
 
   $('body').on("click",".select-order", function(e){
     var oid = $(this).attr("id");
@@ -119,9 +120,9 @@ $(document).ready(function(){
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
 
-  $('#orders-table').dataTable({
-    responsive:true
-  });
+  $('#orders-table').DataTable( {
+    "bSort" : false
+} );
 
   function displayShopItems(bid,search){
     $.ajax({
@@ -135,6 +136,62 @@ $(document).ready(function(){
         success: function(data){
           setTimeout(function() {
             $("#shop-ajax-content").html(data);
+          }, 0);
+        }
+    });
+  };
+
+  $("#id-name--1").change(function(){
+    var bid = $("#shop-cpanel-id").attr("value");
+    if (this.checked) {
+      $.ajax({
+        url: "modules/cpanel/ajax.php",
+        method: "POST",
+        data:{
+          "change_status": 1,
+          "brand_id":bid,
+          "checked": 1
+        },
+        success: function(data){
+          showShopStatus();
+        }
+      });
+    }else{
+      $.ajax({
+        url: "modules/cpanel/ajax.php",
+        method: "POST",
+        data:{
+          "change_status": 1,
+          "brand_id":bid,
+          "checked": 0
+        },
+        success: function(data){
+          showShopStatus();
+        }
+      });
+    }
+  });
+
+  function showShopStatus(){
+    var bid = $("#shop-cpanel-id").attr("value");
+    $.ajax({
+        url: "modules/cpanel/ajax.php",
+        method: "POST",
+        data:{
+          "show_status": 1,
+          "brand_id":bid
+        },
+        success: function(data){
+          setTimeout(function() {
+            if(data == 1){
+              $("#show-shop-status").html("Online");
+              $("#id-name--1").prop('checked', true);
+            }
+            if(data == 0){
+              $("#show-shop-status").html("Offline");
+              $("#id-name--1").prop('checked', false);
+            }
+            
           }, 0);
         }
     });

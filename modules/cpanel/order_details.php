@@ -9,7 +9,7 @@ if(isset($_GET['o_id'])){
         <div class="container-fluid" style="padding: 0px 0px 8px 0px;">
           <div class="row">
             <div class="col-md-12 col-xs-12" style="padding-top: 8px;">
-              <h4 class="no-gap">Order Details</h4>
+              <h4 class="no-gap">Order Details <?php echo $order->get_order_datetime($_GET['o_id']);?></h4>
               <label style="background-color: #eaeaea; width: 100%;display:inline-block;">Customer</label>
               <h5 class="no-gap"><?php echo $oci['usr_name'];?></h5>
               <label class="">Address</label>

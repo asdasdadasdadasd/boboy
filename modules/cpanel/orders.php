@@ -5,8 +5,8 @@
       require_once 'modules/cpanel/order_details.php';
     }else{
     ?>
-		<div class="table-responsive">
-    <h4 class="no-gap" style="">Orders</h4>
+		<div class="table-responsive roboto">
+    <h4 class="no-gap" style="">Orders <?php echo "2017-12-13 11:29:38";?></h4>
       <table id="orders-table" style="margin-left:0;padding-left:0;" class="table mdl-data-table roboto table-responsive" cellspacing="0" width="100%">
         <thead>
             <tr>
@@ -23,7 +23,7 @@
           if($orders){
             foreach($orders as $o){?>
             <tr id="<?php echo $o['order_id'];?>" class="select-order">
-              <td><?php echo $o['created_at'];?></td>
+              <td><?php echo time_elapsed_string($o['date_ordered']);?></td>
               <td><?php echo $o['usr_name'];?></td>
               <td><?php echo $o['usr_contact']?></td>
               <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
@@ -31,8 +31,6 @@
             </tr>
             <?php
             }
-          }else{
-            echo "No Orders";
           }
         ?>
         </tbody>

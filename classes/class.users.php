@@ -26,6 +26,13 @@ class Users{
       return $count;
     }
 
+    public function remove_cart_unavailable($bid){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("DELETE cart FROM cart INNER JOIN items ON cart.item_id = items.item_id WHERE brand_id = ?");
+      $query->bindParam(1,$bid);
+      return $query->execute();
+    }
+
     public function register_credentials($name,$email,$pwd,$auth,$status){
       $sql = "INSERT INTO users(usr_name,usr_email,usr_password,usr_auth,usr_status) VALUES('$name','$email','$pwd','$auth','$status')";
       $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");

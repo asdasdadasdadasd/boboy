@@ -46,6 +46,116 @@ function time_elapsed_string($datetime, $full = false) {
   return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
+function get_time_ago($time_stamp)
+{
+    $time_difference = strtotime('now') - $time_stamp;
+
+    if ($time_difference >= 60 * 60 * 24 * 365.242199)
+    {
+        /*
+         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 365.242199 days/year
+         * This means that the time difference is 1 year or more
+         */
+        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 365.242199, 'year');
+    }
+    elseif ($time_difference >= 60 * 60 * 24 * 30.4368499)
+    {
+        /*
+         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 30.4368499 days/month
+         * This means that the time difference is 1 month or more
+         */
+        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 30.4368499, 'month');
+    }
+    elseif ($time_difference >= 60 * 60 * 24 * 7)
+    {
+        /*
+         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 7 days/week
+         * This means that the time difference is 1 week or more
+         */
+        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 7, 'week');
+    }
+    elseif ($time_difference >= 60 * 60 * 24)
+    {
+        /*
+         * 60 seconds/minute * 60 minutes/hour * 24 hours/day
+         * This means that the time difference is 1 day or more
+         */
+        return get_time_ago_string($time_stamp, 60 * 60 * 24, 'day');
+    }
+    elseif ($time_difference >= 60 * 60)
+    {
+        /*
+         * 60 seconds/minute * 60 minutes/hour
+         * This means that the time difference is 1 hour or more
+         */
+        return get_time_ago_string($time_stamp, 60 * 60, 'hour');
+    }
+    else
+    {
+        /*
+         * 60 seconds/minute
+         * This means that the time difference is a matter of minutes
+         */
+        return get_time_ago_string($time_stamp, 60, 'minute');
+    }
+}
+
+function get_time_ago_string($time_stamp, $divisor, $time_unit)
+{
+    $time_difference = strtotime("now") - $time_stamp;
+    $time_units      = floor($time_difference / $divisor);
+
+    settype($time_units, 'string');
+
+    if ($time_units === '0')
+    {
+        return 'less than 1 ' . $time_unit . ' ago';
+    }
+    elseif ($time_units === '1')
+    {
+        return '1 ' . $time_unit . ' ago';
+    }
+    else
+    {
+        /*
+         * More than "1" $time_unit. This is the "plural" message.
+         */
+        // TODO: This pluralizes the time unit, which is done by adding "s" at the end; this will not work for i18n!
+        return $time_units . ' ' . $time_unit . 's ago';
+    }
+}
+
+
+function time2string($timeline) {
+  $periods = array('day' => 86400, 'hour' => 3600, 'minute' => 60, 'second' => 1);
+
+  foreach($periods AS $name => $seconds){
+      $num = floor($timeline / $seconds);
+      $timeline -= ($num * $seconds);
+      $ret .= $num.' '.$name.(($num > 1) ? 's' : '').' ';
+  }
+
+  return trim($ret);
+}
+
+function time_ago(Datetime $date) {
+  $time_ago = '';
+
+  $diff = $date->diff(new Datetime('now'));
+
+
+  if (($t = $diff->format("%m")) > 0)
+    $time_ago = $t . ' months';
+  else if (($t = $diff->format("%d")) > 0)
+    $time_ago = $t . ' days';
+  else if (($t = $diff->format("%H")) > 0)
+    $time_ago = $t . ' hours';
+  else
+    $time_ago = 'minutes';
+
+  return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +176,7 @@ function time_elapsed_string($datetime, $full = false) {
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/datatables.material.min.css" rel="stylesheet">
     <link href="css/material.min.css" rel="stylesheet">
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="custom.scss" rel="stylesheet" type="text/css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -298,6 +409,7 @@ function time_elapsed_string($datetime, $full = false) {
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
     <script src="js/datatables.min.js"></script>
     <script src="js/dataTables.material.js"></script>
     <script src="js/bootstrap.min.js"></script>

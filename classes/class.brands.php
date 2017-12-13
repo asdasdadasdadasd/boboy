@@ -21,6 +21,26 @@ class Brands{
     }
   }
 
+  public function change_brand_status($bid,$status){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("UPDATE brands SET brand_status = ? WHERE brand_id = ?");
+    $query->bindParam(1,$status);
+    $query->bindParam(2,$bid);
+    $query->execute();
+  }
+
+  
+  public function get_brand_status($id){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("SELECT brand_status FROM brands WHERE brand_id = ?");
+    $query->bindParam(1,$id);
+    $query->execute();
+
+    $row = $query->fetch(PDO::FETCH_ASSOC);
+    $value = $row['brand_status'];
+    return $value;
+  }
+
   public function add_brand($value){
     $sql = "INSERT INTO brands(brand_name) VALUES('$value')";
     $result = mysqli_query($this->db,$sql) or die(mysql_error() . "Cannot Insert Data");
