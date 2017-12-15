@@ -3,9 +3,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="container-fluid">
-                  <div class="panel panel-default">
+                  <div class="panel panel-default" style="border:1px solid #ddd;">
                       <div class="panel-heading">
-                          <h5 class="uppercase">Trending Sellers</h5>
+                          <span class="uppercase">Trending Sellers</span>
                       </div>
                       <div class="panel-body">
                           <div class="container-fluid" style="">

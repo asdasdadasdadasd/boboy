@@ -1,6 +1,32 @@
  // Custom JavaScript //
+ var counter = 0;
+ var counter_holder = 0;
 
-
+ function showShopStatus(){
+  var bid = $("#shop-cpanel-id").attr("value");
+  $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "show_status": 1,
+        "brand_id":bid
+      },
+      success: function(data){
+        setTimeout(function() {
+          if(data == 1){
+            $("#show-shop-status").html("Online");
+            $("#id-name--1").prop('checked', true);
+            $("#status-indicator").removeClass("orange").addClass("green");
+          }
+          if(data == 0){
+            $("#show-shop-status").html("Offline");
+            $("#id-name--1").prop('checked', false);
+            $("#status-indicator").removeClass("green").addClass("orange");
+          }
+        }, 0);
+      }
+  });
+};
 function remove_cart_show(c_id){
   $("#cart_modal").modal();
   document.getElementById('id_remove').value = c_id;
@@ -24,6 +50,10 @@ $("#item-unavailable").on("hidden.bs.modal", function () {
 });
 
 $("#update-complete-modal").on("hidden.bs.modal", function () {
+  reloadPage();
+});
+
+$("#error-modal").on("hidden.bs.modal", function () {
   reloadPage();
 });
 
@@ -107,23 +137,70 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
+
+
+
+
  // DOCUMENT READY //
 
 $(document).ready(function(){
+ 
+
+  showActiveShops();
   showShopStatus();
-
-  $('body').on("click",".select-order", function(e){
-    var oid = $(this).attr("id");
-    window.location = "/sng/?mod=cpanel&t=orders&o_id="+oid;
-  });
-
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
+
+  function showActiveShops(){
+    $.ajax({
+      url: "modules/shop/ajax.php",
+      method: "POST",
+      data:{
+        "display_active_shops":1
+      },
+      success:function(data){
+        $("#active-shops-container").html(data);
+        //alert("asd");
+        //setTimeout(showActiveShops,2000);
+      }
+    });
+  }
+
+  
+  
+
+  
+
+  function realtimeCheckShops(){
+    
+    $.ajax({
+      url: "modules/shop/ajax.php",
+      method: "POST",
+      data: {
+        "realtime_shop_popup":1
+      },
+      success:function(data){
+        if(data == "1"){
+          
+          //alert("nag 1 siya");
+        }
+
+      }
+    });
+  }
+    
+  
   displayCartTable();
+
+
 
   $('#orders-table').DataTable( {
     "bSort" : false
 } );
 
+  $('body').on("click",".select-order", function(e){
+    var oid = $(this).attr("id");
+    window.location = "/sng/?mod=cpanel&t=orders&o_id="+oid;
+  });
   function displayShopItems(bid,search){
     $.ajax({
         url: "modules/shop/ajax.php",
@@ -172,30 +249,7 @@ $(document).ready(function(){
     }
   });
 
-  function showShopStatus(){
-    var bid = $("#shop-cpanel-id").attr("value");
-    $.ajax({
-        url: "modules/cpanel/ajax.php",
-        method: "POST",
-        data:{
-          "show_status": 1,
-          "brand_id":bid
-        },
-        success: function(data){
-          setTimeout(function() {
-            if(data == 1){
-              $("#show-shop-status").html("Online");
-              $("#id-name--1").prop('checked', true);
-            }
-            if(data == 0){
-              $("#show-shop-status").html("Offline");
-              $("#id-name--1").prop('checked', false);
-            }
-            
-          }, 0);
-        }
-    });
-  };
+  
 
   $("#shop-search-item").on("submit",function(e){
     e.preventDefault();
@@ -321,6 +375,9 @@ $(document).ready(function(){
         if(data == "order_success"){
           $("#cart_success").modal();
           displayCartTable();
+        }
+        if(data == "empty_cart"){
+          $("#error-modal").modal();
         }
       }
     });
@@ -468,4 +525,14 @@ $(document).ready(function(){
     });
   });
   //-- End Register Ajax --//
+
+
+
+  (function realtimeCheck() {
+    realtimeCheckShops();
+    showActiveShops();
+    displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
+       setTimeout(realtimeCheck, 2000);
+    }());
+
 });

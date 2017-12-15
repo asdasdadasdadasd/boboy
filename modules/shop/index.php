@@ -16,14 +16,13 @@ if(isset($_GET['item'])){?>
     <div class="">
       <div class="row">
         <div class="col-lg-2 no-gap">
-          <div class="container-fluid" style="background-color: blue;">
-            Active Shops
+          <div id="active-shops-container" class="container-fluid">
           </div>
         </div>
         <div class="col-lg-10 no-gap">
           <div class="col-xs-12 col-lg-12 no-gap">
             <div class="col-xs-3" style="margin-right:0;padding-right:0;">
-              Filter By
+              <span style="font-weight: 500;font-size:13px;color:rgba(0,0,0,0.65);">Filter By</span>
               <?php
                 $brands = $brand->get_brands();
                 if($brands){
@@ -32,7 +31,7 @@ if(isset($_GET['item'])){?>
                   <option value="0" <?php echo isset($_GET['brand']) && $_GET['brand'] == null ? 'selected' : ''?>>All</option>
                   <?php
                   foreach($brands as $b){?>
-                    <option value="<?php echo $b['brand_id'];?>" <?php echo isset($_GET['brand']) && $_GET['brand'] == $b['brand_id'] ? 'selected' : ''?>><?php echo $b['brand_name'];?></option>
+                    <option style="padding: 25px !important;margin:24px !important;" value="<?php echo $b['brand_id'];?>" <?php echo isset($_GET['brand']) && $_GET['brand'] == $b['brand_id'] ? 'selected' : ''?>><?php echo $b['brand_name'];?></option>
                   <?php
                   }
                   ?>
@@ -42,7 +41,7 @@ if(isset($_GET['item'])){?>
               ?>
             </div>
             <div class="col-xs-9">
-              Search
+              <span style="font-weight: 500;font-size:13px;color:rgba(0,0,0,0.65);">Search</span>
               <div class="">
                 <form id="shop-search-item" class="form-horizontal">
                   <div id="email-log" class="form-group">

@@ -21,12 +21,42 @@ class Brands{
     }
   }
 
-  public function change_brand_status($bid,$status){
+  public function change_brand_status($bid,$status,$checker){
     $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
-    $query = $db->prepare("UPDATE brands SET brand_status = ? WHERE brand_id = ?");
+    $query = $db->prepare("UPDATE brands SET brand_status = ?, update_checker = ? WHERE brand_id = ?");
     $query->bindParam(1,$status);
-    $query->bindParam(2,$bid);
+    $query->bindParam(2,$checker);
+    $query->bindParam(3,$bid);
     $query->execute();
+  }
+  
+  public function realtime_brand_checker(){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("SELECT * FROM brands WHERE update_checker = 1");
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+    $db = null;
+  }
+
+
+  public function get_all_brand_status(){
+    $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+    $query = $db->prepare("SELECT * FROM brands");
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+    $db = null;
   }
 
   

@@ -16,5 +16,7 @@ if(isset($_POST['submit_order'])){
     $item->empty_cart($fixed_usr);
     echo "order_success";
     exit;
+  }else{
+    echo "empty_cart";
   }
 }

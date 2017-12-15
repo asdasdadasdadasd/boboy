@@ -105,13 +105,13 @@
         <div class="panel">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" style="color:green;font-weight:500;">SleepNotGo</h4>
+            <h4 class="modal-title">SleepNotGo</h4>
           </div>
           <div class="modal-body">
             <p>Updated successfully</p>
           </div>
           <div class="modal-footer" style="border: none;">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-dialog" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -161,6 +161,55 @@
           <div class="modal-footer" style="border: none;">
             <button type="button" class="btn btn-inverse" data-dismiss="modal">Cancel</button>
             <button type="button" id="btn-delete-item-true" class="btn btn-red">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="error-modal" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      
+      <!-- Modal content-->
+      <div class="modal-content2">
+        <div class="panel">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="color:red;font-weight:500;">Failed</h4>
+          </div>
+          <div class="modal-body">
+            <p>An error occured, please try again.</p>
+          </div>
+          <div class="modal-footer" style="border: none;">
+            <button type="button" class="btn btn-inverse" data-dismiss="modal">CLOSE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="mic-test" role="dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
+      
+      <!-- Modal content-->
+      <div class="modal-content2">
+        <div class="panel">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">SleepNotGo</h4>
+          </div>
+          <div class="modal-body">
+            <p>Ron</p>
+          </div>
+          <div class="modal-footer" style="border: none;">
+            <button type="button" class="btn btn-dialog" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

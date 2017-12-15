@@ -45,117 +45,6 @@ function time_elapsed_string($datetime, $full = false) {
   if (!$full) $string = array_slice($string, 0, 1);
   return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
-
-function get_time_ago($time_stamp)
-{
-    $time_difference = strtotime('now') - $time_stamp;
-
-    if ($time_difference >= 60 * 60 * 24 * 365.242199)
-    {
-        /*
-         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 365.242199 days/year
-         * This means that the time difference is 1 year or more
-         */
-        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 365.242199, 'year');
-    }
-    elseif ($time_difference >= 60 * 60 * 24 * 30.4368499)
-    {
-        /*
-         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 30.4368499 days/month
-         * This means that the time difference is 1 month or more
-         */
-        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 30.4368499, 'month');
-    }
-    elseif ($time_difference >= 60 * 60 * 24 * 7)
-    {
-        /*
-         * 60 seconds/minute * 60 minutes/hour * 24 hours/day * 7 days/week
-         * This means that the time difference is 1 week or more
-         */
-        return get_time_ago_string($time_stamp, 60 * 60 * 24 * 7, 'week');
-    }
-    elseif ($time_difference >= 60 * 60 * 24)
-    {
-        /*
-         * 60 seconds/minute * 60 minutes/hour * 24 hours/day
-         * This means that the time difference is 1 day or more
-         */
-        return get_time_ago_string($time_stamp, 60 * 60 * 24, 'day');
-    }
-    elseif ($time_difference >= 60 * 60)
-    {
-        /*
-         * 60 seconds/minute * 60 minutes/hour
-         * This means that the time difference is 1 hour or more
-         */
-        return get_time_ago_string($time_stamp, 60 * 60, 'hour');
-    }
-    else
-    {
-        /*
-         * 60 seconds/minute
-         * This means that the time difference is a matter of minutes
-         */
-        return get_time_ago_string($time_stamp, 60, 'minute');
-    }
-}
-
-function get_time_ago_string($time_stamp, $divisor, $time_unit)
-{
-    $time_difference = strtotime("now") - $time_stamp;
-    $time_units      = floor($time_difference / $divisor);
-
-    settype($time_units, 'string');
-
-    if ($time_units === '0')
-    {
-        return 'less than 1 ' . $time_unit . ' ago';
-    }
-    elseif ($time_units === '1')
-    {
-        return '1 ' . $time_unit . ' ago';
-    }
-    else
-    {
-        /*
-         * More than "1" $time_unit. This is the "plural" message.
-         */
-        // TODO: This pluralizes the time unit, which is done by adding "s" at the end; this will not work for i18n!
-        return $time_units . ' ' . $time_unit . 's ago';
-    }
-}
-
-
-function time2string($timeline) {
-  $periods = array('day' => 86400, 'hour' => 3600, 'minute' => 60, 'second' => 1);
-
-  foreach($periods AS $name => $seconds){
-      $num = floor($timeline / $seconds);
-      $timeline -= ($num * $seconds);
-      $ret .= $num.' '.$name.(($num > 1) ? 's' : '').' ';
-  }
-
-  return trim($ret);
-}
-
-function time_ago(Datetime $date) {
-  $time_ago = '';
-
-  $diff = $date->diff(new Datetime('now'));
-
-
-  if (($t = $diff->format("%m")) > 0)
-    $time_ago = $t . ' months';
-  else if (($t = $diff->format("%d")) > 0)
-    $time_ago = $t . ' days';
-  else if (($t = $diff->format("%H")) > 0)
-    $time_ago = $t . ' hours';
-  else
-    $time_ago = 'minutes';
-
-  return $time_ago . ' ago (' . $date->format('M j, Y') . ')';
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,7 +75,7 @@ function time_ago(Datetime $date) {
     <![endif]-->
   </head>
   <body>
-    <nav id="nav-id" class="navbar navbar-inverse navbar-fixed-top">
+    <nav id="nav-id" class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -199,9 +88,9 @@ function time_ago(Datetime $date) {
             <a class="navbar-brand example6" href="/sng"></a>
           </div>
         </div>
-        <div id="navbar" class="collapse navbar-collapse roboto">
+        <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="/sng" class="uppercase">Home</a></li>
+<li class=<?php if($module==null){ echo "active";}else{ echo '';}?>><a href="/sng" class="uppercase">Home</a></li>
             <li class=<?php if($module=="shop"){ echo "active";}else{ echo '';}?>><a href="/sng/?mod=shop" class="uppercase">Shop</a></li>
             <?php
             if($user->get_session()){?>
@@ -209,13 +98,24 @@ function time_ago(Datetime $date) {
               if($_SESSION['usr_auth'] == 1){
               ?>
               <li class="<?php if($module==cart){ echo "active";}else{ echo '';}?>">
-                <a class="uppercase" href="/sng/?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Cart (<?php echo $item->count_cart($_SESSION['usr_id'])?>)</a>
+                <a class="uppercase" href="/sng/?mod=cart"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;<span class="badge" style="background-color:red;border:none;box-shadow:none;"><?php echo $item->count_cart($_SESSION['usr_id'])?></span></a>
               </li>
               <?php
               }
               ?>
-              <li class="dropdown <?php if($module==profile){ echo "";}else{ echo '';}?>">
-                <a class="dropdown-toggle uppercase" data-toggle="dropdown" href=""><span class="glyphicon glyphicon-user"></span>&nbsp;<?php if($_SESSION['usr_auth'] == 2){echo $_SESSION['usr_name'];}?>
+              <li class="dropdown">
+                <a class="dropdown-toggle uppercase" data-toggle="dropdown" href=""><?php 
+                if($_SESSION['usr_auth']==2){
+                  if($brand->get_brand_status($_SESSION['brand_id'])==1){?>
+                    <span id="status-indicator" class="green">&#9679;</span>
+                  <?php
+                  }else{?>
+                    <span id="status-indicator" class="orange">&#9679;</span><?php }?>&nbsp;<?php if($_SESSION['usr_auth'] == 2){echo $_SESSION['usr_name'];
+                  }
+                }else{?>
+                  <span class="glyphicon glyphicon-user"></span>
+                <?php
+                }?>
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu" style="background-color: #f7f7f7;">
                   <?php
@@ -255,7 +155,7 @@ function time_ago(Datetime $date) {
       ?>
       <div class="nav-helper">
         <div class="container">
-          <a class="shop-directory" href="/sng/?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> / <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
+          <a class="shop-directory" href="/sng/?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> &#10132; <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
                 <a class="shop-directory" href="/sng/?mod=shop&brand=<?php echo $_GET['brand'];?>">
                 <?php
                 echo $item->get_item_brand($_GET['brand']);
