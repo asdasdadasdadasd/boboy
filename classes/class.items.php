@@ -28,6 +28,21 @@ class Items{
       $db = null;
     }
 
+    public function get_unavailable_items(){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT * FROM items,brands WHERE brands.brand_id = items.brand_id AND brand_status = 0 OR brands.brand_id = items.brand_id AND item_status = 0");
+      $query->execute();
+      
+      while ($row = $query->fetch(PDO::FETCH_ASSOC))
+      {
+        $list[] = $row;
+      }
+      return $list;
+      $db = null;
+    }
+
+    
+
     public function get_item_brand($id){
       $sql = "SELECT brand_name FROM brands WHERE brand_id = '$id'";
       $result = mysqli_query($this->db,$sql);

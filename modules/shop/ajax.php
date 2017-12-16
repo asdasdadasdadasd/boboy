@@ -88,37 +88,46 @@ if(isset($_POST['display_shop'])){?>
         </div>
         <?php
         }else{?>
-          <div class="row panel" style="padding-top: 200px; padding-bottom: 200px;">
-              <h4 class="small text-center">No results found<h4>
+          <div class="row panel" style="padding-top: 200px; padding-bottom: 200px;border:1px solid #ddd;">
+              <h4 class="small text-center">No items found<h4>
           </div>
         <?php
         }
         ?>
-        
     </div>
     <div class="">
+      <?php
+      $notav = $item->get_unavailable_items();
+      ?>
       <span style="font-weight: 500;font-size:13px;color:rgba(0,0,0,0.65);">Unavailable Items</span>
-      <div class="container-fluid">
+      <div class="container-fluid" style="margin-top:8px;">
         <div class="row panel aligned-row" style="border:1px solid #ddd;padding:4px;">
+          <?php
+          foreach($notav as $unavail) {
+            $img = $unavail['item_img'];
+          ?>
           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 shop-margin">
               <div class="item-holder">
-                <div class="item-image img-responsive" style="background-image: url('<?php echo "img/upload/".$img;?>');">
+                <div class="item-image img-responsive" style="filter: grayscale(100%);background-image: url('<?php echo "img/upload/".$img;?>');">
                 </div>
                 <div class="item-brand">
-                  <?php echo $item->get_item_brand($i['brand_id']);?>
+                  <?php echo $item->get_item_brand($unavail['brand_id']);?>
                 </div>
-                <div class="item-name">
-                  <?php echo $i['item_name'];?>
+                <div class="item-name" style="color: rgba(0,0,0,0.7);">
+                  <?php echo $unavail['item_name'];?>
                 </div>
                 <div class="item-description">
-                  <?php echo $i['item_description'];?>
+                  <?php echo $unavail['item_description'];?>
                 </div>
                 <div class="item-price">
-                  PHP <?php echo $i['item_price'];?>
+                  PHP <?php echo $unavail['item_price'];?>
                 </div>
                 
               </div>
           </div>
+          <?php
+          }
+          ?>
         </div>
       </div>
     </div>

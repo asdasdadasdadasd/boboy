@@ -155,15 +155,14 @@ function time_elapsed_string($datetime, $full = false) {
       ?>
       <div class="nav-helper">
         <div class="container">
-          <a class="shop-directory" href="/sng/?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a> &#10132; <?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
+          <a class="shop-directory" href="/sng/?mod=<?php echo $_GET['mod'];?>"><?php echo ucfirst($_GET['mod']);?></a>&#10132;<?php if($_GET['mod'] == "shop"){if(isset($_GET['brand'])){?>
                 <a class="shop-directory" href="/sng/?mod=shop&brand=<?php echo $_GET['brand'];?>">
                 <?php
                 echo $item->get_item_brand($_GET['brand']);
                 ?>
                 </a>
                 <?php
-                if(isset($_GET['item'])&&isset($_GET['brand'])){?>
-                  / <a class="shop-directory" href="<?php echo $url_str;?>">
+                if(isset($_GET['item'])&&isset($_GET['brand'])){?>&#10132;<a class="shop-directory" href="<?php echo $url_str;?>">
                       <?php
                         $dir_name = $item->get_item_and_brand($_GET['item'],$_GET['brand']);
                         if($dir_name){
@@ -179,7 +178,7 @@ function time_elapsed_string($datetime, $full = false) {
                 if(isset($_GET['item'])){
                   $s = $item->check_item_status($_GET['item']);
                   if($s == 1){?>
-                  / <a class="shop-directory" href="<?php echo $url_str;?>">
+                  &#10132;<a class="shop-directory" href="<?php echo $url_str;?>">
                       <?php
                         echo $item->get_item_name($_GET['item']);
                       ?>
@@ -190,7 +189,7 @@ function time_elapsed_string($datetime, $full = false) {
               }
             }else if($_GET['mod']=="cpanel"){
               if(isset($_GET['t'])){?>
-                <a class="shop-directory" href="/sng/?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>/<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
+                <a class="shop-directory" href="/sng/?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>&#10132;<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
             <?php 
                 }
               }

@@ -53,8 +53,12 @@ if(isset($_GET['item'])){?>
               </div>
             </div>
           </div>
+          
           <!-- START ajax call -->
           <div id="shop-ajax-content">
+            <div id="loading-div">
+              
+            </div>
           </div>
           <!-- END ajax call-->
         </div>

@@ -213,7 +213,7 @@ $(document).ready(function(){
         success: function(data){
           setTimeout(function() {
             $("#shop-ajax-content").html(data);
-          }, 0);
+          }, 5000);
         }
     });
   };
