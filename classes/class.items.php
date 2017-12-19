@@ -37,7 +37,9 @@ class Items{
       {
         $list[] = $row;
       }
-      return $list;
+      if(!empty($list)){
+        return $list;
+      }
       $db = null;
     }
 

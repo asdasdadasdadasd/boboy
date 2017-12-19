@@ -234,7 +234,7 @@ tr.text-light th{
   color: rgba(0,0,0,0.7);
   font-size: 11px;
   font-weight: 500;
-  padding: 12px 24px 0px 24px;
+  padding: 12px 16px 0px 16px;
 }
 .item-holder a{
   text-decoration: none;
@@ -263,7 +263,7 @@ tr.text-light th{
   color: #317ecc;
   font-size: 14px;
   font-weight: 600;
-  padding: 0px 0px 0px 24px;
+  padding: 0px 16px 0px 16px;
   overflow: hidden;
   margin: 0;
   display: -webkit-box;
@@ -275,7 +275,7 @@ tr.text-light th{
   font-family: 'Roboto';
   font-size: 13px;
   line-height: 1.5;
-  padding: 8px 24px 0px 24px;
+  padding: 8px 16px 0px 16px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -288,7 +288,7 @@ tr.text-light th{
   font-family: 'Roboto';
   font-weight: 500;
   font-size: 14px;
-  padding: 16px 24px 24px 24px;
+  padding: 16px 16px 24px 16px;
 }
 .example6{
   background: url('img/logo.png') left / contain no-repeat;
@@ -920,19 +920,25 @@ footer{
 .modal{
   -webkit-border-radius: 0px !important;
   -moz-border-radius: 0px !important;
-  border-radius: 0px !important; 
+  border-radius: 0px !important;
+
 } 
+
 
 .indicator0{
   color: rgb(255, 115, 0);
   font-size:16px;
 }
 .indicator1{
-  color:  #45ad5d;
+  color:#2fce51;
   font-size:16px;
 }
 li.borderless {
   border-top: 0 none;
+}
+
+.row-hover{
+  cursor:pointer;
 }
   // MATERIAL DESIGN MODAL
 
@@ -996,7 +1002,7 @@ li.borderless {
 
 	.modal-body .lead {
 		font-weight: 300;
-		font-size: 16px;
+		font-size: 14px;
 		color: #757575;
 	}
 
@@ -1040,49 +1046,13 @@ li.borderless {
 
 	.modal-footer .btn + .btn:last-child {
 		margin-left: -4px;
-	}
-
-
-/* ----- v CAN BE DELETED v ----- */
-
-
-.demo {
-	padding-top: 60px;
-	padding-bottom: 110px;
-}
-
-.btn-demo {
-	margin: 15px;
-	padding: 10px 15px;
-	border-radius: 0;
-	font-size: 16px;
-	background-color: #FFFFFF;
-}
-
-.btn-demo:focus {
-	outline: none;
-}
-
-.demo-footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	padding: 15px;
-	background-color: #212121;
-	text-align: center;
-}
-
-.demo-footer > a {
-	text-decoration: none;
-	font-weight: bold;
-	font-size: 16px;
-  color: #fff;
-}
+  }
+  
 .orange{
   color: rgb(255, 136, 0);
 }
 .green{
-  color:#45ad5d;
+  color:#2fce51;
 }
 
 .glyphicon-green-dot:before {
@@ -1095,87 +1065,61 @@ li.borderless {
     color: red;
 }
 
-// Loading SVG
-
-
-.spinner
-{
-  -webkit-animation: rotation 1.4s linear infinite;
-  animation: rotation 1.4s linear infinite;
+.label-status-0{
+  background-color: #439dec;
 }
-
-@-webkit-keyframes rotation
-{
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
-  }
+.label-status-1{
+  background-color: #f72e2e;
 }
-
-@keyframes rotation
-{
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
-  }
+.label-status-2{
+  background-color: #2fce51;
 }
-
-.circle
-{
-  stroke-dasharray: 187;
-  stroke-dashoffset: 0;
-  -webkit-transform-origin: center;
-  -ms-transform-origin: center;
-  transform-origin: center;
-  -webkit-animation: turn 1.4s ease-in-out infinite;
-  animation: turn 1.4s ease-in-out infinite;
+.loading-div{
+  background-color:#fff;
+  padding-top:100px;
+  padding-bottom: 100px;
+  text-align:center;
 }
-
-@-webkit-keyframes turn
-{
-  0% {
-    stroke-dashoffset: 187;
-  }
-
-  50% {
-    stroke-dashoffset: 46.75;
-    -webkit-transform: rotate(135deg);
-    transform: rotate(135deg);
-  }
-
-  100% {
-    stroke-dashoffset: 187;
-    -webkit-transform: rotate(450deg);
-    transform: rotate(450deg);
-  }
+.btn-action{
+  background:none;
+  color: rgba(0,0,0,0.75);
+  font-size:13px;
+  font-weight:500;
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
 }
-
-@keyframes turn
-{
-  0% {
-    stroke-dashoffset: 187;
-  }
-
-  50% {
-    stroke-dashoffset: 46.75;
-    -webkit-transform: rotate(135deg);
-    transform: rotate(135deg);
-  }
-
-  100% {
-    stroke-dashoffset: 187;
-    -webkit-transform: rotate(450deg);
-    transform: rotate(450deg);
-  }
+.btn-action:hover{
+  background-color: #eaeaea;
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
 }
-
+.btn-action:active{
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
+  background-color: none !important;
+}
+.btn-action:focus{
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
+  background-color: #dbdbdb;
+}
+.btn-action:visited{
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
+  background-color: none !important;
+}
+.btn-material, .btn-material:hover,.btn-material:visited,.btn-material:active,.btn-material:focus{
+  background-color: #317ecc;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight:500;
+  color:#fff;
+  padding: 8px 16px 8px 16px;
+  border-radius:4px;
+  display: inline-block;
+}

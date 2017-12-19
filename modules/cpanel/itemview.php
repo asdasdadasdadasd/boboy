@@ -3,8 +3,9 @@ $q = $item->get_itemview($_GET['q'],$_SESSION['brand_id']);
 if($q){
   foreach($q as $_q);
 ?>
-<div class="container-fluid">
-<h4 style="margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto">Item Details</h4>
+<div class="container-fluid no-gap">
+  <a href="/sng/?mod=cpanel&t=items" class="btn btn-action"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Back</a>
+<h4 style="margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto no-gap">Item Details</h4>
   <div class="row">
     <div class="col-md-12">
       <form id="edit-item-form" name="edit-item-form" class="form-horizontal" method="POST" enctype="multipart/form-data">
@@ -75,8 +76,8 @@ if($q){
         </div>
         <div class="form-group" style="margin-top: 50px;">
           <div class="col-md-12">
-            <button type="button" id="btn-delete-item" class="pull-left btn btn-red" value="<?php echo $_q['item_id'];?>">Delete Item</button>
-            <button type="submit" id="btn-save-edit-item" class="pull-right btn btn-primary">Save Details</button>
+            <button type="button" id="btn-delete-item" class="pull-left btn btn-action" value="<?php echo $_q['item_id'];?>"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete Item</button>
+            <button type="submit" id="btn-save-edit-item" class="pull-right btn btn-action"><span class="	glyphicon glyphicon-check"></span>&nbsp;&nbsp;Save Details</button>
           </div>
         </div>
       </form>

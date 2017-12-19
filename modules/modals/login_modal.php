@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="modal-login" class="modal fade" role="dialog">
 <div class="vertical-alignment-helper">
   <div class="modal-dialog vertical-align-center">
 
@@ -14,7 +14,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" autocomplete="off" value="" required autofocus>
+                                <input id="email-login" type="email" class="form-control" name="email" autocomplete="off" value="" required autofocus>
                             </div>
                         </div>
 
@@ -22,7 +22,7 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password-login" type="password" class="form-control" name="password" required>
                                 
                                     <span class="help-block">
                                         <strong id="pwd-login-help"></strong>

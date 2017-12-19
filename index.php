@@ -15,36 +15,10 @@ $item = new Items();
 $auth = new Auth();
 $brand = new Brands();
 $order = new Orders();
+
+// Global variables
+$brandname = "SleepNotGo";
 $currency = "₱";
-
-function time_elapsed_string($datetime, $full = false) {
-  $now = new DateTime;
-  $ago = new DateTime($datetime);
-  $diff = $now->diff($ago);
-
-  $diff->w = floor($diff->d / 7);
-  $diff->d -= $diff->w * 7;
-
-  $string = array(
-      'y' => 'year',
-      'm' => 'month',
-      'w' => 'week',
-      'd' => 'day',
-      'h' => 'hour',
-      'i' => 'minute',
-      's' => 'second',
-  );
-  foreach ($string as $k => &$v) {
-      if ($diff->$k) {
-          $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-      } else {
-          unset($string[$k]);
-      }
-  }
-
-  if (!$full) $string = array_slice($string, 0, 1);
-  return $string ? implode(', ', $string) . ' ago' : 'just now';
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,23 +30,20 @@ function time_elapsed_string($datetime, $full = false) {
     <meta name="description" content="">
     <meta name="author" content="John Carlo H. Octabio">
     <link rel="icon" href="favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="custom.scss" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <title>SleepNotGo</title>
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    
     <link href="css/datatables.material.min.css" rel="stylesheet">
     <link href="css/material.min.css" rel="stylesheet">
     <link href="css/bootstrap-switch.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="custom.scss" rel="stylesheet" type="text/css">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="css/spinner.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <nav id="nav-id" class="navbar navbar-default navbar-fixed-top">
@@ -142,7 +113,7 @@ function time_elapsed_string($datetime, $full = false) {
               </li>
             <?php
             }else{?>
-              <li><a class="uppercase" href="" data-toggle="modal" data-target="#myModal">Login</a></li>
+              <li><a class="uppercase" href="" data-toggle="modal" data-target="#modal-login">Login</a></li>
             <?php
             }
             ?>
@@ -177,8 +148,7 @@ function time_elapsed_string($datetime, $full = false) {
               }else{?><a class="shop-directory" href="/sng/?mod=shop"><?php echo "All";?></a><?php
                 if(isset($_GET['item'])){
                   $s = $item->check_item_status($_GET['item']);
-                  if($s == 1){?>
-                  &#10132;<a class="shop-directory" href="<?php echo $url_str;?>">
+                  if($s == 1){?>&#10132;<a class="shop-directory" href="<?php echo $url_str;?>">
                       <?php
                         echo $item->get_item_name($_GET['item']);
                       ?>
@@ -189,7 +159,7 @@ function time_elapsed_string($datetime, $full = false) {
               }
             }else if($_GET['mod']=="cpanel"){
               if(isset($_GET['t'])){?>
-                <a class="shop-directory" href="/sng/?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a> <?php if(isset($_GET['q'])){?>&#10132;<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
+                <a class="shop-directory" href="/sng/?mod=cpanel&t=<?php echo $_GET['t'];?>"><?php echo ucfirst($_GET['t']);?></a><?php if(isset($_GET['q'])){?>&#10132;<a class="shop-directory" href='<?php echo $url_str;?>'><?php echo $item->get_item_name($_GET['q']);?></a>
             <?php 
                 }
               }

@@ -56,8 +56,12 @@ if(isset($_GET['item'])){?>
           
           <!-- START ajax call -->
           <div id="shop-ajax-content">
-            <div id="loading-div">
-              
+            <div class="col-lg-12 col-xs-12">
+              <div class="container-fluid">
+                <div class="row panel align-row" style="border:1px solid #ddd;text-align:center;padding-top:100px;padding-bottom:100px;">
+                  <svg class="spinner" stroke="#5677fc" width="50px" height="50px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="circle" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg>
+                </div>
+              </div>
             </div>
           </div>
           <!-- END ajax call-->

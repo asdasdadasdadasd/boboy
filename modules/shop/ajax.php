@@ -98,6 +98,7 @@ if(isset($_POST['display_shop'])){?>
     <div class="">
       <?php
       $notav = $item->get_unavailable_items();
+      if($notav){
       ?>
       <span style="font-weight: 500;font-size:13px;color:rgba(0,0,0,0.65);">Unavailable Items</span>
       <div class="container-fluid" style="margin-top:8px;">
@@ -130,6 +131,9 @@ if(isset($_POST['display_shop'])){?>
           ?>
         </div>
       </div>
+      <?php
+      }
+      ?>
     </div>
   </div>
       <?php

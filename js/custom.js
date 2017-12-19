@@ -53,6 +53,11 @@ $("#update-complete-modal").on("hidden.bs.modal", function () {
   reloadPage();
 });
 
+$("#modal-login").on("hidden.bs.modal", function () {
+  $("#email-login").val("");
+  $("#password-login").val("");
+});
+
 $("#error-modal").on("hidden.bs.modal", function () {
   reloadPage();
 });
@@ -144,11 +149,16 @@ var getUrlParameter = function getUrlParameter(sParam) {
  // DOCUMENT READY //
 
 $(document).ready(function(){
- 
-
+  var order_id = getUrlParameter('o_id');
   showActiveShops();
   showShopStatus();
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
+  displayCartTable();
+  displayOrders();
+  orderInfo();
+
+  // CPanel Order ID
+  
 
   function showActiveShops(){
     $.ajax({
@@ -164,12 +174,6 @@ $(document).ready(function(){
       }
     });
   }
-
-  
-  
-
-  
-
   function realtimeCheckShops(){
     
     $.ajax({
@@ -187,15 +191,55 @@ $(document).ready(function(){
       }
     });
   }
-    
-  
-  displayCartTable();
 
+  function orderInfo(){
+    // Check/Display if isset order_id
+    if(order_id){
+      $.ajax({
+        url: "modules/cpanel/ajax.php",
+        method: "POST",
+        data:{
+          "order_info":1,
+          "order_id":order_id
+        },
+        success:function(data){
+          if(data == "order_unavailable"){
+            window.location = "/sng/?mod=cpanel&t=orders";
+          }else{
+            $("#orderinfo-ajax-content").html(data);
+          }
+        }
+      });
+    }
+  }
 
-
-  $('#orders-table').DataTable( {
-    "bSort" : false
-} );
+  $('body').on("click","#accept-order", function(e){
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "accept_order":1,
+        "order_id":order_id
+      },
+      success: function(data){
+        alert(data);
+        //orderInfo();
+      }
+    });
+  });
+  $('body').on("click","#decline-order", function(e){
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "decline_order":1,
+        "order_id":order_id
+      },
+      success: function(data){
+        alert(data);
+      }
+    });
+  });
 
   $('body').on("click",".select-order", function(e){
     var oid = $(this).attr("id");
@@ -213,7 +257,21 @@ $(document).ready(function(){
         success: function(data){
           setTimeout(function() {
             $("#shop-ajax-content").html(data);
-          }, 5000);
+          }, 0);
+        }
+    });
+  };
+  function displayOrders(){
+    $.ajax({
+        url: "modules/cpanel/ajax.php",
+        method: "POST",
+        data:{
+          "display_orders": 1,
+        },
+        success: function(data){
+          setTimeout(function() {
+            $("#orders-ajax-content").html(data);
+          }, 0);
         }
     });
   };
@@ -248,8 +306,6 @@ $(document).ready(function(){
       });
     }
   });
-
-  
 
   $("#shop-search-item").on("submit",function(e){
     e.preventDefault();
@@ -322,7 +378,6 @@ $(document).ready(function(){
         setTimeout(function(){
           if(data == "insert_success"){
             $("#btn-add-item").prop("disabled", false);
-            $('#loading-modal').modal('hide');
             $("#insert-complete-modal").modal();
           }
         },0);
@@ -352,7 +407,7 @@ $(document).ready(function(){
             $('#loading-modal').modal('hide');
             $("#update-complete-modal").modal();
           }
-        },0);
+        },2000);
         
       }
     });
@@ -375,6 +430,7 @@ $(document).ready(function(){
         if(data == "order_success"){
           $("#cart_success").modal();
           displayCartTable();
+          updateCartCounter();
         }
         if(data == "empty_cart"){
           $("#error-modal").modal();
@@ -425,29 +481,34 @@ $(document).ready(function(){
   };
 
   $("#atc-form").on("submit", function(e){
+    $("#btn-atc").prop("disabled",true);
+    $("#modal_loading").modal();
     e.preventDefault();
     $.ajax({
       url: 'modules/item/ajax.php',
       type: 'POST',
       data: $(this).serialize(),
       success: function(d){
-        if(d=="item_unavailable"){
-          $("#item-unavailable").modal();
-        }
-        if(d=="cart_inserted"){
-          $("#modal_inserted").modal();
-          updateCartCounter();
-        }
-        if(d=="cart_updated"){
-          $("#modal_updated").modal();
-          updateCartCounter();
-        }
-        if(d=="no_session"){
-          $("#modal_session").modal();
-        }
-        if(d=="session_brand"){
-          alert("You are not eligible to process this transaction.");
-        }
+        setTimeout(function(){
+          if(d=="item_unavailable"){
+            $("#item-unavailable").modal();
+          }
+          if(d=="cart_inserted"){
+            $("#modal_inserted").modal();
+            updateCartCounter();
+          }
+          if(d=="cart_updated"){
+            $("#modal_updated").modal();
+            updateCartCounter();
+          }
+          if(d=="no_session"){
+            $("#modal_session").modal();
+          }
+          if(d=="session_brand"){
+            alert("You are not eligible to process this transaction.");
+          }
+          $("#btn-atc").prop("disabled",false);
+        },0);
       }
     });
   });
@@ -527,12 +588,13 @@ $(document).ready(function(){
   //-- End Register Ajax --//
 
 
-
+  // Realtime Dynamic Refresh
   (function realtimeCheck() {
     realtimeCheckShops();
     showActiveShops();
+    displayOrders();
     displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
-       setTimeout(realtimeCheck, 2000);
+       setTimeout(realtimeCheck, 6000);
     }());
 
 });

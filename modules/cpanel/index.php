@@ -8,7 +8,7 @@
           <div class="" style="display:inline-block;">
             <label id="shop-cpanel-id" class="roboto" style="padding: 16px 16px 16px 16px;margin:0;" value="<?php echo $_SESSION['brand_id'];?>"><?php echo $_SESSION['usr_name'];?><label>
           </div>
-          <div class="" style="display:inline-block;float:right;">
+          <div class="" style="display:inline-block;float:right;margin-right:0;padding-right:0;">
             <input type="checkbox" id="id-name--1" name="set-name" class="switch-input" checked>
             <label for="id-name--1" class="switch-label roboto"><span id="show-shop-status">&nbsp;</span>
             </label>
@@ -43,7 +43,11 @@
                 require_once 'modules/cpanel/account.php';
                 break;
               case 'orders':
-                require_once 'modules/cpanel/orders.php';
+                if(isset($_GET['o_id'])){
+                  require_once 'modules/cpanel/order_details.php';
+                }else{
+                  require_once 'modules/cpanel/orders.php';
+                }
                 break;
               default:
                 require_once 'modules/cpanel/dashboard.php';
