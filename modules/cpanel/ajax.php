@@ -72,12 +72,13 @@ if(isset($_POST['display_orders'])){?>
                 <th style="text-align:left;">Customer Name</th>
                 <th style="text-align:left;">Contact #</th>
                 <th>Total Price</th>
-                <th>Status</th>
+                <th>Approval</th>
+                <th>Delivery Status</th>
             </tr>
         </thead>
         <tbody>
         <?php
-          $orders = $order->view_brand_orders($_SESSION['brand_id']);
+          $orders = $order->pending_brand_orders($_SESSION['brand_id']);
           if($orders){
             foreach($orders as $o){?>
             <tr id="<?php echo $o['order_id'];?>" class="select-order row-hover">
@@ -85,16 +86,8 @@ if(isset($_POST['display_orders'])){?>
               <td style="text-align:left;"><?php echo $o['usr_name'];?></td>
               <td style="text-align:left;"><?php echo $o['usr_contact']?></td>
               <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
-              <td><span class="label label-status-<?php echo $o['order_status'];?>">
-              <?php 
-              if($o['order_status'] == 0){
-                echo "Pending";
-              }else if($o['order_status'] == 1){
-                echo "Declined";
-              }else{
-                echo "Approved";
-              }
-              ?></span></td>
+              <td><span class="label label-status-1"><?php if($o['order_status'] == 0){echo $order->order_status($o['order_id'],$_SESSION['brand_id']);}else{ echo "Complete";}?></span></td>
+              <td>Pending</td>
             </tr>
             <?php
             }
@@ -114,23 +107,23 @@ if(isset($_POST['display_orders'])){?>
 }
 
 if(isset($_POST['accept_order'])){
-  $list = $order->get_order_details($_POST['order_id'],$_SESSION['brand_id']);
+  $list = $order->shop_oitems_id($_POST['order_id'],$_SESSION['brand_id']);
   if($list){
     foreach($list as $arr){
       $order->accept_cpanel_order($arr['oi_id']);   
     }
+    if($order->check_order_votes($_POST['order_id'],$_SESSION['brand_id']) == 0){
+      $order->approve_order_status($_POST['order_id']);
+    }
   }
-    /*echo "accept_success";
-  }else{
-    echo "accept_failed";
-  }*/
 }
 
 if(isset($_POST['decline_order'])){
-  if($order->decline_order($_POST['order_id'])){
-    echo "decline_success";
-  }else{
-    echo "decline_failed";
+  $list = $order->shop_oitems_id($_POST['order_id'],$_SESSION['brand_id']);
+  if($list){
+    foreach($list as $arr){
+      $order->decline_cpanel_order($arr['oi_id']);   
+    }
   }
 }
 

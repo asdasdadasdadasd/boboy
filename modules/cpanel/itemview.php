@@ -4,8 +4,8 @@ if($q){
   foreach($q as $_q);
 ?>
 <div class="container-fluid no-gap">
-  <a href="/sng/?mod=cpanel&t=items" class="btn btn-action"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Back</a>
-<h4 style="margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto no-gap">Item Details</h4>
+  <a href="/sng/?mod=cpanel&t=items" class="btn btn-action" style="margin-bottom:0px;"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Back</a>
+<h4 style="padding-left:20px;margin-bottom: 30px;font-weight: 500;color: #444;" class="roboto">Item Details</h4>
   <div class="row">
     <div class="col-md-12">
       <form id="edit-item-form" name="edit-item-form" class="form-horizontal" method="POST" enctype="multipart/form-data">

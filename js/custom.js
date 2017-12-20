@@ -222,8 +222,7 @@ $(document).ready(function(){
         "order_id":order_id
       },
       success: function(data){
-        alert(data);
-        //orderInfo();
+        orderInfo();
       }
     });
   });

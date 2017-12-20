@@ -189,7 +189,7 @@ $currency = "₱";
             if($_SESSION['usr_auth'] == 1){
               require_once 'modules/profile/index.php';
             }else{
-              header('location: index.php');
+              header('location: /sng/');
             }
             break;
           case 'register':
@@ -199,7 +199,7 @@ $currency = "₱";
             if($_SESSION['usr_auth'] == 2){
               require_once 'modules/cpanel/index.php';
             }else{
-              header('location: index.php');
+              header('location: /sng/');
               exit;
             }
             break;
@@ -207,7 +207,7 @@ $currency = "₱";
             if($_SESSION['usr_auth'] == 1){
               require_once 'modules/cart/index.php';
             }else{
-              header('location: index.php');
+              header('location: /sng/');
               exit;
             }
             break;
