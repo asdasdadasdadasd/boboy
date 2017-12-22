@@ -5,6 +5,29 @@ include '../../classes/class.brands.php';
 
 $item = new Items();
 $brand = new Brands();
+function substrwords($text, $maxchar, $end='...') {
+  if (strlen($text) > $maxchar || $text == '') {
+      $words = preg_split('/\s/', $text);      
+      $output = '';
+      $i      = 0;
+      while (1) {
+          $length = strlen($output)+strlen($words[$i]);
+          if ($length > $maxchar) {
+              break;
+          } 
+          else {
+              $output .= " " . $words[$i];
+              ++$i;
+          }
+      }
+      $output .= $end;
+  } 
+  else {
+      $output = $text;
+  }
+  return $output;
+}
+
 
 if(isset($_POST['realtime_shop_popup'])){
   echo "2";
@@ -74,7 +97,7 @@ if(isset($_POST['display_shop'])){?>
                     <?php echo $i['item_name'];?>
                   </div>
                   <div class="item-description">
-                    <?php echo $i['item_description'];?>
+                    <?php echo substrwords($i['item_description'],90);?>
                   </div>
                   <div class="item-price">
                     PHP <?php echo $i['item_price'];?>
@@ -118,7 +141,7 @@ if(isset($_POST['display_shop'])){?>
                   <?php echo $unavail['item_name'];?>
                 </div>
                 <div class="item-description">
-                  <?php echo $unavail['item_description'];?>
+                  <?php echo substrwords($unavail['item_description'],1);?>
                 </div>
                 <div class="item-price">
                   PHP <?php echo $unavail['item_price'];?>

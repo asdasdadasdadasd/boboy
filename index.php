@@ -44,6 +44,7 @@ $currency = "₱";
     <link href="css/bootstrap-switch.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/spinner.css" rel="stylesheet" type="text/css">
+    <link href="css/chat.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <nav id="nav-id" class="navbar navbar-default navbar-fixed-top">
@@ -225,6 +226,7 @@ $currency = "₱";
             <div class="row">
                 <div class="col-sm-3">
                     <h5>Get started</h5>
+                    
                     <ul>
                         <li><a href="/sng/">Home</a></li>
                         <li><a href="/sng/?mod=register">Register</a></li>

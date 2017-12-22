@@ -1,10 +1,12 @@
+
+
 <!-- Modal -->
-<div id="modal-login" class="modal fade" role="dialog">
-<div class="vertical-alignment-helper">
-  <div class="modal-dialog vertical-align-center">
+<div id="modal-login" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="">
+  <div class="modal-dialog" role="document">
 
     <!-- Modal content-->
-    <div class="modal-content2">
+    <div class="modal-content">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading uppercase">Please login</div>

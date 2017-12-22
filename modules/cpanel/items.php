@@ -47,8 +47,8 @@ if(isset($_GET['action']) && $_GET['action'] == "new"){?>
         </div>
         <div class="form-group" style="margin-top: 50px;">
           <div class="col-md-12">
-						<a href="index.php?mod=cpanel&t=items" class="btn btn-inverse">Cancel</a>
-            <button type="submit" id="btn-add-item" class="pull-right btn btn-primary">Create</button>
+						<a href="index.php?mod=cpanel&t=items" class="btn btn-action">Cancel</a>
+            <button type="submit" id="btn-add-item" class="pull-right btn btn-action"><span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;Create</button>
           </div>
         </div>
       </form>
@@ -70,7 +70,7 @@ if(isset($_GET['action']) && $_GET['action'] == "new"){?>
             <div class="col-md-8 col-xs-9" style="padding-top: 8px;">
               <form id="search-form">
                 <div class="form-group no-gap">
-                  <input type="text" id="cpanel-search-item" class="form-control" placeholder="Search" autocomplete="off" value="<?php if(isset($_GET['search'])){echo $_GET['search'];}?>" required>
+                  <input type="text" id="cpanel-search-item" class="form-control" placeholder="Search" autocomplete="off" value="<?php if(isset($_GET['search'])){echo $_GET['search'];}?>">
                 </div>
               </form>
             </div>

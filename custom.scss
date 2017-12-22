@@ -121,16 +121,13 @@ body{
 }
 .vertical-alignment-helper {
   display:table;
-  height: 100%;
-  width: 100%;
-  pointer-events:none;
+  height: 90%;
   margin-top: 1%;
 }
 .vertical-align-center {
   /* To center vertically */
   display: table-cell;
   vertical-align: middle;
-  pointer-events:none;
 }
 
 .modal-content2 {
@@ -579,7 +576,7 @@ footer{
     background-color: #fff;
     border-bottom: 1px solid #eee;
   }
-  .table-filter tbody tr:hover {
+  .table-filter tbody tr:not(.order-details):hover {
     cursor: pointer;
     background-color: #eee;
   }
@@ -692,15 +689,6 @@ footer{
     font-size: 11px;
     color: #999;
   }
-  .table-filter .media .title {
-    color: rgba(0,0,0,0.7);
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Roboto';
-    line-height: normal;
-    margin-bottom: 4px;
-    margin-top: 0;
-  }
   .table-filter .media .title span {
     font-size: .8em;
     margin-right: 20px;
@@ -751,8 +739,8 @@ footer{
     font-size: 11px;
     color: #999;
   }
-  .table-filter2 .media .title {
-    color: #2BBCDE;
+  .table-filter .media .title {
+    color: rgba(0,0,0,0.8);
     font-size: 13px;
     font-weight: 500;
     font-family: 'Roboto';
@@ -944,29 +932,7 @@ li.borderless {
 
   /* ----- DIALOG/MODAL ----- */
 /* FADE/SCALE EFFECT */
-	.modal.fade .modal-dialog {
-		opacity: 0;
-		-webkit-transform: scale(0.1);
-			-ms-transform: scale(0.1);
-			 -o-transform: scale(0.1);
-				transform: scale(0.1);
-		-webkit-transition: all 0.3s ease;
-		   -moz-transition: all 0.3s ease;
-			 -o-transition: all 0.3s ease;
-				transition: all 0.3s ease;
-	}
 
-	.modal.fade.in .modal-dialog {
-		opacity: 1;
-		-webkit-transform: scale(1);
-			-ms-transform: scale(1);
-			 -o-transform: scale(1);
-				transform: scale(1);
-		-webkit-transform: translate3d(0%, 0, 0);
-			-ms-transform: translate3d(0%, 0, 0);
-			 -o-transform: translate3d(0%, 0, 0);
-				transform: translate3d(0%, 0, 0);
-	}
 
 /* DIALOG CONTENT */
 	.modal-content {
@@ -1064,7 +1030,9 @@ li.borderless {
     position:relative;
     color: red;
 }
-
+.label-muted{
+  background-color: rgba(0, 0, 0,0.4);
+}
 .label-status-0{
   background-color: #439dec;
 }
@@ -1079,6 +1047,12 @@ li.borderless {
   padding-top:100px;
   padding-bottom: 100px;
   text-align:center;
+}
+.label-clean{
+  background:none;
+  color: rgba(0,0,0,0.75);
+  font-size:13px;
+  font-weight:500;
 }
 .btn-action{
   background:none;

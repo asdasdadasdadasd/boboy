@@ -140,3 +140,49 @@
     </div><!-- modal-content -->
   </div><!-- modal-dialog -->
 </div><!-- modal -->
+
+
+<div class="modal fade" id="chat-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="">
+      <div class="container-fluid no-gap">
+        <div class="row no-gap">
+            <div class="col-md-12 no-gap">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span> Chat
+                        <div class="btn-group pull-right">
+                            
+                            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" style="background:none;border:none;outline:none;box-shadow:none;margin-left:4px;">
+                                <span class="glyphicon glyphicon-cog"></span>
+                            </button>
+                            <ul class="dropdown-menu slidedown">
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-refresh">
+                                </span>Refresh</a></li>
+                                <li><a href="http://www.jquery2dotnet.com"><span class="glyphicon glyphicon-ok-sign">
+                                </span>Available</a></li>
+                            </ul>
+                            <button type="button" class="btn btn-primary btn-xs" style="background:none;border:none;outline:none;box-shadow:none;margin-left:4px;" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div>
+                    <div class="chat-panel-body" style="background-color:rgba(0,0,0,0.05);">
+                        <div id="chat-ajax-content">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                      <form id="form-brand-chat">
+                        <div class="input-group">
+                            <input id="chat-input-message" name="chat-input-message" autocomplete="off" type="text" class="form-control input-sm" placeholder="Type a message..." autofocus="on"/>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary btn-sm" id="btn-send-chat"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>
+                            </span>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- modal-dialog -->
+</div><!-- modal -->

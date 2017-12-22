@@ -33,6 +33,25 @@ class Users{
       return $query->execute();
     }
 
+    public function get_name($id){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT usr_name FROM users WHERE usr_id = ?");
+      $query->bindParam(1,$id);
+      $query->execute();
+      $row = $query->fetch(PDO::FETCH_ASSOC);
+      return $row['usr_name'];
+      
+    }
+    public function get_brand_name($id){
+      $db = new PDO("mysql:host=localhost;dbname=db_sleepnotgo", "root", "");
+      $query = $db->prepare("SELECT usr_name FROM users WHERE brand_id = ?");
+      $query->bindParam(1,$id);
+      $query->execute();
+      $row = $query->fetch(PDO::FETCH_ASSOC);
+      return $row['usr_name'];
+      
+    }
+
     public function register_credentials($name,$email,$pwd,$auth,$status){
       $sql = "INSERT INTO users(usr_name,usr_email,usr_password,usr_auth,usr_status) VALUES('$name','$email','$pwd','$auth','$status')";
       $result = mysqli_query($this->db,$sql) or die(error() . "Cannot Insert Data");

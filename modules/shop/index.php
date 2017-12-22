@@ -44,7 +44,7 @@ if(isset($_GET['item'])){?>
               <span style="font-weight: 500;font-size:13px;color:rgba(0,0,0,0.65);">Search</span>
               <div class="">
                 <form id="shop-search-item" class="form-horizontal">
-                  <div id="email-log" class="form-group">
+                  <div class="form-group">
                     <div class="col-md-12">
                       <input id="shop-search-value" name="shop-search-value" type="text" class="form-control" autocomplete="off" placeholder="Search" value="<?php if(isset($_GET['search'])){echo $_GET['search'];}?>">
                     </div>

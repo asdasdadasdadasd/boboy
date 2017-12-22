@@ -80,16 +80,18 @@ if(isset($_POST['display_orders'])){?>
         <?php
           $orders = $order->pending_brand_orders($_SESSION['brand_id']);
           if($orders){
-            foreach($orders as $o){?>
-            <tr id="<?php echo $o['order_id'];?>" class="select-order row-hover">
-              <td style="text-align:left;"><?php echo time_elapsed_string($o['date_ordered']);?></td>
-              <td style="text-align:left;"><?php echo $o['usr_name'];?></td>
-              <td style="text-align:left;"><?php echo $o['usr_contact']?></td>
-              <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
-              <td><span class="label label-status-1"><?php if($o['order_status'] == 0){echo $order->order_status($o['order_id'],$_SESSION['brand_id']);}else{ echo "Complete";}?></span></td>
-              <td>Pending</td>
-            </tr>
-            <?php
+            foreach($orders as $o){
+              if($order->approval_status($o['order_id'],$_SESSION['brand_id']) != "Declined"){?>
+              <tr id="<?php echo $o['order_id'];?>" class="select-order row-hover">
+                <td style="text-align:left;"><?php echo time_elapsed_string($o['date_ordered']);?></td>
+                <td style="text-align:left;"><?php echo $o['usr_name'];?></td>
+                <td style="text-align:left;"><?php echo $o['usr_contact']?></td>
+                <td><?php echo $currency;?><?php echo $o['order_total'];?></td>
+                <td><span class="label label-status-2"><?php echo $order->approval_status($o['order_id'],$_SESSION['brand_id']);?></span></td>
+                <td><span class="glyphicon"></span><?php echo $order->get_delivery_status($o['order_id'],$_SESSION['brand_id']);?></td>
+              </tr>
+              <?php
+              }
             }
           }
         ?>
@@ -104,6 +106,24 @@ if(isset($_POST['display_orders'])){?>
   });
 </script>
 <?php
+}
+
+if(isset($_POST['order_claimed'])){
+  $list = $order->shop_oitems_id($_POST['order_id'],$_SESSION['brand_id']);
+  if($list){
+    foreach($list as $arr){
+      $order->claim_cpanel_order($arr['oi_id']);   
+    }
+  }
+}
+
+if(isset($_POST['order_ready'])){
+  $list = $order->shop_oitems_id($_POST['order_id'],$_SESSION['brand_id']);
+  if($list){
+    foreach($list as $arr){
+      $order->ready_cpanel_order($arr['oi_id']);   
+    }
+  }
 }
 
 if(isset($_POST['accept_order'])){
@@ -131,110 +151,104 @@ if(isset($_POST['order_info'])){
   if(isset($_POST['order_id'])){
     $order_info = $order->get_order_customer_info($_POST['order_id'],$_SESSION['brand_id']);
     if($order_info){
+      $check_status = $order->approval_status($_POST['order_id'],$_SESSION['brand_id']);
+      $delivery_status = $order->get_delivery_status($_POST['order_id'],$_SESSION['brand_id']);
       foreach($order_info as $oci);
-      //ACCEPTED ORDER VIEW
+      
+      // DON'T SHOW COMPLETED ORDERS HERE
       if($oci['order_status'] == 2){
-      ?>
+        echo "order_unavailable";
+      }else{?>
         <div class="container-fluid">
         <div class="row">
           <section class="content roboto">
             <div class="container-fluid" style="padding: 0px 0px 8px 0px;">
               <div class="row">
-                <div class="col-md-12 col-xs-12" style="  ">
+                <div class="col-md-12 col-xs-12" style=" ">
                 <a href="/sng/?mod=cpanel&t=orders" class="btn btn-action"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Back</a>
-                  <h4 class="no-gap">Order Details <?php echo $oci['created_at'];?></h4>
-                  <label style="background-color: #eaeaea; width: 100%;display:inline-block;">Customer</label>
-                  <h5 class="no-gap"><?php echo $oci['usr_name'];?></h5>
-                  <label class="">Address</label>
-                  <h5><?php echo $oci['usr_address'];?></h5>
+                <span class="pull-right">
+                <?php
+                if($check_status == "Approved" && $delivery_status == "Complete"){?>
+                  <span class="label label-status-2"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Order Approved</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class='label label-status-2'><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Preparation</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class="label label-status-2"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Complete</span>
+                <?php
+                }else if($check_status == "Pending"){?>
+                  <span class="label label-muted">Order Approved</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class='label <?php echo $delivery_status == "Ready" ? 'label-status-2' : 'label-muted'?>'><?php if($delivery_status == "Ready"){?><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<?php }?>Preparation</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class="label label-muted">Complete</span>
+                <?php
+                }else{?>
+                  <span class="label label-status-2"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Order Approved</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class='label <?php echo $delivery_status == "Ready" ? 'label-status-2' : 'label-muted'?>'><?php if($delivery_status == "Ready"){?><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<?php }?>Preparation</span>
+                  <span style="font-size:10px;color:rgba(0,0,0,0.4);" class="glyphicon glyphicon-arrow-right"></span>
+                  <span class="label label-muted">Complete</span>
+                <?php
+                }
+                ?>
+                </span>
+                  
                 </div>
               </div>
             </div>
             <div class="col-md-12 no-gap">
               <div class="">
+                
                 <div class="panel-body no-gap">
-                  <div class="table-container" style="margin-top: 8px;">
-                    <table class="table table-filter2">
-                      <tbody>
-                      <?php
-                      $item_details = $order->get_order_details($_POST['order_id'],$_SESSION['brand_id']);
-                      if($item_details){
-                        foreach($item_details as $_i){?>
-                          <tr>
-                            <td>
-                              <div class="media">
-                                <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$_i['item_img'];?>');">
-                                </div>	
-                                <div class="media-body">
-                                  <span class="media-meta pull-right">Subtotal</span>
-                                  <h4 class="title">
-                                    <?php echo $_i['item_name'];
-                                    ?>
-                                    <span class="pull-right">asd</span>
-                                  </h4>
-                                  <p class="summary">Quantity: <?php echo $_i['oi_qty'];?></p>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          <?php
-                          }
-                        }
-                        ?>
-                      </tbody>
-                    </table>
+                  <div class="" >
+                    <div class="pull-left" style="padding:16px 16px;">
+                     <label class="no-gap" style="color:rgba(0,0,0,0.8);font-size:13px;font-weight:500;">Order #</label>
+                      <p class="no-gap" style="font-size: 14px;"><?php echo $oci['order_id'];?></p>
+                    </div>
+                    <div class="pull-left" style="padding:16px 16px;">
+                      <label class="no-gap" style="color:rgba(0,0,0,0.8);font-size:13px;font-weight:500;">Customer</label>
+                      <p class="no-gap" style="font-size:13px;font-weight:400;"><?php echo $oci['usr_name'];?></p>
+                    </div>
+                    <div class="pull-left" style="padding:16px 16px;">
+                      <label class="no-gap" style="color:rgba(0,0,0,0.8);font-size:13px;font-weight:500;">Address</label>
+                      <p><?php echo $oci['usr_address'];?></p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-      <?php 
-      //PENDING ORDER VIEW
-      }else if($oci['order_status'] == 0){?>
-        <div class="container-fluid">
-        <div class="row">
-          <section class="content roboto">
-            <div class="container-fluid" style="padding: 0px 0px 8px 0px;">
-              <div class="row">
-                <div class="col-md-12 col-xs-12" style="  ">
-                <a href="/sng/?mod=cpanel&t=orders" class="btn btn-action"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Back</a>
-                  <h4 class="no-gap">Order Details <?php echo $oci['created_at'];?></h4>
-                  <label style="background-color: #eaeaea; width: 100%;display:inline-block;">Customer</label>
-                  <h5 class="no-gap"><?php echo $oci['usr_name'];?></h5>
-                  <label class="">Address</label>
-                  <h5><?php echo $oci['usr_address'];?></h5>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12 no-gap">
-              <div class="">
-                <div class="panel-body no-gap">
-                  <div class="table-container" style="margin-top: 8px;">
-                    <table class="table table-filter2">
+                  
+                  
+                  
+                  <div class="table-container" style="margin-top: 16px;">
+                    <table class="table table-filter">
                       <tbody>
                       <?php
                       $item_details = $order->get_order_details($_POST['order_id'],$_SESSION['brand_id']);
                       if($item_details){
                         foreach($item_details as $_i){?>
-                          <tr>
-                            <td>
-                              <div class="media">
-                                <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$_i['item_img'];?>');">
-                                </div>	
-                                <div class="media-body">
-                                  <span class="media-meta pull-right">Subtotal</span>
-                                  <h4 class="title">
-                                    <?php echo $_i['item_name'];
-                                    ?>
-                                    <span class="pull-right">asd</span>
-                                  </h4>
-                                  <p class="summary">Quantity: <?php echo $_i['oi_qty'];?></p>
-                                </div>
+                          <tr class="order-details">
+                          <td>
+                            <div class="media">
+                              <?php
+                              if($_i['item_img'] != null){
+                              ?>
+                              <div class="media-photo pull-left" style="background-image: url('<?php echo "img/upload/".$_i['item_img'];?>');">
+                              </div>	
+                              <?php 
+                              }else{?>
+                              <div class="media-photo pull-left" style="background-image: url('img/no-image.png');">
                               </div>
-                            </td>
-                          </tr>
+                              <?php
+                              }
+                              ?>
+                              <div class="media-body">
+                                <span class="media-meta pull-right" style="font-size:14px;"><?php echo $_i['oi_subtotal'];?></span>
+                                <h4 class="title">
+                                  <?php echo $_i['item_name'];?>
+                                </h4>
+                                <p class="summary"><?php echo $_i['item_description'];?></p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
                           <?php
                           }
                         }
@@ -245,9 +259,31 @@ if(isset($_POST['order_info'])){
                 </div>
               </div>
               <div class="content-footer">
+                <div class="pull-left">
+                  <button type="button" id="open-chat" class="btn btn-action" value="<?php echo $oci['usr_id']?>"><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;Message</button>
+                </div>
                 <div class="pull-right">
+                  <?php
+                  if($check_status == "Approved" && $delivery_status == "Complete"){?>
+                    <span class="label label-clean"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Order Completed</span>
+                  <?php
+                  }else if($check_status == "Approved" && $delivery_status == "Ready"){?>
+                    <small style="margin-right:5px;">Waiting to be claimed..</small>
+                    <button type="button" id="order-claimed" class="btn btn-action" value="<?php echo $oci['usr_id']?>"><i class="fa fa-truck"></i>&nbsp;&nbsp;Claimed</button>
+                  <?php
+                  }else if($check_status == "Approved"){?>
+                    <small class="text-muted" style="margin-right:8px;">Click the button if the order is now ready</small>
+                    <button type="button" id="order-ready" class="btn btn-action" value="<?php echo $oci['usr_id']?>"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;Ready For Pick Up</button>
+                  <?php
+                  }else if($check_status == "Pending"){
+                  ?>
                   <button type="button" id="accept-order" class="btn btn-action"><span class="glyphicon glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Approve</button>
                   <button type="button" id="decline-order" class="btn btn-action"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Decline</button>
+                  <?php
+                  }else{
+                    echo "declined order";
+                  }
+                  ?>
                 </div>
               </div>
             </div>

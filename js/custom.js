@@ -1,6 +1,8 @@
  // Custom JavaScript //
  var counter = 0;
  var counter_holder = 0;
+ var user_id;
+ var current;
 
  function showShopStatus(){
   var bid = $("#shop-cpanel-id").attr("value");
@@ -155,8 +157,10 @@ $(document).ready(function(){
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
   displayOrders();
+  displayUserOrders();
   orderInfo();
 
+  
   // CPanel Order ID
   
 
@@ -171,23 +175,6 @@ $(document).ready(function(){
         $("#active-shops-container").html(data);
         //alert("asd");
         //setTimeout(showActiveShops,2000);
-      }
-    });
-  }
-  function realtimeCheckShops(){
-    
-    $.ajax({
-      url: "modules/shop/ajax.php",
-      method: "POST",
-      data: {
-        "realtime_shop_popup":1
-      },
-      success:function(data){
-        if(data == "1"){
-          
-          //alert("nag 1 siya");
-        }
-
       }
     });
   }
@@ -213,6 +200,100 @@ $(document).ready(function(){
     }
   }
 
+  $("#form-brand-chat").on("submit",function(e){
+    e.preventDefault();
+    var msg = $("#chat-input-message").val();
+    if(msg == "" || msg == null){
+
+    }else{
+      var data = $(this).serializeArray();
+      data.push({name: 'user_id', value: user_id});
+      $("#chat-input-message").val("");
+      $.ajax({
+        url:"modules/chat/send_message.php",
+        method:"POST",
+        data: data,
+        success:function(data){
+          if(data == "message_sent"){
+            loadChat(user_id);
+          }
+          if(data == "message_failed"){
+
+          }
+        }
+      });
+    }
+  });
+
+  function scrollBottomChat(){
+    $(".chat-panel-body").animate({ scrollTop: $('.chat-panel-body').prop("scrollHeight")}, 250);
+  };
+
+  $('body').on("click","#scroll-bottom", function(e){
+    scrollBottomChat();
+  });
+
+  $('body').on("click","#open-chat", function(e){
+    user_id = $("#open-chat").attr("value");
+    if($("#chat-modal").modal()){
+      loadChat(user_id);
+    }
+  });
+
+  function loadChat(user_id){
+    var cac = $("#chat-ajax-content");
+    
+    current_content = cac.html();
+    $.ajax({
+      url: "modules/chat/ajax.php",
+      method: "POST",
+      data:{
+        "chat_content": 1,
+        "user_id":user_id
+      },
+      success: function(data){
+        if(current == null || current == ""){
+          setTimeout(function() {
+            scrollBottomChat();
+          }, 500);
+        }
+        if(current != data) {
+          
+          current = data;
+          cac.html(data);
+          scrollBottomChat();
+        }
+      }
+    });
+  }
+  $('body').on("click","#order-ready", function(e){
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "order_ready":1,
+        "order_id":order_id
+      },
+      success: function(data){
+        orderInfo();
+      }
+    });
+  });
+
+  $('body').on("click","#order-claimed", function(e){
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "order_claimed":1,
+        "order_id":order_id
+      },
+      success: function(data){
+        orderInfo();
+      }
+    });
+  });
+
   $('body').on("click","#accept-order", function(e){
     $.ajax({
       url: "modules/cpanel/ajax.php",
@@ -235,7 +316,7 @@ $(document).ready(function(){
         "order_id":order_id
       },
       success: function(data){
-        alert(data);
+
       }
     });
   });
@@ -270,6 +351,20 @@ $(document).ready(function(){
         success: function(data){
           setTimeout(function() {
             $("#orders-ajax-content").html(data);
+          }, 0);
+        }
+    });
+  };
+  function displayUserOrders(){
+    $.ajax({
+        url: "modules/profile/ajax.php",
+        method: "POST",
+        data:{
+          "display_orders": 1,
+        },
+        success: function(data){
+          setTimeout(function() {
+            $("#user-orders-ajax-content").html(data);
           }, 0);
         }
     });
@@ -331,7 +426,7 @@ $(document).ready(function(){
   $('#search-form').on("submit", function(e){
     e.preventDefault();
     var search_value = document.getElementById('cpanel-search-item').value;
-    if(search_value == ""){
+    if(search_value == "" || search_value == null || search_value == " "){
       window.location = "index.php?mod=cpanel&t=items";
     }else{
       window.location = "index.php?mod=cpanel&t=items&search="+search_value;
@@ -540,8 +635,8 @@ $(document).ready(function(){
           $('#submit-login').prop('disabled', false);
         }
         if(d=="login_failed"){
-          e_email.classList.add("has-error");
           e_pwd.classList.add("has-error");
+          e_email.classList.add("has-error");
           document.getElementById("pwd-login-help").innerHTML = "Username or password does not exists";
           $('#submit-login').prop('disabled', false);
         }
@@ -586,14 +681,26 @@ $(document).ready(function(){
   });
   //-- End Register Ajax --//
 
-
+  
+  
+  // Realtime Chat Refresh
+  (function chatRealtime() {
+    if(($("#chat-modal").data('bs.modal') || {}).isShown){
+      loadChat(user_id);
+    }
+       setTimeout(chatRealtime, 2000);
+    }());
+  
   // Realtime Dynamic Refresh
   (function realtimeCheck() {
-    realtimeCheckShops();
-    showActiveShops();
-    displayOrders();
-    displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
-       setTimeout(realtimeCheck, 6000);
+    if(getUrlParameter('mod') == "shop"){
+      showActiveShops();
+      displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
+    }
+    if(getUrlParameter('t') == "orders" && getUrlParameter('mod') == "cpanel"){
+      displayOrders();
+    }
+       setTimeout(realtimeCheck, 5000);
     }());
 
 });
