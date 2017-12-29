@@ -21,6 +21,7 @@ if(!$user->get_session()){
               <li class="bordered-s no-gap"><a class="thick washed roboto" href='/sng/?mod=profile&t=orders'>Orders<span class="badge pull-right">14</span><?php if($t == "orders"){?><span class="pull-right glyphicon glyphicon-menu-right"></span><?php }?></a></li>
               <li class="bordered-s no-gap"><a class="thick washed roboto" href='/sng/?mod=profile&t=account'>Account<?php if($t == "account"){?><span class="pull-right glyphicon glyphicon-menu-right"></span><?php }?></a></li>
               <li class="bordered-s no-gap"><a class="thick washed roboto" href='/sng/?mod=cpanel'>Unknown</a></li>
+              <li><button id="notify">Test</button></li>
             </ul>
           </div>
           <!-- End of Sidenav -->
@@ -42,7 +43,7 @@ if(!$user->get_session()){
                 }
                 break;
               default:
-                require_once 'modules/cpanel/dashboard.php';
+                require_once 'modules/profile/dashboard.php';
                 break;
             }
           ?>

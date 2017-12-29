@@ -63,7 +63,7 @@ if(isset($_GET['brand'])&&isset($_GET['item'])){
             <select class="form-control" name="order_qty">
               <?php
               $x = 1;
-              while($x <= 6){
+              while($x <= 10){
               ?>
                 <option value="<?php echo $x;?>"><?php echo $x;?></option>
               <?php

@@ -570,7 +570,7 @@ footer{
     -------------------------------------------------- */
 
   .panel .btn-group .btn {
-    transition: background-color .3s ease;
+    transition: background-color .3s easse;
   }
   .table-filter {
     background-color: #fff;
@@ -594,7 +594,20 @@ footer{
   .table-filter tr td:nth-child(2) {
     width: 35px;
   }
+  .label:hover{
+    cursor:default;
 
+  }
+  .label{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; /* Webkit */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE 10  */
+    
+    /* Currently not supported in Opera but will be soon */
+    -o-user-select: none;
+    user-select: none; 
+  }
   .table-filter2 {
     background-color: #fff;
     border-bottom: 1px solid #eee;
@@ -766,9 +779,14 @@ footer{
   }
 
 
+  .text-label{
+    color:rgba(0,0,0,0.8);font-size:12px;font-weight:500;
+  }
 
-
-
+  .order-item-list{
+    font-size:13px;text-overflow: ellipsis;white-space: nowrap;
+    overflow: hidden;
+  }
   .summary{
     text-overflow: ellipsis;    
       /* Required for text-overflow to do anything */
@@ -1030,18 +1048,104 @@ li.borderless {
     position:relative;
     color: red;
 }
+.glyphicon-dot:before {
+  content:"\25cf";
+  font-size: 1.5em;
+  background-color: white;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+  position:relative;
+  color: red;
+}
 .label-muted{
   background-color: rgba(0, 0, 0,0.4);
 }
-.label-status-0{
-  background-color: #439dec;
+/*--- User labels for order status ---*/
+  /* Pending */
+  .label-user-status-0{
+    background-color: #ffa600;
+  }
+  /* Approved */
+  .label-user-status-1{
+    background-color: #439dec;
+  }
+  /* Collecting */
+  .label-user-status-2{
+    background-color: #439dec;
+  }
+  /* On Delivery */
+  .label-user-status-3{
+    background-color: #2fce51;
+  }
+  /* Completed */
+  .label-user-status-4{
+    background-color: #2fce51;
+  }
+  /* Declined */
+  .label-user-status-5{
+    background-color:#f72e2e;
+  }
+/*--- End user labels ---*/  
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 6px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
 }
-.label-status-1{
-  background-color: #f72e2e;
+.oi-removed{
+  color:rgba(0,0,0,0.6);
+  font-size:13px;
+  font-weight:500;
 }
-.label-status-2{
-  background-color: #2fce51;
+.success,.success:hover,.success:active,.success:focus,.success:visited{
+  background-color:#2fce51 !important;
+  color: #fff;
 }
+.failed,.failed:hover,.failed:active,.failed:focus,.failed:visited{
+  background-color:#f72e2e !important;
+  color: #fff;
+}
+.text-success{
+  color:#2fce51;
+}
+.text-failed{
+  color:#f72e2e;
+}
+.label-failed{
+  background-color: #f72e2e !important;
+}
+.label-success{
+  background-color: #2fce51 !important;
+}
+/*--- Shop labels status ---*/
+
+  .label-approval-Pending{
+    background-color: #ffa600;
+  }
+  .label-approval-Declined{
+    background-color: #f72e2e;
+  }
+  .label-approval-Approved{
+    background-color: #2fce51;
+  }
+
+  .label-delivery-Ready{
+    background-color: #2fce51;
+  }
+  .label-delivery-Pending{
+    background-color: #ffa600;
+  }
+  .label-delivery-Declined{
+    background-color: #f72e2e;
+  }
+  .label-delivery-Complete{
+    background-color: #2fce51;
+  }
+
+/*--- End shop labels ---*/
+
 .loading-div{
   background-color:#fff;
   padding-top:100px;
@@ -1053,6 +1157,15 @@ li.borderless {
   color: rgba(0,0,0,0.75);
   font-size:13px;
   font-weight:500;
+}
+.btn-action-primary,.btn-action-primary:hover,.btn-action-primary:visited,.btn-action-primary:focus,.btn-action-primary:active{
+  color: #fff;
+  background-color: #317ecc;
+  font-size:13px;
+  font-weight:500;
+  outline:none !important;
+  box-shadow:none !important;
+  border:none !important;
 }
 .btn-action{
   background:none;
@@ -1096,4 +1209,29 @@ li.borderless {
   padding: 8px 16px 8px 16px;
   border-radius:4px;
   display: inline-block;
+}
+
+.circle:before {
+  content: ' \25CF';
+  font-size: 14px;
+}
+.alert-minimalist {
+	background-color: rgb(241, 242, 240);
+	border-color: rgba(149, 149, 149, 0.3);
+	border-radius: 3px;
+	color: rgb(149, 149, 149);
+	padding: 10px;
+}
+.alert-minimalist > [data-notify="icon"] {
+	height: 50px;
+	margin-right: 12px;
+}
+.alert-minimalist > [data-notify="title"] {
+	color: rgb(51, 51, 51);
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+.alert-minimalist > [data-notify="message"] {
+	font-size: 80%;
 }

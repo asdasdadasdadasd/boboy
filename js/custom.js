@@ -2,7 +2,17 @@
  var counter = 0;
  var counter_holder = 0;
  var user_id;
+ var brand_id;
  var current;
+ var chat_current;
+ var realtime = true;
+ var chat_pov;
+ var pageLoad = 0;
+ var executed = false;
+
+Array.prototype.diff = function(a) {
+  return this.filter(function(i) {return a.indexOf(i) < 0;});
+};
 
  function showShopStatus(){
   var bid = $("#shop-cpanel-id").attr("value");
@@ -40,7 +50,14 @@ $("#nav-id").load(window.location.href + " #nav-id" );
 }
 
 function returnIndex(){
-  window.location = "index.php";
+  window.location = "/sng";
+}
+
+function returnShopOrders(){
+  window.location = "/sng/?mod=cpanel&t=orders";
+}
+function returnUserOrders(){
+  window.location = "/sng/?mod=profile&t=orders";
 }
 
 function reloadPage(){
@@ -66,6 +83,10 @@ $("#error-modal").on("hidden.bs.modal", function () {
 
 $("#insert-complete-modal").on("hidden.bs.modal", function () {
   window.location = "index.php?mod=cpanel&t=items";
+});
+
+$("#order-removed-modal").on("hidden.bs.modal", function () {
+  returnShopOrders();
 });
 
 $('#edit-item-price').on('keypress', function(e){
@@ -151,19 +172,26 @@ var getUrlParameter = function getUrlParameter(sParam) {
  // DOCUMENT READY //
 
 $(document).ready(function(){
+  
+  checknotif();
+
   var order_id = getUrlParameter('o_id');
   showActiveShops();
   showShopStatus();
   displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
   displayCartTable();
-  displayOrders();
+  if(order_id==null){
+    displayOrders();
+  }
   displayUserOrders();
   orderInfo();
 
   
   // CPanel Order ID
   
-
+  if(order_id && getUrlParameter('t') != "orders"){
+    window.location = "/sng/?mod="+getUrlParameter('mod');;
+  }
   function showActiveShops(){
     $.ajax({
       url: "modules/shop/ajax.php",
@@ -181,23 +209,50 @@ $(document).ready(function(){
 
   function orderInfo(){
     // Check/Display if isset order_id
-    if(order_id){
-      $.ajax({
-        url: "modules/cpanel/ajax.php",
-        method: "POST",
-        data:{
-          "order_info":1,
-          "order_id":order_id
-        },
-        success:function(data){
-          if(data == "order_unavailable"){
-            window.location = "/sng/?mod=cpanel&t=orders";
-          }else{
-            $("#orderinfo-ajax-content").html(data);
+    if(getUrlParameter('mod')=="profile" && getUrlParameter('t') == "orders"){
+      if(order_id){
+        $.ajax({
+          url: "modules/profile/ajax.php",
+          method: "POST",
+          data:{
+            "order_info":1,
+            "order_id":order_id
+          },
+          success:function(data){
+            setTimeout(function(){
+              if(data == "unknown_order"){
+                window.location = "/sng/?mod=profile&t=orders";
+              }else{
+                $("#user-orderinfo-ajax-content").html(data);
+              }
+            },0);
           }
-        }
-      });
+        });
+      }
+    }else if(getUrlParameter('mod')=="cpanel" && getUrlParameter('t') == "orders"){
+      if(order_id){
+        $.ajax({
+          url: "modules/cpanel/ajax.php",
+          method: "POST",
+          data:{
+            "order_info":1,
+            "order_id":order_id
+          },
+          success:function(data){
+            setTimeout(function(){
+              if(data == "order_unavailable"){
+                window.location = "/sng/?mod=cpanel&t=orders";
+              }else{
+                $("#orderinfo-ajax-content").html(data);
+              }
+            },0);
+          }
+        });
+      }
     }
+  }
+  if(getUrlParameter('mod')){
+
   }
 
   $("#form-brand-chat").on("submit",function(e){
@@ -218,6 +273,31 @@ $(document).ready(function(){
             loadChat(user_id);
           }
           if(data == "message_failed"){
+            alert("An error has occured. Please try again.");
+          }
+        }
+      });
+    }
+  });
+
+  $("#form-user-chat").on("submit",function(e){
+    e.preventDefault();
+    var msg = $("#chat-input-message").val();
+    if(msg == "" || msg == null){
+
+    }else{
+      var data = $(this).serializeArray();
+      data.push({name: 'brand_id', value: brand_id});
+      $("#chat-input-message").val("");
+      $.ajax({
+        url:"modules/chat/send_message.php",
+        method:"POST",
+        data: data,
+        success:function(data){
+          if(data == "message_sent"){
+            loadUserChat(brand_id);
+          }
+          if(data == "message_failed"){
 
           }
         }
@@ -229,15 +309,92 @@ $(document).ready(function(){
     $(".chat-panel-body").animate({ scrollTop: $('.chat-panel-body').prop("scrollHeight")}, 250);
   };
 
+  $('body').on("click",".qc-button", function(e){
+    brand_id = $(this).attr("value");
+    if($("#chat-modal").modal()){
+      loadUserChat(brand_id);
+    }
+  });
+
+  $('body').on("click","#btn-cancel-order", function(e){
+    e.preventDefault();
+    $("#cancel-order-modal").modal();
+  });
+
+  $('body').on("click","#btn-confirm-cancel-order", function(e){
+    $.ajax({
+      url: "modules/profile/ajax.php",
+      method: "POST",
+      data:{
+        "cancel_order":1,
+        "order_id":order_id
+      },
+      success:function(data){
+        setTimeout(function(){
+          if(data == "order_cancelled"){
+            window.location = "/sng/?mod=profile&t=orders";
+          }
+          if(data == "cancel_too_late"){
+            
+            $("#cancel-late-modal").modal();
+          }
+        },500)
+      }
+    });
+  });
+
+  $('body').on("click",".oi-remove", function(e){
+    var oi_id = $(this).val();
+    $("#oi-remove-confirm").val(oi_id);
+    $("#oi-remove-modal").modal();
+  });
+
+  $('body').on("click","#oi-remove-confirm", function(e){
+    var oi_id = $(this).val();
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "oi_remove":1,
+        "oi_id":oi_id,
+        "order_id":getUrlParameter('o_id')
+      },
+      success:function(data){
+        if(data == "order_removed"){
+          $("#order-removed-modal").modal();
+        }
+        if(data == "oi_removed"){
+          orderInfo();
+        }
+      }
+    });
+  });
+
   $('body').on("click","#scroll-bottom", function(e){
     scrollBottomChat();
   });
 
   $('body').on("click","#open-chat", function(e){
+    e.preventDefault();
+    $('#chat-input-message').focus();
+    
     user_id = $("#open-chat").attr("value");
+    
     if($("#chat-modal").modal()){
       loadChat(user_id);
     }
+    $.ajax({
+      url: "modules/cpanel/ajax.php",
+      method: "POST",
+      data:{
+        "get_chat_name":1,
+        "id":user_id
+      },
+      success:function(data){
+        $("#chat-modal-title").html(data);
+      }
+    });
+    
   });
 
   function loadChat(user_id){
@@ -258,14 +415,81 @@ $(document).ready(function(){
           }, 500);
         }
         if(current != data) {
-          
           current = data;
           cac.html(data);
-          scrollBottomChat();
+          if(!($("#chat-modal").data('bs.modal') || {}).isShown){
+            var chatmsg = "New Message";
+            var from = "User";
+            //chatNotify(from,chatmsg);
+          }else{
+            setTimeout(function(){
+              scrollBottomChat();
+            },100);
+          }
         }
       }
     });
   }
+
+  function loadUserChat(brand_id){
+    var cac = $("#chat-ajax-content");
+    current_content = cac.html();
+    $.ajax({
+      url: "modules/chat/ajax.php",
+      method: "POST",
+      data:{
+        "chat_content_user": 1,
+        "brand_id":brand_id
+      },
+      success: function(data){
+        if(current == null || current == ""){
+          setTimeout(function() {
+            scrollBottomChat();
+          }, 500);
+        }
+        if(current != data) {
+          current = data;  
+          cac.html(data);
+          if(!($("#chat-modal").data('bs.modal') || {}).isShown){
+            var chatmsg = "New Message";
+            var from = "Starbucks";
+            chatNotify(from,chatmsg);
+          }else{
+            setTimeout(function(){
+              scrollBottomChat();
+            },100);
+          }
+        }
+      }
+    });
+  }
+  function chatNotify(from,chatmsg){
+    $.notify({
+      icon: 'https://randomuser.me/api/portraits/med/men/77.jpg',
+      title: from,
+      message: chatmsg
+    },{
+      type: 'minimalist',
+      delay: 5000,
+      icon_type: 'image',
+      template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+        '<img data-notify="icon" class="img-circle pull-left">' +
+        '<span data-notify="title">{1}</span>' +
+        '<span data-notify="message">{2}</span>' +
+      '</div>',
+      placement: {
+        from: 'bottom',
+        align: 'left'
+      },
+      offset: 20,
+      spacing: 10,
+      z_index: 1031,
+    });
+  }
+  $('body').on("click","#notify", function(e){
+    
+  });
+
   $('body').on("click","#order-ready", function(e){
     $.ajax({
       url: "modules/cpanel/ajax.php",
@@ -316,7 +540,7 @@ $(document).ready(function(){
         "order_id":order_id
       },
       success: function(data){
-
+        orderInfo();
       }
     });
   });
@@ -325,6 +549,12 @@ $(document).ready(function(){
     var oid = $(this).attr("id");
     window.location = "/sng/?mod=cpanel&t=orders&o_id="+oid;
   });
+
+  $('body').on("click",".user-select-order", function(e){
+    var oid = $(this).attr("id");
+    window.location = "/sng/?mod=profile&t=orders&o_id="+oid;
+  });
+
   function displayShopItems(bid,search){
     $.ajax({
         url: "modules/shop/ajax.php",
@@ -350,7 +580,16 @@ $(document).ready(function(){
         },
         success: function(data){
           setTimeout(function() {
-            $("#orders-ajax-content").html(data);
+            if(current != data) {
+              current = data;
+              $("#orders-ajax-content").html(data);
+            }
+            /*
+            if($('div.dataTables_filter input').is(":focus")){
+              alert("naga focus ka");
+            }else{
+              alert("wala");
+            }*/
           }, 0);
         }
     });
@@ -679,28 +918,191 @@ $(document).ready(function(){
       }
     });
   });
-  //-- End Register Ajax --//
 
+  function filter(obj1, obj2) {
+    var result = {};
+    for(key in obj1) {
+        if(obj2[key] != obj1[key]) result[key] = obj2[key];
+        if(typeof obj2[key] == 'array' && typeof obj1[key] == 'array') 
+            result[key] = arguments.callee(obj1[key], obj2[key]);
+        if(typeof obj2[key] == 'object' && typeof obj1[key] == 'object') 
+            result[key] = arguments.callee(obj1[key], obj2[key]);
+    }
+    return result;
+  }
+
+  function jsonEqual(a,b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+  function compareJSON(obj1, obj2) { 
+    var ret = {}; 
+    for(var i in obj2) { 
+      if(!obj1.hasOwnProperty(i) || obj2[i] !== obj1[i]) { 
+        ret[i] = obj2[i]; 
+      } 
+    } 
+    return ret; 
+  }
+  //-- End Register Ajax --//
+  function chatListener(){  
+    
+    $.ajax({
+      type: 'POST',
+      url : 'modules/chat/realtime.php',
+      data: {
+        "load_new_chat":1
+      },
+      //dataType: 'html',
+      dataType: 'json',
+      success: function(data){
+        //console.log(data);
+        var aik = [{'sender':'sbux',"msg":"hi","timestamp":"123"}];
+
+        var dif = [{'sender':'sbux',"msg":"hi","timestamp":"123"},{'sender':'sbux',"msg":"musta?","timestamp":"123"},{'sender':'sbux',"msg":"wala coffee","timestamp":"123"}];
+        
+        console.log(filter(aik,dif));
+        //console.log(filter(chat_current, data));
+
+
+        //alert(jsonEqual(dat, cur));
+        //alert(JSON.stringify(cur.diff(dat)));
+        if(!executed){
+          chat_current = data;
+          executed = true;
+          //alert(JSON.stringify(compareJSON(a,b)));
+          //alert(JSON.stringify(data[0]));
+        }else{
+          if(chat_current != data){
+            var JSONdata = JSON.parse(JSON.stringify(data));
+            var JSONcurrent = JSON.parse(JSON.stringify(chat_current));
+            //alert("may bag-o yow");
+            //alert(JSON.stringify(compareJSON(JSONcurrent,JSONdata)));
+
+            //alert(data);
+            //string_data = JSON.stringify(data);
+            //string_current = JSON.stringify(chat_current);
+            //alert(JSON.stringify(compareJSON(chat_current, data)));
+            //alert(string_data);
+            //alert(chat_current.diff( data ));
+            //var diff = $(chat_current).not(data).get();
+            //alert(diff);
+            //chat_current = data.slice(0);
+            //alert(data);
+            //chat_current = new_data;
+            //chatNotify();
+          }else{
+            //alert("same");
+          }
+        }
+        
+        /*
+        $.each(data, function(index, obj){
+          alert("success");
+          var from = "Starbucks";
+          var chatmsg = "yow";
+          chatNotify(from,chatmsg);
+          //jQuery("#divp4").append('<p><b>Array Index: '+ (index+1) + '</p>');
+          //jQuery("#divp4").append('<p><b>Image SRC  : </b>' + obj.src +'</p>');
+          //jQuery("#divp4").append('<p><b>PHP LOG    : </b>' + obj.log +'</p>');
+          //jQuery("#divp4").append('<p><b>Warnings   : </b>' + obj.warn +'</p>');
+          //jQuery("#divp4").append('<p><b>Errors     : </b>' + data.error +'</p>');
+        });*/
+
+      }
+    });
+  }
+
+  function checknotif() {
+    if (!Notification) {
+      $('body').append('<h4 style="color:red">*Browser does not support Web Notification</h4>');
+      return;
+    }
+    if (Notification.permission !== "granted")
+      Notification.requestPermission();
+    else {
+      $.ajax(
+      {
+        url : "modules/chat/realtime.php",
+        type: "POST",
+        success: function(data, textStatus, jqXHR)
+        {
+          
+          //alert(data);
+          
+          var data = jQuery.parseJSON(data);
+          
+
+          if(data.result == true){
+            var data_notif = data.notif;
+            
+            for (var i = data_notif.length - 1; i >= 0; i--) {
+              var theurl = data_notif[i]['url'];
+              var notifikasi = new Notification(data_notif[i]['title'], {
+                icon: data_notif[i]['icon'],
+                body: data_notif[i]['msg'],
+              });
+              
+              $.ajax({
+                url: "modules/chat/realtime.php",
+                type: "POST",
+                data:{
+                  "update_notif":data_notif[i]['msg_id']
+                },
+                success:function(data){
+                  //alert(data);
+                }
+              });
+              notifikasi.onclick = function () {
+                window.open(theurl); 
+                notifikasi.close();     
+              };
+              setTimeout(function(){
+                notifikasi.close();
+              }, 5000);
+            };
+          }else{
   
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
   
-  // Realtime Chat Refresh
-  (function chatRealtime() {
-    if(($("#chat-modal").data('bs.modal') || {}).isShown){
-      loadChat(user_id);
+        }
+      });	
+  
+    }
+  };
+    // Realtime Chat Refresh
+    (function chatRealtime() {
+      checknotif();
+    if(getUrlParameter('mod') && getUrlParameter('t')=="orders" && getUrlParameter('o_id')){
+      if(user_id != null && brand_id == null){
+        loadChat(user_id);
+      }
+      if(user_id == null & brand_id != null){
+        loadUserChat(brand_id);
+      }
     }
        setTimeout(chatRealtime, 2000);
     }());
-  
-  // Realtime Dynamic Refresh
-  (function realtimeCheck() {
+    
+    // Realtime Dynamic Refresh
+    (function realtimeCheck() {
+      
     if(getUrlParameter('mod') == "shop"){
       showActiveShops();
       displayShopItems(getUrlParameter('brand'),getUrlParameter('search'));
     }
     if(getUrlParameter('t') == "orders" && getUrlParameter('mod') == "cpanel"){
-      displayOrders();
+      if(getUrlParameter('o_id') == null){
+        displayOrders();
+      }
     }
-       setTimeout(realtimeCheck, 5000);
+    if(getUrlParameter('mod') == "profile" && getUrlParameter('t') == "orders"){
+      orderInfo();
+    }
+    
+       setTimeout(realtimeCheck, 2000);
     }());
 
 });

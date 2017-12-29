@@ -17,8 +17,9 @@ $brand = new Brands();
 $order = new Orders();
 
 // Global variables
-$brandname = "SleepNotGo";
+$brandname = "Boboy";
 $currency = "₱";
+$servicefee = 100;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +33,12 @@ $currency = "₱";
     <link rel="icon" href="favicon.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="custom.scss" rel="stylesheet" type="text/css">
+    <link href="css/step-wizard.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-    <title>SleepNotGo</title>
+    <title><?php echo $brandname;?> - Coffee Delivery Service</title>
     <!-- Bootstrap core CSS -->
     
     <link href="css/datatables.material.min.css" rel="stylesheet">
@@ -285,6 +287,9 @@ $currency = "₱";
     <script src="js/dataTables.material.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/custom.js"></script>
-
+    <script src="js/bootstrap-notify.min.js"></script>
+    <script src="js/Gruntfile.js"></script>
+    <script src="js/package.js"></script>
+    <script src="js/test_meteor.js"></script>
   </body>
 </html>

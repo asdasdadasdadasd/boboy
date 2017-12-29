@@ -23,6 +23,41 @@ class Chats{
       return $row['cid'];
     }
   }
+  
+  public function updateNotif($id){
+		try
+		{
+			$stmt = $this->db->prepare("UPDATE messages SET show_notif = 0 WHERE show_notif >= 0 AND msg_id = :id");
+			$stmt->bindParam("id", $id);
+			$stmt->execute();
+			$stat[0] = true;
+			$stat[1] = 'sukses';
+			return $stat;
+		}
+		catch(PDOException $ex)
+		{
+			$stat[0] = false;
+			$stat[1] = $ex->getMessage();
+			return $stat;
+		}
+  }
+  
+  public function user_all_convo($uid){
+    $query = $this->db->prepare("SELECT msg_id,messages.convo_id,brand_name,msg,messages.created_at FROM messages,conversations,brands WHERE conversations.convo_id = messages.convo_id AND show_notif = 1 AND usr_id = ? AND sender_id = brands.brand_id");
+    $query->bindParam(1,$uid);
+    $query->execute();
+    $stat[0] = true;
+    $stat[1] = $query->fetchAll(PDO::FETCH_ASSOC);
+    $stat[2] = $query->rowCount();
+    return $stat;
+    /*
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }*/
+  }
 
   public function retrieve_messages($cid){
     $query = $this->db->prepare("SELECT * FROM messages WHERE convo_id = ? ORDER BY created_at ASC");
@@ -37,7 +72,40 @@ class Chats{
     }
   }
 
-  public function send_message($uid,$bid,$msg){
+  public function all_messages($cid,$id){
+    $query = $this->db->prepare("SELECT * FROM messages WHERE convo_id = ? AND sender_id != ? ORDER BY created_at DESC");
+    $query->bindParam(1,$cid);
+    $query->bindParam(2,$id);
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+  }
+
+  public function shops_for_chat($oid){
+    $query = $this->db->prepare("SELECT users.brand_id,users.usr_name,usr_img FROM oitem,items,users WHERE order_id = ? AND items.item_id = oitem.item_id AND items.brand_id = users.brand_id GROUP BY users.brand_id");
+    $query->bindParam(1,$oid);
+    $query->execute();
+
+    while($row = $query->fetch(PDO::FETCH_ASSOC)){
+      $list[] = $row;
+    }
+    if(!empty($list)){
+      return $list;
+    }
+  }
+
+  public function send_message($uid,$bid,$msg,$utype){
+    if($utype == 1){
+      $sender = $uid;
+    }else{
+      $sender = $bid;
+    }
+
     // Get usr_id of the order
     $query = $this->db->prepare("SELECT convo_id AS cid FROM conversations WHERE usr_id = ? AND brand_id = ?");
     $query->bindParam(1,$uid);
@@ -54,17 +122,17 @@ class Chats{
       $create->execute();
       $convo = $this->db->lastInsertId();
       
-      $send = $this->db->prepare("INSERT INTO messages(convo_id,msg,sender_id,created_at) VALUES(?,?,?,NOW())");
+      $send = $this->db->prepare("INSERT INTO messages(convo_id,msg,sender_id,created_at,show_notif) VALUES(?,?,?,NOW(),1)");
       $send->bindParam(1,$convo);
       $send->bindParam(2,$msg);
-      $send->bindParam(3,$bid);
+      $send->bindParam(3,$sender);
       $send->execute();
       return true;
     }else{
-      $send = $this->db->prepare("INSERT INTO messages(convo_id,msg,sender_id,created_at) VALUES(?,?,?,NOW())");
+      $send = $this->db->prepare("INSERT INTO messages(convo_id,msg,sender_id,created_at,show_notif) VALUES(?,?,?,NOW(),1)");
       $send->bindParam(1,$convo);
       $send->bindParam(2,$msg);
-      $send->bindParam(3,$bid);
+      $send->bindParam(3,$sender);
       $send->execute();
       return true;
     }

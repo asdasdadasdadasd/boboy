@@ -16,6 +16,43 @@
   </div><!-- modal-dialog -->
 </div><!-- modal -->
 
+<div class="modal fade" id="order-removed-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><?php echo $brandname?></h4>
+      </div>
+
+      <div class="modal-body">
+        <p class="lead">Since there are no more items remaining, this order will now be deleted.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dialog" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<div class="modal fade" id="cancel-order-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><?php echo $brandname?></h4>
+      </div>
+
+      <div class="modal-body">
+        <p class="lead">Do you wish to cancel this order?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dialog" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-dialog" id="btn-confirm-cancel-order" data-dismiss="modal">Continue</button>
+      </div>
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
 <div class="modal fade" id="user-registered" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -34,6 +71,25 @@
   </div><!-- modal-dialog -->
 </div><!-- modal -->
 
+<div class="modal fade" id="cancel-late-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><?php echo $brandname?></h4>
+      </div>
+
+      <div class="modal-body">
+        <p class="lead">Sorry, you cannot cancel this order anymore since one or more item has been approved.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dialog" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
 <div class="modal fade" id="item-unavailable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -47,6 +103,25 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-dialog" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+<div class="modal fade" id="oi-remove-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><?php echo $brandname?></h4>
+      </div>
+
+      <div class="modal-body">
+        <p class="lead">Remove item from this order?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dialog" data-dismiss="modal">Cancel</button>
+        <button type="button" id="oi-remove-confirm" value="" class="btn btn-dialog" data-dismiss="modal">Remove</button>
       </div>
     </div><!-- modal-content -->
   </div><!-- modal-dialog -->
@@ -150,7 +225,7 @@
             <div class="col-md-12 no-gap">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-comment"></span> Chat
+                        <span id="chat-modal-title">Chat</span>
                         <div class="btn-group pull-right">
                             
                             <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" style="background:none;border:none;outline:none;box-shadow:none;margin-left:4px;">
@@ -170,9 +245,19 @@
                         </div>
                     </div>
                     <div class="panel-footer">
+                      <?php 
+                      if($_SESSION['usr_auth'] == 1){
+                      ?>
+                      <form id="form-user-chat">
+                      <?php
+                      }else{
+                      ?>
                       <form id="form-brand-chat">
+                      <?php
+                      }
+                      ?>
                         <div class="input-group">
-                            <input id="chat-input-message" name="chat-input-message" autocomplete="off" type="text" class="form-control input-sm" placeholder="Type a message..." autofocus="on"/>
+                            <input id="chat-input-message" name="chat-input-message" autocomplete="off" type="text" class="form-control input-sm" placeholder="Type a message..." autofocus/>
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-primary btn-sm" id="btn-send-chat"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;Send</button>
                             </span>
