@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `subtotal` float(10,2) NOT NULL DEFAULT '0.00',
   `usr_id` int(8) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cart_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10000271 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10000292 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table db_sleepnotgo.cart: 0 rows
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
@@ -69,12 +69,10 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   PRIMARY KEY (`convo_id`),
   KEY `usr_id` (`usr_id`),
   KEY `brand_id` (`brand_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.conversations: ~1 rows (approximately)
+-- Dumping data for table db_sleepnotgo.conversations: ~3 rows (approximately)
 /*!40000 ALTER TABLE `conversations` DISABLE KEYS */;
-INSERT INTO `conversations` (`convo_id`, `usr_id`, `brand_id`, `created_at`) VALUES
-	(16, 1, 14, '2017-12-29 20:05:51');
 /*!40000 ALTER TABLE `conversations` ENABLE KEYS */;
 
 -- Dumping structure for table db_sleepnotgo.fees
@@ -128,47 +126,10 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `show_notif` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`msg_id`),
   KEY `convo_id` (`convo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=194 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.messages: ~4 rows (approximately)
+-- Dumping data for table db_sleepnotgo.messages: ~30 rows (approximately)
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` (`msg_id`, `convo_id`, `msg`, `sender_id`, `created_at`, `show_notif`) VALUES
-	(192, 16, 'sir', 14, '2017-12-29 20:05:51', 0),
-	(193, 16, 'hi', 14, '2017-12-29 20:06:11', 0),
-	(194, 16, 'musta?', 14, '2017-12-29 21:06:20', 0),
-	(195, 16, 'asd', 14, '2017-12-29 21:06:36', 0),
-	(196, 16, 'pst', 14, '2017-12-29 21:07:58', 0),
-	(197, 16, 'as', 14, '2017-12-29 21:09:13', 0),
-	(198, 16, 'asd', 14, '2017-12-29 21:11:39', 0),
-	(199, 16, 'yow', 14, '2017-12-29 21:13:27', 0),
-	(200, 16, 'asdasd', 14, '2017-12-29 21:13:49', 0),
-	(201, 16, 'ad', 14, '2017-12-29 21:13:49', 0),
-	(202, 16, 'as', 14, '2017-12-29 21:13:50', 0),
-	(203, 16, 'asd', 14, '2017-12-29 21:14:14', 0),
-	(204, 16, 'yow', 14, '2017-12-29 21:14:40', 0),
-	(205, 16, 'asd', 14, '2017-12-29 21:15:11', 0),
-	(206, 16, 'yow', 14, '2017-12-29 21:26:08', 0),
-	(207, 16, 'pst', 14, '2017-12-29 21:26:27', 0),
-	(208, 16, 'sir ', 14, '2017-12-29 21:26:40', 0),
-	(209, 16, 'ang imo kape', 14, '2017-12-29 21:26:42', 0),
-	(210, 16, 'wala ', 14, '2017-12-29 21:26:44', 0),
-	(211, 16, 'hoy', 14, '2017-12-29 21:28:09', 0),
-	(212, 16, 'abno', 14, '2017-12-29 21:28:19', 0),
-	(213, 16, 'boss wala kami kape', 14, '2017-12-29 21:32:51', 0),
-	(214, 16, 'hoy', 14, '2017-12-29 21:33:00', 0),
-	(215, 16, 'gago', 14, '2017-12-29 21:33:01', 0),
-	(216, 16, 'butwa', 14, '2017-12-29 21:33:02', 0),
-	(217, 16, 'asd', 14, '2017-12-29 21:33:05', 0),
-	(218, 16, 'asd', 14, '2017-12-29 21:33:06', 0),
-	(219, 16, 'asd', 14, '2017-12-29 21:33:06', 0),
-	(220, 16, 'as', 14, '2017-12-29 21:33:06', 0),
-	(221, 16, 'as', 14, '2017-12-29 21:33:06', 0),
-	(222, 16, 'sad', 14, '2017-12-29 21:33:06', 0),
-	(223, 16, 'asdasd', 14, '2017-12-29 21:39:03', 0),
-	(224, 16, 'asdasd', 14, '2017-12-29 21:39:25', 0),
-	(225, 16, 'as', 14, '2017-12-29 21:39:30', 0),
-	(226, 16, 'asd', 14, '2017-12-29 21:39:31', 0),
-	(227, 16, 'asd', 14, '2017-12-29 21:39:31', 0);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 
 -- Dumping structure for table db_sleepnotgo.oitem
@@ -184,16 +145,10 @@ CREATE TABLE IF NOT EXISTS `oitem` (
   PRIMARY KEY (`oi_id`),
   KEY `item_id` (`item_id`,`order_id`),
   KEY `usr_id` (`usr_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50000210 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=50000231 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.oitem: 5 rows
+-- Dumping data for table db_sleepnotgo.oitem: 8 rows
 /*!40000 ALTER TABLE `oitem` DISABLE KEYS */;
-INSERT INTO `oitem` (`oi_id`, `order_id`, `item_id`, `oi_qty`, `oi_subtotal`, `usr_id`, `oi_status`, `oi_delivery`) VALUES
-	(50000209, 20000121, 17, 1, 45.00, 1, 1, 2),
-	(50000207, 20000120, 19, 1, 30.00, 31, 2, 0),
-	(50000208, 20000120, 17, 1, 45.00, 31, 2, 0),
-	(50000206, 20000120, 18, 1, 55.00, 31, 2, 0),
-	(50000205, 20000120, 30, 1, 145.00, 31, 2, 0);
 /*!40000 ALTER TABLE `oitem` ENABLE KEYS */;
 
 -- Dumping structure for table db_sleepnotgo.orders
@@ -207,13 +162,10 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `contact_number` varchar(50) NOT NULL,
   `service_fee` float(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`order_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20000122 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20000130 DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_sleepnotgo.orders: 2 rows
+-- Dumping data for table db_sleepnotgo.orders: 3 rows
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` (`order_id`, `order_total`, `created_at`, `order_status`, `usr_id`, `delivery_address`, `contact_number`, `service_fee`) VALUES
-	(20000121, 45.00, '2017-12-27 19:33:42', 3, 1, '', '', 0.00),
-	(20000120, 145.00, '2017-12-27 18:47:54', 5, 31, '', '', 0.00);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 
 -- Dumping structure for table db_sleepnotgo.users
@@ -237,7 +189,7 @@ INSERT INTO `users` (`usr_id`, `usr_name`, `usr_email`, `usr_password`, `usr_aut
 	(1, 'John Carlo Octabio', 'jacotabio@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1, '', 0, 'Ubiquity Global Services, Negros First Cybercentre, Bacolod City', '09437095893'),
 	(26, 'SleepNot', 'sleepnot@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 2, 1, 'img/logo.png', 14, '', 'N/A'),
 	(27, 'Starbucks', 'coffee@starbucks.com', '21232f297a57a5a743894a0e4a801fc3', 2, 0, '', 15, '', 'N/A'),
-	(28, 'Ron Guanzon', 'ronguanzon@gmail.com', '202cb962ac59075b964b07152d234b70', 1, 0, '', 0, 'N/A', 'N/A'),
+	(28, 'Ron Guanzon', 'ronguanzon@gmail.com', '202cb962ac59075b964b07152d234b70', 1, 0, 'img/logo.png', 0, 'N/A', 'N/A'),
 	(29, 'Jeland Quinamot', 'jelandquinamot@gmail.com', '202cb962ac59075b964b07152d234b70', 1, 0, '', 0, '', 'N/A'),
 	(30, 'Rafael Davis', 'rd0_0@yahoo.com', '827ccb0eea8a706c4c34a16891f84e7b', 1, 0, '', 0, '', 'N/A'),
 	(31, 'John Brix Arrobang', 'johnbarrobang@gmail.com', '202cb962ac59075b964b07152d234b70', 1, 0, '', 0, '', 'N/A');
